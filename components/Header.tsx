@@ -4,11 +4,20 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/CartDrawer";
+import { useCart } from "@/store/cart";
 
 export default function Header() {
+    const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+const count = useCart((s) => s.count());
   const [cartOpen, setCartOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,32 +109,33 @@ export default function Header() {
         <div className="flex items-center gap-4">
 
           {/* 🛒 КОРЗИНА */}
-          <button
+          <button id="cart-icon"
   onClick={() => setCartOpen(true)}
-  className="relative p-2 rounded-full hover:bg-black/5 transition hover:scale-110 active:scale-95"
+  className="relative"
 >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`w-6 h-6 transition ${
-                scrolled ? "text-black" : "text-white"
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"
-              />
-            </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`w-6 h-6 transition ${
+      scrolled ? "text-black" : "text-white"
+    }`}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"
+    />
+  </svg>
 
-            {/* badge */}
-            <span className="absolute -top-1 -right-1 bg-[#d4af37] text-white text-xs px-1.5 rounded-full">
-              2
-            </span>
-          </button>
+ {mounted && count > 0 && (
+  <span className="absolute -top-1 -right-1 bg-[#d4af37] text-white text-xs px-1.5 rounded-full animate-bounce">
+    {count}
+  </span>
+)}
+</button>
 
           {/* КНОПКА */}
           <Link

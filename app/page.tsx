@@ -1,16 +1,52 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import { useCart } from "@/store/cart";
+import toast from "react-hot-toast";
+
+function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
+  const button = e.currentTarget;
+  const cart = document.getElementById("cart-icon");
+
+  if (!cart) return;
+
+  const rect = button.getBoundingClientRect();
+  const cartRect = cart.getBoundingClientRect();
+
+  const clone = button.cloneNode(true) as HTMLElement;
+
+  clone.style.position = "fixed";
+  clone.style.left = rect.left + "px";
+  clone.style.top = rect.top + "px";
+  clone.style.width = rect.width + "px";
+  clone.style.zIndex = "9999";
+  clone.style.transition = "all 0.7s cubic-bezier(.65,-0.3,.3,1.5)";
+  clone.style.pointerEvents = "none";
+
+  document.body.appendChild(clone);
+
+  requestAnimationFrame(() => {
+    clone.style.left = cartRect.left + "px";
+    clone.style.top = cartRect.top + "px";
+    clone.style.transform = "scale(0.3)";
+    clone.style.opacity = "0.3";
+  });
+
+  setTimeout(() => {
+    clone.remove();
+  }, 700);
+}
 
 const menu = [
-  { name: "CROISSANTS MIT LACHS", price: "9 €", image: "/food1.jpg" },
-  { name: "SALATE", price: "11,5 €", image: "/food2.jpg" },
-  { name: "Hähnchen Sandwich", price: "7,50 €", image: "/food3.jpg" },
+  { name: "Croissant mit Lachs", price: "9 €", image: "/food1.jpg" },
+  { name: "Caesar-Salat mit Hähnchen", price: "11,5 €", image: "/food2.jpg" },
+  { name: "Ciabatta mit Hähnchen", price: "8 €", image: "/food3.jpg" },
 ];
 
 export default function Home() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, -120]);
+  const addItem = useCart((s) => s.addItem);
 
   return (
     <main>
@@ -126,8 +162,7 @@ bg-gradient-to-b from-transparent via-[#fce590]/20 to-[#e9dfcf]" />
       </section>
 
       {/* СПЕЦИАЛЬНОСТИ */}
-      <section
-        className="py-20 px-6 md:px-20 text-center bg-cover bg-center"
+      <section className="relative py-20 px-6 md:px-20 text-center bg-cover bg-center"
         style={{ backgroundImage: "url('/paper.jpg')" }}
       >
 
@@ -142,35 +177,55 @@ bg-gradient-to-b from-transparent via-[#fce590]/20 to-[#e9dfcf]" />
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
           {menu.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="group rounded-2xl overflow-hidden bg-white shadow-md transition duration-500 hover:-translate-y-3 hover:shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
-            >
+  <motion.div
+    key={index}
+    initial={{ opacity: 0, y: 60 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, delay: index * 0.2 }}
+    viewport={{ once: true }}
+    className="group rounded-2xl overflow-hidden bg-white shadow-md transition duration-500 hover:-translate-y-3 hover:shadow-[0_20px_60px_rgba(0,0,0,0.2)]"
+  >
+    <div
+      className="h-56 bg-cover bg-center transition duration-700 group-hover:scale-110"
+      style={{ backgroundImage: `url(${item.image})` }}
+    />
 
-              <div
-                className="h-56 bg-cover bg-center transition duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
+    <div className="p-5 relative">
 
-              <div className="p-5 flex justify-between items-center relative">
-                <h3 className="font-semibold text-lg text-[#2c2c2c]">
-                  {item.name}
-                </h3>
+      <div className="flex justify-between items-center">
+        <h3 className="font-semibold text-lg text-[#2c2c2c]">
+          {item.name}
+        </h3>
 
-                <span className="font-bold text-[#b88a5a]">
-                  {item.price}
-                </span>
+        <span className="font-bold text-[#b88a5a]">
+          {item.price}
+        </span>
+      </div>
 
-                <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#d4af37] transition-all duration-500 group-hover:w-full" />
-              </div> 
-            </motion.div>
-          ))}
+      <button
+       onClick={(e) => {
+  flyToCart(e);
 
-        </div>
+  addItem({
+    name: item.name,
+    price: parseFloat(item.price.replace(",", ".")),
+  });
+
+  toast.success("Hinzugefügt 🛒");
+}}
+        className="mt-4 w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm hover:bg-black transition"
+      >
+        In den Warenkorb
+      </button>
+
+      <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#d4af37] transition-all duration-500 group-hover:w-full" />
+
+    </div>
+  </motion.div>
+))}
+
+        </div> <div className="pointer-events-none absolute bottom-0 left-0 w-full h-2 
+bg-gradient-to-b from-transparent via-[#fce590]/20 to-black/60" />
       </section>
 
       {/* ДОСТАВКА */}
@@ -179,6 +234,7 @@ bg-gradient-to-b from-transparent via-[#fce590]/20 to-[#e9dfcf]" />
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{ backgroundImage: "url('/delivery.jpg')" }}
         />
+        <div className="absolute inset-0 bg-black/65" />
 
         <div className="relative z-10 max-w-4xl">
           <h2 className="text-4xl font-semibold mb-6">
