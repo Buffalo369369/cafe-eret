@@ -1,6 +1,7 @@
 "use client";
 
 import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -112,14 +113,34 @@ bg-gradient-to-b from-[#e9dfcf]/15 via-[#e9dfcf]/5 to-transparent z-20" />
 
         {/* BOTTOM */}
         <div className="text-center text-sm text-white/60 space-x-4">
-          <span>© {new Date().getFullYear()} Café ERET</span>
-          <span>•</span>
-          <span className="hover:text-[#fce590] cursor-pointer">Impressum</span>
-          <span>•</span>
-          <span className="hover:text-[#fce590] cursor-pointer">Datenschutz</span>
-          <span>•</span>
-          <span className="hover:text-[#fce590] cursor-pointer">AGB</span>
-        </div>
+  <span>© {new Date().getFullYear()} Café ERET</span>
+  <span>•</span>
+
+  <Link
+    href="/impressum"
+    className="hover:text-[#fce590] transition"
+  >
+    Impressum
+  </Link>
+
+  <span>•</span>
+
+  <Link
+    href="/datenschutz"
+    className="hover:text-[#fce590] transition"
+  >
+    Datenschutz
+  </Link>
+
+  <span>•</span>
+
+  <Link
+    href="/agb"
+    className="hover:text-[#fce590] transition"
+  >
+    AGB
+  </Link>
+</div>
       </div>
 
       {/* НИЖНИЙ FADE */}

@@ -78,7 +78,7 @@ export default function Home() {
   initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
   transition={{ duration: 1 }}
-  className="text-5xl md:text-7xl font-semibold leading-[1.05] tracking-tight mb-6"
+  className="text-5xl md:text-7xl font-semibold leading-[1.15] md:leading-[1.1] tracking-tight mb-6 leading-[1.15] pb-1"
 >
 
   {/* ПЕРВАЯ СТРОКА */}
@@ -121,15 +121,32 @@ export default function Home() {
             className="max-w-md h-[2px] opacity-80 bg-gradient-to-r from-transparent via-[#fce590] to-transparent mb-6"
           />
 
-          {/* SUBTEXT */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="text-lg md:text-xl mb-8 text-white/75 max-w-md leading-relaxed"
-          >
-            Frisch & Lecker jeden Tag!
-          </motion.p>
+          {/* SUBTEXT / CONTACT */}
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.8 }}
+  className="mb-8"
+>
+  <div className="text-white/80 space-y-2 text-sm md:text-base">
+
+    <div className="flex items-center gap-2">
+      <span>📍</span>
+      <span className="whitespace-nowrap">
+        Leineweberstr. 42-44, 45468 Mülheim an der Ruhr
+      </span>
+    </div>
+
+    <a
+      href="tel:+4917659342961"
+      className="flex items-center gap-2 text-white/90 hover:text-[#fce590] transition"
+    >
+      <span>📞</span>
+      <span>017659342961</span>
+    </a>
+
+  </div>
+</motion.div>
 
           {/* BUTTONS */}
           <motion.div
