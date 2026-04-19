@@ -74,30 +74,44 @@ export default function Home() {
         <div className="relative z-10 max-w-2xl text-white">
 
           {/* TITLE */}
-          <motion.h1
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1 }}
-            className="text-5xl md:text-7xl font-semibold leading-[1.05] tracking-tight mb-6"
-          >
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="block bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent"
-            >
-              Frühstück & Brunch
-            </motion.span>
+<motion.h1
+  initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+  transition={{ duration: 1 }}
+  className="text-5xl md:text-7xl font-semibold leading-[1.05] tracking-tight mb-6"
+>
 
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="block text-xl md:text-3xl font-light text-white/80 tracking-[0.08em] mt-3"
-            >
-              in Mülheim an der Ruhr
-            </motion.span>
-          </motion.h1>
+  {/* ПЕРВАЯ СТРОКА */}
+  <motion.span
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2 }}
+    className="block bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent"
+  >
+    Lieferung
+  </motion.span>
+
+  {/* ВТОРАЯ СТРОКА */}
+  <motion.span
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 }}
+    className="block bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent"
+  >
+    in Mülheim
+  </motion.span>
+
+  {/* ПОДЗАГОЛОВОК */}
+  <motion.span
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.5 }}
+    className="block text-xl md:text-3xl font-light text-white/80 tracking-[0.08em] mt-3"
+  >
+    Frühstück & Brunch
+  </motion.span>
+
+</motion.h1>
 
           {/* GOLD LINE */}
           <motion.div

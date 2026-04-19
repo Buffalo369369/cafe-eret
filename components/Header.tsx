@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/store/cart";
+import Logo from "@/components/Logo";
 
 export default function Header() {
     const [mounted, setMounted] = useState(false);
@@ -12,7 +13,7 @@ export default function Header() {
 useEffect(() => {
   setMounted(true);
 }, []);
-const count = useCart((s) => s.count());
+const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
   const [cartOpen, setCartOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -47,19 +48,15 @@ const count = useCart((s) => s.count());
 
       {/* CONTENT */}
       <div
-        className={`relative max-w-7xl mx-auto flex items-center justify-between px-8 transition-all duration-500 ${
+        className={`relative w-full flex items-center justify-between px-4 md:px-8 transition-all duration-500 ${
           scrolled ? "py-3" : "py-4"
         }`}
       >
         {/* ЛОГО */}
-        <Link
-          href="/"
-          className={`font-bold tracking-[0.3em] transition duration-300 ${
-            scrolled ? "text-black" : "text-white"
-          } ${scrolled ? "text-2xl md:text-3xl" : "text-3xl md:text-4xl"}`}
-        >
-          ERET
-        </Link>
+
+<Link href="/" className= "ml-1 md:ml-0 hover:scale-[1.05] transition duration-300">
+  <Logo scrolled={scrolled} />
+</Link>
 
         {/* МЕНЮ */}
         <nav className="hidden md:flex gap-8 text-base font-medium">
@@ -106,7 +103,7 @@ const count = useCart((s) => s.count());
         </nav>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 mr-1 md:mr-0">
 
           {/* 🛒 КОРЗИНА */}
           <button id="cart-icon"
@@ -140,7 +137,7 @@ const count = useCart((s) => s.count());
           {/* КНОПКА */}
           <Link
             href="/menu"
-            className={`px-5 py-2 text-sm rounded-full transition duration-300 ${
+            className={`px-3 py-1.5 text-xs md:px-5 md:py-2 md:text-sm rounded-full transition duration-300 ${
               scrolled
                 ? "border border-black/30 text-black hover:border-[#cc5c06] hover:text-[#cc5c06]"
                 : "border border-white/30 text-white hover:border-[#fce590] hover:text-[#fce590]"
