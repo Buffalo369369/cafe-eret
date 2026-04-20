@@ -8,17 +8,20 @@ import { useCart } from "@/store/cart";
 import Logo from "@/components/Logo";
 
 export default function Header() {
-    const [mounted, setMounted] = useState(false);
-
-useEffect(() => {
-  setMounted(true);
-}, []);
-const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
+  const [mounted, setMounted] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
   const pathname = usePathname();
-  
-  
+
+  const count = useCart((s) =>
+    s.items.reduce((sum, i) => sum + i.qty, 0)
+  );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,13 +34,13 @@ const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-500 ${
         scrolled
           ? "bg-[#e9dfcf]/85 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]"
           : "bg-gradient-to-b from-black/95 via-black/85 to-black/50 backdrop-blur-lg"
       }`}
     >
-      {/* ✨ WARM LIGHT */}
+      {/* ✨ LIGHT */}
       <div
         className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
           scrolled ? "opacity-100" : "opacity-0"
@@ -47,18 +50,14 @@ const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
       </div>
 
       {/* CONTENT */}
-      <div
-        className={`relative w-full flex items-center justify-between px-4 md:px-8 transition-all duration-500 ${
-          scrolled ? "py-3" : "py-4"
-        }`}
-      >
-        {/* ЛОГО */}
+      <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3">
 
-<Link href="/" className= "ml-1 md:ml-0 hover:scale-[1.05] transition duration-300">
-  <Logo scrolled={scrolled} />
-</Link>
+        {/* LOGO */}
+        <Link href="/" className="hover:scale-[1.05] transition">
+          <Logo scrolled={scrolled} />
+        </Link>
 
-        {/* МЕНЮ */}
+        {/* DESKTOP MENU */}
         <nav className="hidden md:flex gap-8 text-base font-medium">
           {[
             { href: "/", label: "Startseite" },
@@ -73,7 +72,7 @@ const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative group transition duration-300 ${
+                className={`relative group ${
                   isActive
                     ? scrolled
                       ? "text-[#cc5c06]"
@@ -85,16 +84,11 @@ const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
               >
                 {item.label}
 
-                {/* underline */}
                 <span
                   className={`absolute left-0 -bottom-1 h-[1px] transition-all duration-300 ${
                     isActive
-                      ? `w-full ${
-                          scrolled ? "bg-[#cc5c06]" : "bg-[#fce590]"
-                        }`
-                      : `w-0 group-hover:w-full ${
-                          scrolled ? "bg-[#cc5c06]" : "bg-[#fce590]"
-                        }`
+                      ? "w-full bg-[#cc5c06]"
+                      : "w-0 group-hover:w-full bg-[#fce590]"
                   }`}
                 />
               </Link>
@@ -103,51 +97,90 @@ const count = useCart((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
         </nav>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-3 mr-1 md:mr-0">
+        <div className="flex items-center gap-4">
 
-          {/* 🛒 КОРЗИНА */}
-          <button id="cart-icon"
-  onClick={() => setCartOpen(true)}
-  className="relative"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={`w-6 h-6 transition ${
-      scrolled ? "text-black" : "text-white"
-    }`}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"
-    />
-  </svg>
+        
 
- {mounted && count > 0 && (
-  <span className="absolute -top-1 -right-1 bg-[#d4af37] text-white text-xs px-1.5 rounded-full animate-bounce">
-    {count}
-  </span>
-)}
-</button>
-
-          {/* КНОПКА */}
-          <Link
-            href="/menu"
-            className={`px-3 py-1.5 text-xs md:px-5 md:py-2 md:text-sm rounded-full transition duration-300 ${
-              scrolled
-                ? "border border-black/30 text-black hover:border-[#cc5c06] hover:text-[#cc5c06]"
-                : "border border-white/30 text-white hover:border-[#fce590] hover:text-[#fce590]"
-            } hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]`}
+          {/* 🛒 CART */}
+          <button
+            id="cart-icon"
+            onClick={() => {
+              setMenuOpen(false);
+              setCartOpen(true);
+            }}
+            className="relative"
           >
-            Online bestellen
-          </Link>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`w-6 h-6 transition ${
+                scrolled ? "text-black" : "text-white"
+              }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"
+              />
+            </svg>
+
+            {mounted && count > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#d4af37] text-white text-xs px-1.5 rounded-full animate-bounce">
+                {count}
+              </span>
+            )}
+          </button>
+
+          {/* 🍔 BURGER */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden flex flex-col gap-1"
+          >
+            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
+            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
+            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
+          </button>
+
+
         </div>
       </div>
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[9999]">
+
+          {/* overlay */}
+          <div
+            className="absolute inset-0 bg-black/90"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          {/* content */}
+          <div className="relative flex flex-col items-center justify-center h-full gap-8 text-white text-xl">
+
+            <Link href="/" onClick={() => setMenuOpen(false)}>Startseite</Link>
+            <Link href="/menu" onClick={() => setMenuOpen(false)}>Speisekarte</Link>
+            <Link href="/about" onClick={() => setMenuOpen(false)}>Über uns</Link>
+            <Link href="/lieferung" onClick={() => setMenuOpen(false)}>Lieferung</Link>
+            <Link href="/contact" onClick={() => setMenuOpen(false)}>Kontakt</Link>
+
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-6 right-6 text-2xl"
+            >
+              ✕
+            </button>
+
+          </div>
+        </div>
+      )}
+
+      {/* CART */}
       <CartDrawer open={cartOpen} setOpen={setCartOpen} />
+
     </header>
   );
 }
