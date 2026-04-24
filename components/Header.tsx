@@ -145,7 +145,7 @@ export default function Header() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/1 без blur z-[9998]"
+      className="fixed inset-0 bg-black/10 backdrop-blur-sm z-[9997]"
       onClick={() => setMenuOpen(false)}
     />
   )}
@@ -160,7 +160,14 @@ export default function Header() {
       animate={{ height: "auto", opacity: 1 }}
       exit={{ height: 0, opacity: 0 }}
       transition={{ duration: 0.35 }}
-      className="overflow-hidden w-full bg-gradient-to-b from-[#f4efe6] to-[#e9dfcf] border-b border-[#d6c7b2] shadow-md"
+      className="
+fixed top-[64px] left-0 w-full
+overflow-hidden
+bg-gradient-to-b from-[#f4efe6] to-[#e9dfcf]
+border-b border-[#d6c7b2]
+shadow-md
+z-[10000]
+"
     >
       <div className="px-6 pt-10 pb-12 flex flex-col items-center text-center gap-8 text-xl font-medium">
 

@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/store/cart";
+import { useEffect } from "react";
 
 type CartDrawerProps = {
   open: boolean;
@@ -15,6 +16,9 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
   const increase = useCart((s) => s.increaseQty);
   const decrease = useCart((s) => s.decreaseQty);
   const remove = useCart((s) => s.removeItem);
+  useEffect(() => {
+  document.body.style.overflow = open ? "hidden" : "";
+}, [open]);
 
   return (
     <AnimatePresence>
@@ -22,32 +26,38 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
         <>
           {/* OVERLAY */}
           <motion.div
-            className="fixed inset-0 bg-black/20 backdrop-blur-[2px] w-[360px] max-w-[92vw] md:max-w-[400px] z-[9999]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
-          />
+          
+  className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9999] pointer-events-auto"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  onClick={() => setOpen(false)}
+/>
 
           {/* DRAWER */}
           <motion.div
   className="
-fixed top-0 right-0 h-screen
-w-[360px] max-w-[95vw]
+fixed right-3 top-28
+w-[360px] max-w-[90vw]
+h-[70vh]
+
+rounded-2xl
 bg-gradient-to-b from-[#f8f5ee] to-[#f1e7d8]
 text-[#2c2c2c]
-border-l border-black/10
-shadow-[-20px_0_50px_rgba(0,0,0,0.2)]
-z-[10000] flex flex-col
+
+border border-black/5
+shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+
+z-[10000] flex flex-col overflow-hidden
 "
-  initial={{ x: "120%", opacity: 0 }}
+  initial={{ x: 400, opacity: 0 }}
   animate={{ x: 0, opacity: 1 }}
-  exit={{ x: "120%", opacity: 0 }}
+  exit={{ x: 400, opacity: 0 }}
   transition={{ type: "spring", stiffness: 260, damping: 28 }}
 >
 
             {/* HEADER */}
-            <div className="px-6 py-5 border-b border-black/10 flex justify-between items-center bg-[#f8f5ee]">
+            <div className="px-6 py-5 border-b border-black/10 flex justify-between items-center bg-white/60 backdrop-blur-md">
               <h2 className="text-xl font-semibold">Warenkorb</h2>
               <button onClick={() => setOpen(false)}>✕</button>
             </div>

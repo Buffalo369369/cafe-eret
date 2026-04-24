@@ -53,19 +53,35 @@ export default function Home() {
     <main>
 
       {/* HERO */}
-      <section className="relative h-[60vh] md:h-[85vh] flex items-end md:items-center px-6 md:px-20 pb-10 md:pb-0">
+      <section
+  className="
+    relative min-h-[50vh] md:min-h-[80vh]
+    flex items-start pt-32 md:pt-0 md:items-center
+    px-6 md:px-20
+  "
+>
         <div className="relative z-10 max-w-2xl text-white "></div>
+        <div className="relative z-10 max-w-2xl text-white space-y-2"></div>
+        
 
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div style={{ y }} className="w-full h-[120%]">
-            <div
-              className="w-full h-full bg-cover bg-[center_30%]"
-              style={{ backgroundImage: "url('/hero.jpg')" }}
-            />
-          </motion.div>
+  <div
+    className="
+      w-full h-full
+      bg-cover
+
+      bg-[url('/hero-mobile.jpg')]
+      bg-[center_0%]
+
+      md:bg-[url('/hero-desktop.jpg')]
+      md:bg-[center_90%]
+    "
+  />
+</motion.div>
         </div>
 
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/55 pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl text-white">
 
@@ -90,8 +106,46 @@ export default function Home() {
           {/* LINE */}
           <div className="max-w-md h-[2px] opacity-80 bg-gradient-to-r from-transparent via-[#fce590] to-transparent mb-6" />
 
+          <div className="flex gap-3 mt-6 flex-wrap">
+
+  {/* PRIMARY */}
+  <Link href="/menu">
+    <button className="
+      px-5 py-2.5
+      rounded-full
+      text-sm font-medium
+      bg-gradient-to-r from-[#fce590] via-[#f4b740] to-[#cc5c06]
+      text-[#2c2c2c]
+      shadow-[0_8px_20px_rgba(204,92,6,0.25)]
+      hover:scale-[1.05]
+      transition
+    ">
+      Jetzt bestellen
+    </button>
+  </Link>
+
+  {/* SECONDARY */}
+  <Link href="/menu">
+    <button className="
+      px-5 py-2.5
+      rounded-full
+      text-sm font-medium
+      bg-white/5
+      text-white
+      border border-white/15
+      backdrop-blur-md
+      hover:bg-white/10
+      transition
+    ">
+      Speisekarte
+    </button>
+  </Link>
+
+</div>
+
           {/* CONTACT */}
-          <div className="mb-4 text-sm md:text-base text-white/80 space-y-2">
+          <div className="mt-6 text-sm md:text-base text-white/80 space-y-2">
+          
             <div className="flex items-center gap-2">
               <span>📍</span>
               <span className="break-words">
@@ -116,34 +170,19 @@ export default function Home() {
 
       </section>
 
-      {/* BUTTONS */}
-      <section className="px-6 md:px-20 py-10 bg-[#e9dfcf] -mt-6">
-        <div className="flex gap-4 flex-wrap justify-center">
+    
+        
 
-          <Link href="/menu">
-            <button className="px-10 py-4 rounded-full bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06] text-[#2c2c2c] font-semibold shadow-md">
-              Jetzt bestellen
-            </button>
-          </Link>
-
-          <Link href="/menu">
-            <button className="px-10 py-4 rounded-full bg-white text-[#2c2c2c] shadow-md">
-              Speisekarte ansehen
-            </button>
-          </Link>
-
-        </div>
-      </section>
+  
 
       {/* СПЕЦИАЛЬНОСТИ */}
       <section
-        className="relative py-20 px-6 md:px-20 text-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/paper.jpg')" }}
-      >
-
-        <h2 className="text-4xl md:text-5xl font-semibold text-[#5c4432] mb-16">
-          Unsere Spezialitäten
-        </h2>
+  className="relative py-8 md:py-14 px-6 md:px-20 text-center bg-cover bg-center"
+  style={{ backgroundImage: "url('/paper.jpg')" }}
+>
+  <h2 className="text-2xl md:text-5xl font-semibold text-[#5c4432] leading-tight mb-6 md:mb-10">
+    Unsere <br className="md:hidden" /> Spezialitäten
+  </h2>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
