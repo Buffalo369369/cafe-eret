@@ -50,22 +50,22 @@ export default function MenuPage() {
     <main className="pt-24">
 
       {/* HEADER */}
-      <section className="relative py-10 px-6 md:px-20 text-center bg-[#e9dfcf]">
+      <section className="relative py-6 md:py-10 px-6 md:px-20 text-center overflow-hidden bg-[#e9dfcf]">
 
   {/* фон */}
-  <div className="absolute inset-0 bg-[#e9dfcf]/90" />
-
   <div
     className="
       absolute inset-0
-      bg-[url('/footer.jpg')]
+      bg-[url('/paper.jpg')]
       bg-cover
       bg-center
-      opacity-20
+      opacity-30
     "
   />
 
-  {/* контент */}
+  <div className="absolute inset-0 bg-[#e9dfcf]/80" />
+
+  {/* текст */}
   <div className="relative z-10">
     <h1 className="text-3xl md:text-6xl font-semibold text-[#2c2c2c]">
       Speisekarte
@@ -75,67 +75,61 @@ export default function MenuPage() {
 </section>
 
       {/* STICKY CATEGORY BAR */}
-      <div className="sticky top-[85px] z-30 bg-[#e9dfcf]/90 backdrop-blur-xl border-b border-[#d6c7b2]">
-        <div className="flex gap-3 overflow-x-auto px-6 py-3 no-scrollbar">
+      <div className="sticky top-[90px] z-30 bg-[#e9dfcf]/95 backdrop-blur-md">
+  <div className="flex gap-3 overflow-x-auto px-6 py-3 no-scrollbar">
 
-          {menuData.map((section) => (
-            <button
-              key={section.title}
-              onClick={() => {
-  setActive(section.title);
+    {menuData.map((section) => (
+      <button
+        key={section.title}
+        onClick={() => {
+          setActive(section.title);
 
-  const el = document.getElementById(section.title);
-  if (!el) return;
+          const el = document.getElementById(section.title);
+          if (!el) return;
 
-  const yOffset =
-    -(document.querySelector("header")?.clientHeight || 0) - 60;
+          el.scrollIntoView({ behavior: "smooth" });
+        }}
+        className={`
+          whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition
+          ${
+            active === section.title
+              ? "bg-[#2c2c2c] text-white shadow-md"
+              : "bg-white/70 text-[#5c4432] hover:bg-white"
+          }
+        `}
+      >
+        {section.title}
+      </button>
+    ))}
 
-  const y =
-    el.getBoundingClientRect().top +
-    window.pageYOffset +
-    yOffset;
+  </div>
+</div>
 
-  window.scrollTo({ top: y, behavior: "smooth" });
-}}
-              className={`
-                whitespace-nowrap
-                px-4 py-2
-                rounded-full
-                text-sm font-medium
-                transition
-                ${
-                  active === section.title
-                    ? "bg-[#2c2c2c] text-white shadow-md"
-                    : "bg-white/70 text-[#5c4432] hover:bg-white"
-                }
-              `}
-            >
-              {section.title}
-            </button>
-          ))}
-
-        </div>
-      </div>
-
-      {/* ГРАДИЕНТ ПОД STICKY */}
-      <div className="h-6 bg-gradient-to-b from-[#e9dfcf] to-transparent pointer-events-none" />
+     
 
       {/* MENU */}
      <section className="relative px-6 md:px-20 py-10 md:py-16 bg-[#e9dfcf]">
-        <div className="absolute inset-0 bg-[#e9dfcf]/80" />
-        <div
-  className="
-    absolute inset-0
-    bg-[url('/paper.jpg')]
-    bg-cover
-    bg-center
-    opacity-25
-    pointer-events-none"/>
-<div className="relative z-10 max-w-6xl mx-auto space-y-14">
+
+  <div
+    className="
+      absolute inset-0
+      bg-[url('/paper.jpg')]
+      bg-cover
+      bg-center
+      opacity-20
+      pointer-events-none
+    "
+  />
+
+  <div className="relative z-10 max-w-6xl mx-auto space-y-14">
             
 
           {menuData.map((section) => (
-            <div key={section.title} id={section.title}>
+            <div
+  key={section.title}
+  id={section.title}
+  className="scroll-mt-[140px]"
+>
 
               <h2 className="text-2xl md:text-4xl font-semibold text-[#5c4432] mb-6">
                 {section.title}
