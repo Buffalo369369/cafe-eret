@@ -155,12 +155,14 @@ export default function Header() {
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="
-              fixed top-[64px] left-0 w-full
-              bg-gradient-to-b from-[#f4efe6] to-[#e9dfcf]
-              border-b border-[#d6c7b2]
-              shadow-md
-              z-[9999]
-            "
+fixed top-[64px] left-0 w-full
+overflow-hidden
+bg-cover bg-center
+border-b border-[#d6c7b2]
+shadow-md
+z-[10000]
+"
+style={{ backgroundImage: "url('/paper.jpg')" }}
           >
             <div className="px-6 py-10 flex flex-col items-center gap-8 text-lg font-medium">
 

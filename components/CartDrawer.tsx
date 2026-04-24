@@ -90,7 +90,7 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
             {/* HEADER */}
             <div className="px-5 py-4 border-b border-black/10 flex justify-between items-center bg-white/60 backdrop-blur-md">
               <h2 className="text-lg md:text-xl font-semibold">
-                Warenkorb
+                Warenkorb 🛒
               </h2>
               <button onClick={() => setOpen(false)}>✕</button>
             </div>
