@@ -225,12 +225,19 @@ export default function Home() {
               </div>
             </motion.div>
           ))}
+          </div>
 
-        </div>
-      </section>
+    
+         </section>
+
+         {/* ПЛАВНЫЙ ПЕРЕХОД */}
+<div className="relative z-10 w-full h-2 
+bg-gradient-to-b from-[#e9dfcf] via-[#fce590]/20 to-transparent" />
+
+
 
       {/* ДОСТАВКА */}
-      <section className="relative py-14 md:py-20 px-6 md:px-20 text-white overflow-hidden">
+      <section className="relative -mt-2 py-14 md:py-20 px-6 md:px-20 text-white overflow-hidden">
 
         <motion.div style={{ y }} className="absolute inset-0 h-[200%]">
           <div
