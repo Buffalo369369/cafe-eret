@@ -1,32 +1,63 @@
 @import "tailwindcss";
 
+/* ---------- ROOT ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #e9dfcf;
+  --foreground: #2c2c2c;
 }
 
+/* убираем темную тему, чтобы дизайн не ломался */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #e9dfcf;
+    --foreground: #2c2c2c;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
+
+/* ---------- BASE ---------- */
 html {
   scroll-behavior: smooth;
 }
-@keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+
+  /* 🔥 фикс мобильных скачков */
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- FIX iOS HEIGHT ---------- */
+@supports (height: 100dvh) {
+  body {
+    min-height: 100dvh;
   }
 }
+
+/* ---------- BUTTON RESET ---------- */
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+/* ---------- IMG FIX ---------- */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- ANIMATION ---------- */
 @keyframes shine {
   0% {
     left: -50%;
