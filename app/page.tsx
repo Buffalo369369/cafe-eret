@@ -197,21 +197,38 @@ const items = useCart((s) => s.items);
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
 
           {menu.map((item, index) => {
-  const current = items.find((x) => x.name === item.name);
+  const current = items.find((x) => x.id === item.id);
 
   return (
     <motion.div
-      key={item.id}
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.2 }}
-      viewport={{ once: true }}
-      className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition"
-    >
-      <div
-        className="h-52 bg-cover bg-center"
-        style={{ backgroundImage: `url(${item.image})` }}
-      />
+
+  key={item.id}
+
+  initial="hidden"
+
+  whileInView="visible"
+
+  viewport={{ once: true, margin: "-50px" }}
+
+  transition={{ delay: index * 0.2 }}
+
+  variants={{
+
+    hidden: { opacity: 0, y: 40 },
+
+    visible: { opacity: 1, y: 0 },
+
+  }}
+   >
+      <img
+
+  src={item.image}
+
+  alt={item.name}
+
+  className="h-48 w-full object-cover"
+
+/>
 
       <div className="p-5 bg-white">
         <div className="flex justify-between items-start gap-2">
@@ -245,7 +262,7 @@ const items = useCart((s) => s.items);
             <div className="flex items-center justify-between">
 
               <button
-                onClick={() => decrease(item.name)}
+                onClick={() => decrease(item.id)}
                 className="w-8 h-8 rounded-full border"
               >
                 −
@@ -256,7 +273,7 @@ const items = useCart((s) => s.items);
               </span>
 
               <button
-                onClick={() => increase(item.name)}
+                onClick={() => increase(item.id)}
                 className="w-8 h-8 rounded-full border"
               >
                 +

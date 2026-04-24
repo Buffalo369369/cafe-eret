@@ -51,7 +51,8 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
             ref={drawerRef}
             tabIndex={-1}
             drag="y"
-            dragConstraints={{ top: 0, bottom: 200 }}
+            dragConstraints={{ top: 0, bottom: 300 }}
+dragElastic={0.2}
             onDragEnd={(e, info) => {
               if (info.offset.y > 120) {
                 setOpen(false);
@@ -105,7 +106,7 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
                 <AnimatePresence>
                   {items.map((item, i) => (
                     <motion.div
-                      key={item.name}
+                      key={item.id}
                       initial={{ opacity: 0, y: 20, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10 }}
@@ -120,8 +121,8 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
 
                         <div className="flex items-center gap-2 mt-2">
                           <button
-                            onClick={() => decrease(item.name)}
-                            className="w-7 h-7 rounded-full border border-black/20 flex items-center justify-center"
+                            onClick={() => decrease(item.id)}
+                            className="w-7 h-7 rounded-full border active:scale-90 transition"
                           >
                             −
                           </button>
@@ -131,8 +132,8 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
                           </span>
 
                           <button
-                            onClick={() => increase(item.name)}
-                            className="w-7 h-7 rounded-full border border-black/20 flex items-center justify-center"
+                            onClick={() => increase(item.id)}
+                            className="w-7 h-7 rounded-full border active:scale-90 transition"
                           >
                             +
                           </button>
@@ -146,7 +147,7 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
                         </p>
 
                         <button
-                          onClick={() => remove(item.name)}
+                          onClick={() => remove(item.id)}
                           className="text-xs text-red-500 mt-1"
                         >
                           entfernen

@@ -82,13 +82,22 @@ export default function MenuPage() {
       <button
         key={section.title}
         onClick={() => {
-          setActive(section.title);
+  setActive(section.title);
 
-          const el = document.getElementById(section.title);
-          if (!el) return;
+  const el = document.getElementById(section.title);
+  if (!el) return;
 
-          el.scrollIntoView({ behavior: "smooth" });
-        }}
+  const headerHeight =
+    document.querySelector("header")?.clientHeight || 0;
+
+  const y =
+    el.getBoundingClientRect().top +
+    window.scrollY -
+    headerHeight -
+    80; // ← воздух сверху
+
+  window.scrollTo({ top: y, behavior: "smooth" });
+}}
         className={`
           whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition
           ${
@@ -138,20 +147,20 @@ export default function MenuPage() {
               <div className="grid md:grid-cols-3 gap-6">
 
                 {section.items.map((item) => {
-                  const current = items.find((x) => x.name === item.name);
+                  const current = items.find((x) => x.id === item.id);
 
                   return (
                     <motion.div
   key={item.id}
   initial="hidden"
-  animate="visible"
+  whileInView="visible"
+  viewport={{ once: true, margin: "-50px" }}
   variants={{
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0 },
   }}
   transition={{ duration: 0.4 }}
-                      className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition"
-                    >
+>
                       <img
   src={item.image}
   alt={item.name}
@@ -195,7 +204,7 @@ export default function MenuPage() {
                             <div className="flex items-center justify-between">
 
                               <button
-                                onClick={() => decrease(item.name)}
+                                onClick={() => decrease(item.id)}
                                 className="w-8 h-8 rounded-full border"
                               >
                                 −
@@ -206,7 +215,7 @@ export default function MenuPage() {
                               </span>
 
                               <button
-                                onClick={() => increase(item.name)}
+                                onClick={() => increase(item.id)}
                                 className="w-8 h-8 rounded-full border"
                               >
                                 +

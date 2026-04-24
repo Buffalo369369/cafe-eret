@@ -12,9 +12,9 @@ type CartStore = {
   items: CartItem[];
 
   addItem: (item: Omit<CartItem, "qty">) => void;
-  removeItem: (name: string) => void;
-  increaseQty: (name: string) => void;
-  decreaseQty: (name: string) => void;
+  removeItem: (id: string) => void;
+  increaseQty: (id: string) => void;
+  decreaseQty: (id: string) => void;
 
   total: () => number;
   count: () => number;
@@ -26,12 +26,12 @@ export const useCart = create<CartStore>()(
       items: [],
 
       addItem: (item) => {
-        const existing = get().items.find((i) => i.name === item.name);
+        const existing = get().items.find((i) => i.id === item.id);
 
         if (existing) {
           set({
             items: get().items.map((i) =>
-              i.name === item.name ? { ...i, qty: i.qty + 1 } : i
+              i.id === item.id ? { ...i, qty: i.qty + 1 } : i
             ),
           });
         } else {
@@ -41,25 +41,25 @@ export const useCart = create<CartStore>()(
         }
       },
 
-      removeItem: (name) => {
+      removeItem: (id) => {
         set({
-          items: get().items.filter((i) => i.name !== name),
+          items: get().items.filter((i) => i.id !== id),
         });
       },
 
-      increaseQty: (name) => {
+      increaseQty: (id) => {
         set({
           items: get().items.map((i) =>
-            i.name === name ? { ...i, qty: i.qty + 1 } : i
+            i.id === id ? { ...i, qty: i.qty + 1 } : i
           ),
         });
       },
 
-      decreaseQty: (name) => {
+      decreaseQty: (id) => {
         set({
           items: get()
             .items.map((i) =>
-              i.name === name ? { ...i, qty: i.qty - 1 } : i
+              i.id === id ? { ...i, qty: i.qty - 1 } : i
             )
             .filter((i) => i.qty > 0),
         });
