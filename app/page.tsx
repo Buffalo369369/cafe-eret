@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useCart } from "@/store/cart";
 import toast from "react-hot-toast";
+import { menuData } from "@/store/menu";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   const button = e.currentTarget;
@@ -33,21 +34,20 @@ function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
     clone.style.opacity = "0.3";
   });
 
-  setTimeout(() => {
-    clone.remove();
-  }, 700);
+  setTimeout(() => clone.remove(), 700);
 }
 
-const menu = [
-  { name: "Croissant mit Lachs", price: "9 €", image: "/food1.jpg" },
-  { name: "Caesar-Salat mit Hähnchen", price: "11,5 €", image: "/food2.jpg" },
-  { name: "Ciabatta mit Hähnchen", price: "8 €", image: "/food3.jpg" },
-];
+const menu = menuData
+  .flatMap((section) => section.items)
+  .slice(0, 3);
 
 export default function Home() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, -250]);
   const addItem = useCart((s) => s.addItem);
+  const increase = useCart((s) => s.increaseQty);
+const decrease = useCart((s) => s.decreaseQty);
+const items = useCart((s) => s.items);
 
   return (
     <main>
@@ -196,47 +196,80 @@ export default function Home() {
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
 
-          {menu.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden bg-white shadow-md"
+          {menu.map((item, index) => {
+  const current = items.find((x) => x.name === item.name);
+
+  return (
+    <motion.div
+      key={item.id}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.2 }}
+      viewport={{ once: true }}
+      className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition"
+    >
+      <div
+        className="h-52 bg-cover bg-center"
+        style={{ backgroundImage: `url(${item.image})` }}
+      />
+
+      <div className="p-5 bg-white">
+        <div className="flex justify-between items-start gap-2">
+          <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
+            {item.name}
+          </h3>
+
+          <span className="font-bold text-[#b88a5a] text-sm">
+            {item.price} €
+          </span>
+        </div>
+
+        <div className="mt-4">
+
+          {!current ? (
+            <button
+              onClick={(e) => {
+                flyToCart(e);
+                addItem({
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                });
+                toast.success("Hinzugefügt 🛒");
+              }}
+              className="w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm"
             >
-              <div
-                className="h-52 bg-cover bg-center"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
+              In den Warenkorb
+            </button>
+          ) : (
+            <div className="flex items-center justify-between">
 
-              <div className="p-5 bg-white">
-                <div className="flex justify-between items-start gap-2">
-                  <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
-                    {item.name}
-                  </h3>
+              <button
+                onClick={() => decrease(item.name)}
+                className="w-8 h-8 rounded-full border"
+              >
+                −
+              </button>
 
-                  <span className="font-bold text-[#b88a5a] text-sm">
-                    {item.price}
-                  </span>
-                </div>
+              <span className="font-medium">
+                {current.qty}
+              </span>
 
-                <button
-                  onClick={(e) => {
-                    flyToCart(e);
-                    addItem({
-                      name: item.name,
-                      price: parseFloat(item.price.replace(",", ".")),
-                    });
-                    toast.success("Hinzugefügt 🛒");
-                  }}
-                  className="mt-4 w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm hover:bg-black transition"
-                >
-                  In den Warenkorb
-                </button>
-              </div>
-            </motion.div>
-          ))}
+              <button
+                onClick={() => increase(item.name)}
+                className="w-8 h-8 rounded-full border"
+              >
+                +
+              </button>
+
+            </div>
+          )}
+
+        </div>
+      </div>
+    </motion.div>
+  );
+})}
           </div>
 
     
