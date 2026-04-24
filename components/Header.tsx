@@ -58,13 +58,20 @@ export default function Header() {
                 >
                   {item.label}
 
-                  <span
-                    className={`absolute left-0 -bottom-1 h-[1px] transition-all duration-300 ${
-                      isActive
-                        ? "w-full bg-[#cc5c06]"
-                        : "w-0 group-hover:w-full bg-[#cc5c06]"
-                    }`}
-                  />
+                 {isActive && (
+  <span
+    className="
+      absolute left-1/2 -bottom-2
+      w-10 h-[2px]
+      -translate-x-1/2
+
+      bg-gradient-to-r
+      from-[#fce590]
+      via-[#f4b740]
+      to-[#cc5c06]
+    "
+  />
+)}
                 </Link>
               );
             })}
@@ -177,22 +184,38 @@ style={{ backgroundImage: "url('/paper.jpg')" }}
 
                 return (
                   <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`transition ${
-                      isActive
-                        ? "text-[#cc5c06] font-semibold"
-                        : "text-[#2c2c2c]"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
+  key={item.href}
+  href={item.href}
+  onClick={() => setMenuOpen(false)}
+  className={`relative transition ${
+    isActive
+      ? "text-[#cc5c06] font-semibold"
+      : "text-[#2c2c2c]"
+  }`}
+>
+  {item.label}
+
+  {isActive && (
+    <span
+      className="
+        absolute left-1/2 -bottom-2
+        w-10 h-[2px]
+        -translate-x-1/2
+
+        bg-gradient-to-r
+        from-[#fce590]
+        via-[#f4b740]
+        to-[#cc5c06]
+      "
+    />
+  )}
+</Link>
                 );
               })}
 
             </div>
           </motion.div>
+          
         )}
       </AnimatePresence>
 

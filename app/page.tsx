@@ -157,13 +157,25 @@ export default function Home() {
                 </span>
               </div>
 
-              <a
-                href="tel:+4917659342961"
-                className="flex items-center gap-2 hover:text-[#fce590]"
-              >
-                <span>📞</span>
-                <span>017659342961</span>
-              </a>
+             <a
+  href="tel:+4917659342961"
+  className="
+    flex items-center gap-2
+    text-white/90
+    transition-all duration-300
+
+    drop-shadow-[0_0_6px_rgba(252,229,144,0.5)]
+    md:drop-shadow-none
+
+    hover:text-[#fce590]
+    md:hover:drop-shadow-[0_0_6px_rgba(252,229,144,0.6)]
+
+    active:scale-[0.97]
+  "
+>
+  <span>📞</span>
+  <span>017659342961</span>
+</a>
             </div>
 
           </div>
