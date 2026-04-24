@@ -55,7 +55,7 @@ export default function Home() {
       {/* HERO */}
       <section
   className="
-    relative min-h-[50vh] md:min-h-[80vh]
+    relative min-h-[55vh] md:min-h-[80vh]
     flex items-start pt-32 md:pt-0 md:items-center
     px-6 md:px-20
   "
