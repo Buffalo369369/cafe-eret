@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/store/cart";
 import Logo from "@/components/Logo";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  
 
   const pathname = usePathname();
 
@@ -23,38 +24,22 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
-    };
+  
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-500 ${
-        scrolled
-          ? "bg-[#e9dfcf]/85 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]"
-          : "bg-gradient-to-b from-black/95 via-black/85 to-black/50 backdrop-blur-lg"
-      }`}
+      className="fixed top-0 left-0 w-full z-[9999] bg-[#e9dfcf]/90 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]"
     >
-      {/* ✨ LIGHT */}
-      <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
-          scrolled ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <div className="w-full h-full bg-[radial-gradient(circle_at_top,rgba(255,210,120,0.25),transparent_65%)]" />
-      </div>
+      
 
       {/* CONTENT */}
       <div className="relative w-full flex items-center justify-between px-4 md:px-8 py-3">
 
         {/* LOGO */}
         <Link href="/" className="hover:scale-[1.05] transition">
-          <Logo scrolled={scrolled} />
+          <Logo />
         </Link>
 
         {/* DESKTOP MENU */}
@@ -74,23 +59,20 @@ export default function Header() {
                 href={item.href}
                 className={`relative group ${
                   isActive
-                    ? scrolled
-                      ? "text-[#cc5c06]"
-                      : "text-[#fce590]"
-                    : scrolled
-                    ? "text-black/80 hover:text-black"
-                    : "text-white/80 hover:text-white"
+  ? "text-[#cc5c06] font-semibold"
+  : "text-black/80 hover:text-black"
+                    
                 }`}
               >
                 {item.label}
 
                 <span
-                  className={`absolute left-0 -bottom-1 h-[1px] transition-all duration-300 ${
-                    isActive
-                      ? "w-full bg-[#cc5c06]"
-                      : "w-0 group-hover:w-full bg-[#fce590]"
-                  }`}
-                />
+  className={`absolute left-0 -bottom-1 h-[1px] transition-all duration-300 ${
+    isActive
+      ? "w-full bg-[#cc5c06]"
+      : "w-0 group-hover:w-full bg-[#cc5c06]"
+  }`}
+/>
               </Link>
             );
           })}
@@ -112,9 +94,7 @@ export default function Header() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-6 h-6 transition ${
-                scrolled ? "text-black" : "text-white"
-              }`}
+              className="w-6 h-6 text-black transition"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -136,51 +116,94 @@ export default function Header() {
 
           {/* 🍔 BURGER */}
           <button
-            onClick={() => setMenuOpen(true)}
-            className="md:hidden flex flex-col gap-1"
-          >
-            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
-            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
-            <span className={`w-6 h-[2px] ${scrolled ? "bg-black" : "bg-white"}`} />
-          </button>
+  onClick={() => setMenuOpen((prev) => !prev)}
+  className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative"
+>
+  <span
+    className={`absolute w-6 h-[2px] bg-black transition-all duration-300 ${
+      menuOpen ? "rotate-45" : "-translate-y-2"
+    }`}
+  />
+  <span
+    className={`absolute w-6 h-[2px] bg-black transition-all duration-300 ${
+      menuOpen ? "opacity-0" : "opacity-100"
+    }`}
+  />
+  <span
+    className={`absolute w-6 h-[2px] bg-black transition-all duration-300 ${
+      menuOpen ? "-rotate-45" : "translate-y-2"
+    }`}
+  />
+</button>
 
 
         </div>
       </div>
+      <AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/1 без blur z-[9998]"
+      onClick={() => setMenuOpen(false)}
+    />
+  )}
+</AnimatePresence>
 
       {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-[9999]">
+      
+<AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.35 }}
+      className="overflow-hidden w-full bg-gradient-to-b from-[#f4efe6] to-[#e9dfcf] border-b border-[#d6c7b2] shadow-md"
+    >
+      <div className="px-6 pt-10 pb-12 flex flex-col items-center text-center gap-8 text-xl font-medium">
 
-          {/* overlay */}
-          <div
-            className="absolute inset-0 bg-black/90"
-            onClick={() => setMenuOpen(false)}
-          />
+        {[
+          { href: "/", label: "Startseite" },
+          { href: "/menu", label: "Speisekarte" },
+          { href: "/about", label: "Über uns" },
+          { href: "/lieferung", label: "Lieferung" },
+          { href: "/contact", label: "Kontakt" },
+        ].map((item) => {
+          const isActive = pathname === item.href;
 
-          {/* content */}
-          <div className="relative flex flex-col items-center justify-center h-full gap-8 text-white text-xl">
-
-            <Link href="/" onClick={() => setMenuOpen(false)}>Startseite</Link>
-            <Link href="/menu" onClick={() => setMenuOpen(false)}>Speisekarte</Link>
-            <Link href="/about" onClick={() => setMenuOpen(false)}>Über uns</Link>
-            <Link href="/lieferung" onClick={() => setMenuOpen(false)}>Lieferung</Link>
-            <Link href="/contact" onClick={() => setMenuOpen(false)}>Kontakt</Link>
-
-            <button
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="absolute top-6 right-6 text-2xl"
+              className={`relative group transition-all duration-300 ${
+                isActive
+                  ? "text-[#cc5c06] font-semibold"
+                  : "text-[#2c2c2c] hover:text-black"
+              }`}
             >
-              ✕
-            </button>
+              {item.label}
 
-          </div>
-        </div>
-      )}
+              <span
+                className={`absolute left-1/2 -bottom-1 h-[2px] transition-all duration-300 -translate-x-1/2 ${
+                  isActive
+                    ? "w-8 bg-[#cc5c06]"
+                    : "w-0 group-hover:w-8 bg-[#cc5c06]"
+                }`}
+              />
+            </Link>
+          );
+        })}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+  
 
       {/* CART */}
       <CartDrawer open={cartOpen} setOpen={setCartOpen} />
 
-    </header>
-  );
+    </header>);
 }

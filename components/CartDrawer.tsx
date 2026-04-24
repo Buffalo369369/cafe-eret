@@ -22,7 +22,7 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
         <>
           {/* OVERLAY */}
           <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9999]"
+            className="fixed inset-0 bg-black/20 backdrop-blur-[2px] w-[360px] max-w-[92vw] md:max-w-[400px] z-[9999]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -31,20 +31,23 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
 
           {/* DRAWER */}
           <motion.div
-            className="fixed right-0 top-0 h-screen w-[420px] 
-            bg-gradient-to-b from-[#f8f5ee] to-[#f1e7d8]
-            text-[#2c2c2c]
-            border-l border-black/10
-            shadow-[-30px_0_80px_rgba(0,0,0,0.45)]
-            z-[10000] flex flex-col"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
+  className="
+fixed top-0 right-0 h-screen
+w-[360px] max-w-[95vw]
+bg-gradient-to-b from-[#f8f5ee] to-[#f1e7d8]
+text-[#2c2c2c]
+border-l border-black/10
+shadow-[-20px_0_50px_rgba(0,0,0,0.2)]
+z-[10000] flex flex-col
+"
+  initial={{ x: "120%", opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  exit={{ x: "120%", opacity: 0 }}
+  transition={{ type: "spring", stiffness: 260, damping: 28 }}
+>
 
             {/* HEADER */}
-            <div className="p-6 border-b flex justify-between items-center">
+            <div className="px-6 py-5 border-b border-black/10 flex justify-between items-center bg-[#f8f5ee]">
               <h2 className="text-xl font-semibold">Warenkorb</h2>
               <button onClick={() => setOpen(false)}>✕</button>
             </div>
@@ -105,7 +108,7 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
             </div>
 
             {/* FOOTER */}
-            <div className="p-6 border-t border-black/10 space-y-4 bg-[#f8f5ee]">
+            <div className="p-6 border-t border-black/10 space-y-4 bg-white/50 backdrop-blur-sm">
               <div className="flex justify-between text-lg font-semibold">
                 <span>Gesamt</span>
                 <span>{total.toFixed(2)} €</span>

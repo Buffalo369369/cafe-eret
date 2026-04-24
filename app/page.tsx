@@ -53,7 +53,8 @@ export default function Home() {
     <main>
 
       {/* HERO */}
-      <section className="relative h-[60vh] md:h-[85vh] flex items-end px-6 md:px-20 pb-12">
+      <section className="relative h-[60vh] md:h-[85vh] flex items-end md:items-center px-6 md:px-20 pb-10 md:pb-0">
+        <div className="relative z-10 max-w-2xl text-white "></div>
 
         <div className="absolute inset-0 overflow-hidden">
           <motion.div style={{ y }} className="w-full h-[120%]">
@@ -70,11 +71,11 @@ export default function Home() {
 
           {/* TITLE */}
           <motion.h1
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1 }}
-            className="text-5xl md:text-7xl font-semibold leading-[1.15] tracking-tight mb-6 pb-1"
-          >
+  initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+  transition={{ duration: 1 }}
+  className="text-4xl md:text-7xl font-semibold leading-[1.15] tracking-tight mb-6 pb-1"
+>
             <span className="block bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">
               Lieferung
             </span>
@@ -93,7 +94,7 @@ export default function Home() {
           <div className="mb-4 text-sm md:text-base text-white/80 space-y-2">
             <div className="flex items-center gap-2">
               <span>📍</span>
-              <span className="whitespace-nowrap">
+              <span className="break-words">
                 Leineweberstr. 42-44, 45468 Mülheim an der Ruhr
               </span>
             </div>
