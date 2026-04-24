@@ -142,17 +142,21 @@ export default function MenuPage() {
 
                   return (
                     <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 60 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4 }}
-                      viewport={{ once: true }}
+  key={item.id}
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0 },
+  }}
+  transition={{ duration: 0.4 }}
                       className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition"
                     >
-                      <div
-                        className="h-48 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${item.image})` }}
-                      />
+                      <img
+  src={item.image}
+  alt={item.name}
+  className="h-48 w-full object-cover"
+/>
 
                       <div className="p-4">
 
