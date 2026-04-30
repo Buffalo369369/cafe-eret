@@ -3,6 +3,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { Playfair_Display } from "next/font/google";
+
+const font = Playfair_Display({ subsets: ["latin"] });
 
 const arimo = Arimo({
   subsets: ["latin"],

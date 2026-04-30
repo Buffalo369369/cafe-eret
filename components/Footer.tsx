@@ -84,7 +84,8 @@ export default function Footer() {
               </a>
 
               <a
-                href="#"
+                href="https://www.facebook.com/share/18Syq8Jxcd/?mibextid=LQQJ4d
+                "
                 className="w-10 h-10 rounded-full flex items-center justify-center 
                 bg-black/5 hover:bg-[#1877F2] hover:text-white transition"
               >

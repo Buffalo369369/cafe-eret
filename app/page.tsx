@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/store/cart";
 import toast from "react-hot-toast";
 import { menuData } from "@/store/menu";
+import { FaInstagram } from "react-icons/fa";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   const button = e.currentTarget;
@@ -110,43 +111,66 @@ const items = useCart((s) => s.items);
             <div className="w-40 h-[2px] bg-gradient-to-r from-transparent via-[#fce590] to-transparent" />
 
             {/* BUTTONS */}
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-3 flex-wrap items-center">
 
-              <Link href="/menu">
-                <button className="
-                  w-full sm:w-auto
-                  px-5 py-2.5
-                  rounded-full
-                  text-sm font-medium
-                  bg-gradient-to-r from-[#fce590] via-[#f4b740] to-[#cc5c06]
-                  text-[#2c2c2c]
-                  whitespace-nowrap
-                  hover:scale-[1.04]
-                  transition
-                ">
-                  Jetzt bestellen
-                </button>
-              </Link>
+  {/* Jetzt bestellen */}
+  <Link href="/menu">
+    <button className="
+      w-full sm:w-auto
+      px-5 py-2.5
+      rounded-full
+      text-sm font-medium
+      bg-gradient-to-r from-[#fce590] via-[#f4b740] to-[#cc5c06]
+      text-[#2c2c2c]
+      whitespace-nowrap
+      hover:scale-[1.04]
+      transition
+    ">
+      Jetzt bestellen
+    </button>
+  </Link>
 
-              <Link href="/menu">
-                <button className="
-                  w-full sm:w-auto
-                  px-5 py-2.5
-                  rounded-full
-                  text-sm font-medium
-                  bg-white/10
-                  text-white
-                  border border-white/20
-                  backdrop-blur-sm
-                  hover:bg-white/20
-                  transition
-                  whitespace-nowrap
-                ">
-                  Speisekarte
-                </button>
-              </Link>
+  {/* Speisekarte */}
+  <Link href="/menu">
+    <button className="
+      w-full sm:w-auto
+      px-5 py-2.5
+      rounded-full
+      text-sm font-medium
+      bg-white/10
+      text-white
+      border border-white/20
+      backdrop-blur-sm
+      hover:bg-white/20
+      transition
+      whitespace-nowrap
+    ">
+      Speisekarte
+    </button>
+  </Link>
 
-            </div>
+  {/* Instagram */}
+  <a
+    href="https://instagram.com/cafe_eret"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group"
+  >
+    <div className="
+      w-10 h-10
+      rounded-full
+      flex items-center justify-center
+      bg-white/10
+      border border-white/20
+      backdrop-blur-sm
+      hover:bg-gradient-to-tr hover:from-[#fce590] hover:via-[#f4b740] hover:to-[#cc5c06]
+      transition
+    ">
+      <FaInstagram size={16} />
+    </div>
+  </a>
+
+</div>
 
             {/* CONTACT */}
             <div className="text-sm text-white/80 flex flex-col gap-2 pt-2">

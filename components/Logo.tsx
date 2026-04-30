@@ -1,45 +1,34 @@
 export default function Logo() {
   return (
-    <div className="flex flex-col leading-none select-none">
+    <div className="leading-none select-none">
 
-      {/* ERET */}
-      <span
-        className="
-          text-xl md:text-2xl
-          font-medium
-          tracking-[0.28em]
-          text-[#2c2c2c]
-        "
-      >
+      <div className="text-[22px] md:text-[28px] font-semibold tracking-[0.32em] md:tracking-[0.36em] text-[#3e3428]">
         ERET
-      </span>
+      </div>
 
-      {/* CAFÉ */}
-      <span
-        className="
-          text-[11px] md:text-xs
-          tracking-[0.22em]
-          text-[#5c4432]
-          mt-[2px]
-        "
-      >
-        CAFÉ
-      </span>
+     <div
 
-      {/* TAGLINE */}
-      <span
-        className="
-          text-[9px] md:text-[10px]
-          tracking-[0.16em] md:tracking-[0.18em]
-          text-[#8a735c]
-          mt-[2px]
+  className="
 
-          whitespace-nowrap
-          opacity-90 md:opacity-100
-        "
-      >
-        Mehr als Kaffee & Kuchen
-      </span>
+    text-[11px] md:text-[13px]
+
+    text-[#5c4a3a]
+
+    mt-[4px]
+
+    ml-[42px] md:ml-[56px]
+
+  "
+
+>
+
+  Café
+
+</div>
+
+      <div className="text-[9px] md:text-[11px] tracking-[0.18em] text-[#7a6a58] mt-[4px]">
+        Mehr als Kaffee & Kuchen...
+      </div>
 
     </div>
   );
