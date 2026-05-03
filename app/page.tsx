@@ -328,7 +328,7 @@ bg-gradient-to-b from-[#e9dfcf] via-[#fce590]/20 to-transparent" />
         <motion.div style={{ y }} className="absolute inset-0 h-[200%]">
           <div
             className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: "url('/delivery.jpg')" }}
+            style={{ backgroundImage: "url('/delivery2.jpg')" }}
           />
         </motion.div>
 
