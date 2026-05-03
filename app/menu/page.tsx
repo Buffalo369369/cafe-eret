@@ -47,7 +47,7 @@ export default function MenuPage() {
   const [active, setActive] = useState(menuData[0]?.title);
 
   return (
-    <main className="pt-24">
+    <main className="pt-[70px] md:pt-[90px]">
 
       {/* HEADER */}
       <section className="relative py-6 md:py-10 px-6 md:px-20 text-center overflow-hidden bg-[#e9dfcf]">
@@ -75,7 +75,7 @@ export default function MenuPage() {
 </section>
 
       {/* STICKY CATEGORY BAR */}
-      <div className="sticky top-[90px] z-30 bg-[#e9dfcf]/95 backdrop-blur-md">
+      <div className="sticky top-[70px] md:top-[80px] z-30 bg-[#e9dfcf]/95 backdrop-blur-md border-b border-black/5">
   <div className="flex gap-3 overflow-x-auto px-6 py-3 no-scrollbar">
 
     {menuData.map((section) => (
@@ -137,7 +137,7 @@ export default function MenuPage() {
             <div
   key={section.title}
   id={section.title}
-  className="scroll-mt-[140px]"
+  className="scroll-mt-[90px] md:scroll-mt-[110px]"
 >
 
               <h2 className="text-2xl md:text-4xl font-semibold text-[#5c4432] mb-6">
