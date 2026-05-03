@@ -1,22 +1,32 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 
 export default function DeliveryPage() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, -80]); // мягкий параллакс
+
   return (
     <main className="bg-[#e9dfcf]">
 
       {/* HERO */}
-      <section className="relative h-[300px] md:h-[400px] flex items-center justify-center text-center overflow-hidden">
+      <section className="relative h-[250px] md:h-[320px] flex items-center justify-center text-center overflow-hidden">
 
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/delivery.jpg')" }}
-        />
+        {/* PARALLAX */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div style={{ y }} className="w-full h-[120%]">
+            <div
+              className="w-full h-full bg-cover bg-center"
+              style={{ backgroundImage: "url('/delivery.jpg')" }}
+            />
+          </motion.div>
+        </div>
 
+        {/* OVERLAY */}
         <div className="absolute inset-0 bg-black/50" />
 
+        {/* TITLE */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -24,6 +34,7 @@ export default function DeliveryPage() {
         >
           Lieferung & Abholung
         </motion.h1>
+
       </section>
 
       {/* DELIVERY */}
@@ -75,8 +86,11 @@ export default function DeliveryPage() {
             ⏰ Öffnungszeiten
           </h3>
 
-          <p className="text-[#5c4432]">
-            Mo–So: 08:00 – 18:00
+          <p>
+            ⏰ Di – So: 10:00 – 17:00
+            <span className="block text-sm text-black/50">
+              Montag: geschlossen
+            </span>
           </p>
         </div>
 
