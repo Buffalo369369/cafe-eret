@@ -70,16 +70,21 @@ export default function ContactPage() {
         </div>
 
         {/* OVERLAY */}
-        <div className="absolute inset-0 bg-black/50" />
+<div className="absolute inset-0 bg-black/50" />
 
-        {/* TITLE */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 text-white text-3xl md:text-5xl font-semibold"
-        >
-          Kontakt
-        </motion.h1>
+{/* TITLE */}
+<motion.h1
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  className="
+    relative z-10
+    text-white text-3xl md:text-5xl font-semibold
+    mt-15 md:mt-15
+  "
+>
+  Kontakt
+</motion.h1>
+
       </section>
 
       {/* CONTENT */}
