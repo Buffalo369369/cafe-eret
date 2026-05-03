@@ -13,6 +13,46 @@ const arimo = Arimo({
   weight: ["400", "700"],
 });
 
+export const metadata = {
+  metadataBase: new URL("https://eret-cafe.de"),
+
+  title: "ERET Café Mülheim – Frühstück, Brunch & Lieferung",
+  description:
+    "Genieße frisches Frühstück, Croissants und Brunch in Mülheim an der Ruhr. Lieferung & Abholung verfügbar.",
+
+  keywords: [
+    "Café Mülheim",
+    "Frühstück Mülheim",
+    "Brunch Mülheim",
+  ],
+
+  alternates: {
+    canonical: "https://eret-cafe.de",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  openGraph: {
+    title: "ERET Café Mülheim",
+    description:
+      "Frühstück, Brunch und Lieferung in Mülheim an der Ruhr.",
+    url: "https://eret-cafe.de",
+    siteName: "ERET Café",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "de_DE",
+    type: "website",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {

@@ -163,7 +163,8 @@ export default function MenuPage() {
 >
                       <img
   src={item.image}
-  alt={item.name}
+  alt={`${item.name} – Frühstück im ERET Café Mülheim`}
+  loading="lazy"
   className="h-48 w-full object-cover"
 />
 

@@ -248,7 +248,9 @@ const items = useCart((s) => s.items);
 
   src={item.image}
 
-  alt={item.name}
+  alt={`${item.name} – Frühstück im ERET Café Mülheim`}
+
+  loading="lazy"
 
   className="h-48 w-full object-cover"
 
@@ -347,6 +349,17 @@ bg-gradient-to-b from-[#e9dfcf] via-[#fce590]/20 to-transparent" />
           </div>
         </div>
       </section>
+      <section className="px-6 md:px-20 py-8 max-w-2xl mx-auto text-center">
+
+  <h2 className="text-lg md:text-2xl font-medium text-[#2c2c2c] mb-2">
+    Frühstück & Brunch in Mülheim an der Ruhr
+  </h2>
+
+  <p className="text-sm text-[#5c4432]/70 leading-relaxed">
+    Frisches Frühstück, Croissants und Brunch in Mülheim.
+  </p>
+
+</section>
 
     </main>
   );
