@@ -84,8 +84,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.facebook.com/share/18Syq8Jxcd/?mibextid=LQQJ4d
-                "
+                href="https://www.facebook.com/share/18Syq8Jxcd/?mibextid=LQQJ4d"
                 className="w-10 h-10 rounded-full flex items-center justify-center 
                 bg-black/5 hover:bg-[#1877F2] hover:text-white transition"
               >
@@ -101,23 +100,25 @@ export default function Footer() {
         <div className="mt-8 mb-5 h-[1px] w-full bg-gradient-to-r from-transparent via-[#b88a5a]/40 to-transparent" />
 
         {/* BOTTOM */}
-        <div className="flex flex-wrap justify-center gap-3 text-xs text-[#2c2c2c]/60">
+        <div className="flex flex-wrap justify-center items-center gap-4 text-xs text-[#2c2c2c]/60">
 
-          <span>© {new Date().getFullYear()} Café ERET</span>
+  <span>© {new Date().getFullYear()} Café ERET</span>
 
-          <Link href="/impressum" className="hover:text-[#cc5c06] transition">
-            Impressum
-          </Link>
+  <span className="opacity-40">|</span>
 
-          <Link href="/datenschutz" className="hover:text-[#cc5c06] transition">
-            Datenschutz
-          </Link>
+  <Link href="/impressum" className="hover:text-[#cc5c06] transition">
+    Impressum
+  </Link>
 
-          <Link href="/agb" className="hover:text-[#cc5c06] transition">
-            AGB
-          </Link>
+  <Link href="/datenschutz" className="hover:text-[#cc5c06] transition">
+    Datenschutz
+  </Link>
 
-        </div>
+  <Link href="/agb" className="hover:text-[#cc5c06] transition">
+    AGB
+  </Link>
+
+</div>
       </div>
     </footer>
   );

@@ -42,8 +42,16 @@ export default function ImpressumPage() {
 
           <p>
             <strong>Kontakt:</strong><br />
-            Telefon: +49 176 5934 2961<br />
-            E-Mail: familiencafe.de@gmail.com
+            Telefon: <a href="tel:+4917659342961">
+
+  +49 176 5934 2961
+
+</a><br />
+            E-Mail: <a href="mailto:familiencafe.de@gmail.com">
+
+  familiencafe.de@gmail.com
+
+</a>
           </p>
 
           <p>

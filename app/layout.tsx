@@ -5,6 +5,7 @@ import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { Playfair_Display } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CookieBanner from "@/components/CookieBanner";
 
 const font = Playfair_Display({ subsets: ["latin"] });
 
@@ -84,6 +85,7 @@ export default function RootLayout({
           }}
         />
         
+      <CookieBanner /> 
       </body>
     </html>
   );
