@@ -7,8 +7,20 @@ export async function POST(req: Request) {
   try {
     const { items, form } = await req.json();
 
+    // ❗ проверка товаров
     if (!items || items.length === 0) {
-      return NextResponse.json({ error: "No items" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No items" },
+        { status: 400 }
+      );
+    }
+
+    // ❗ проверка формы (очень желательно)
+    if (!form?.name || !form?.phone || !form?.address) {
+      return NextResponse.json(
+        { error: "Missing form data" },
+        { status: 400 }
+      );
     }
 
     const line_items = items.map((item: any) => ({
@@ -33,7 +45,7 @@ export async function POST(req: Request) {
       metadata: {
         order: JSON.stringify({
           items,
-          form: form || {},
+          form,
           payment: "card",
         }),
       },
@@ -41,7 +53,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Stripe error" }, { status: 500 });
+    console.error("Stripe error:", err);
+    return NextResponse.json(
+      { error: "Stripe error" },
+      { status: 500 }
+    );
   }
 }
