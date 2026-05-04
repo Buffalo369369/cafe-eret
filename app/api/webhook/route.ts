@@ -38,14 +38,26 @@ async function sendToTelegram(order: any) {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
 
+  // 🔢 номер заказа
   const orderId = Math.floor(1000 + Math.random() * 9000);
-  const time = new Date().toLocaleString("de-DE");
 
+  // 🇩🇪 время Германии
+  const time = new Date().toLocaleString("de-DE", {
+    timeZone: "Europe/Berlin",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // 🧾 строки заказа
   const itemsLines = order.items.map(
     (i: any) =>
       `• ${i.name} x${i.qty} — ${(i.price * i.qty).toFixed(2)} €`
   );
 
+  // 💰 сумма
   const total = order.items.reduce(
     (sum: number, i: any) => sum + i.price * i.qty,
     0
