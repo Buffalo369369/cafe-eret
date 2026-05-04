@@ -38,27 +38,36 @@ async function sendToTelegram(order: any) {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
 
-  const itemsText = order.items
-    ?.map((i: any) => `${i.name} x${i.qty}`)
-    .join("\n");
+  const orderId = Math.floor(1000 + Math.random() * 9000);
+  const time = new Date().toLocaleString("de-DE");
 
-  // ✅ ВОТ ЭТО ДОБАВЛЯЕМ
+  const itemsLines = order.items.map(
+    (i: any) =>
+      `• ${i.name} x${i.qty} — ${(i.price * i.qty).toFixed(2)} €`
+  );
+
   const total = order.items.reduce(
-  (sum: number, i: any) => sum + i.price * i.qty,
-  0
-);
+    (sum: number, i: any) => sum + i.price * i.qty,
+    0
+  );
 
-const text = `
-<b>Новый заказ (💳 Карта)</b>
+  const text = `
+🛒 Новый заказ #${orderId}
 
-<b>Имя:</b> ${order.form.name}
-<b>Телефон:</b> ${order.form.phone}
-<b>Адрес:</b> ${order.form.address}
+🕒 ${time}
 
-<b>Заказ:</b>
-${order.items.map((i: any) => `${i.name} x${i.qty}`).join("\n")}
+👤 ${order.form?.name || "-"}
+📞 ${order.form?.phone || "-"}
+📍 ${order.form?.address || "-"}
 
-<b>Сумма:</b> ${total.toFixed(2)} €
+💬 ${order.form?.comment || "-"}
+
+💳 Karte
+
+🧾 ЗАКАЗ:
+${itemsLines.join("\n")}
+
+💰 ИТОГО: ${total.toFixed(2)} €
 `;
 
   await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
@@ -67,7 +76,6 @@ ${order.items.map((i: any) => `${i.name} x${i.qty}`).join("\n")}
     body: JSON.stringify({
       chat_id: CHAT_ID,
       text,
-      parse_mode: "HTML",
     }),
   });
 }
