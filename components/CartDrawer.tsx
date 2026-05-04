@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/store/cart";
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 type CartDrawerProps = {
   open: boolean;
@@ -11,6 +12,7 @@ type CartDrawerProps = {
 
 export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
   const items = useCart((s) => s.items);
+  const router = useRouter();
   const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   const increase = useCart((s) => s.increaseQty);
@@ -18,6 +20,8 @@ export default function CartDrawer({ open, setOpen }: CartDrawerProps) {
   const remove = useCart((s) => s.removeItem);
 
   const drawerRef = useRef<HTMLDivElement>(null);
+
+ 
 
   // 🔒 lock scroll + focus
   useEffect(() => {
@@ -167,15 +171,21 @@ dragElastic={0.2}
               </div>
 
               <button
-                className="
-                  w-full py-3 rounded-full 
-                  bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06] 
-                  text-black font-medium 
-                  active:scale-95 transition
-                "
-              >
-                Jetzt bestellen
-              </button>
+  disabled={items.length === 0}
+  onClick={() => {
+    setOpen(false);
+    router.push("/checkout");
+  }}
+  className="
+    w-full py-3 rounded-full 
+    bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06] 
+    text-black font-medium 
+    active:scale-95 transition
+    disabled:opacity-50
+  "
+>
+  Jetzt bestellen
+</button>
             </div>
 
           </motion.div>

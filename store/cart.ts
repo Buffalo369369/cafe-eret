@@ -16,6 +16,8 @@ type CartStore = {
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;
 
+  clearCart: () => void; // ✅ ВОТ ЭТОГО НЕ ХВАТАЛО
+
   total: () => number;
   count: () => number;
 };
@@ -46,6 +48,9 @@ export const useCart = create<CartStore>()(
           items: get().items.filter((i) => i.id !== id),
         });
       },
+
+      // ✅ ОЧИСТКА КОРЗИНЫ
+      clearCart: () => set({ items: [] }),
 
       increaseQty: (id) => {
         set({

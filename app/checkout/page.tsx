@@ -1,0 +1,181 @@
+"use client";
+
+import { useCart } from "@/store/cart";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+export default function CheckoutPage() {
+  const items = useCart((s) => s.items);
+  const clearCart = useCart((s) => s.clearCart);
+  const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+  const [payment, setPayment] = useState<"cash" | "card">("cash");
+
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    comment: "",
+  });
+
+  const handleSubmit = async () => {
+    if (loading) return;
+    if (!form.name || !form.phone || !form.address) {
+      toast.error("Bitte alle Pflichtfelder ausfüllen");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // 💳 ОПЛАТА КАРТОЙ → Stripe
+      if (payment === "card") {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ items, form }),
+        });
+
+        const data = await res.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          toast.error("Fehler bei Stripe");
+        }
+      }
+
+      // 💵 НАЛИЧНЫЕ → просто отправка
+     if (payment === "cash") {
+  await fetch("/api/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ items, form, payment: "cash" }),
+  });
+
+  toast.success("Bestellung gesendet 🎉");
+
+  clearCart();              // ✅ ВОТ ЭТО ГЛАВНОЕ
+  router.push("/success");  // ✅ чтобы логика была одинаковая
+}
+    } catch (e) {
+      toast.error("Fehler beim Senden");
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <main className="bg-[#e9dfcf] pt-[90px] md:pt-[110px] min-h-screen px-6 md:px-20 py-12">
+
+      <div className="max-w-3xl mx-auto space-y-10">
+
+        <h1 className="text-3xl md:text-5xl font-semibold text-center text-[#2c2c2c]">
+          Checkout
+        </h1>
+
+        {/* FORM */}
+        <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
+
+          <input
+            placeholder="Name *"
+            className="w-full border px-4 py-2 rounded-lg"
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+
+          <input
+            placeholder="Telefon *"
+            className="w-full border px-4 py-2 rounded-lg"
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          />
+
+          <input
+            placeholder="Adresse *"
+            className="w-full border px-4 py-2 rounded-lg"
+            onChange={(e) => setForm({ ...form, address: e.target.value })}
+          />
+
+          <textarea
+            placeholder="Kommentar"
+            className="w-full border px-4 py-2 rounded-lg"
+            onChange={(e) => setForm({ ...form, comment: e.target.value })}
+          />
+
+        </div>
+
+        {/* PAYMENT */}
+        <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
+
+          <h2 className="text-lg font-semibold">Zahlungsmethode</h2>
+
+          <div className="flex gap-4">
+
+            <button
+              onClick={() => setPayment("cash")}
+              className={`px-4 py-2 rounded-full ${
+                payment === "cash"
+                  ? "bg-[#2c2c2c] text-white"
+                  : "bg-gray-100"
+              }`}
+            >
+              💵 Bar
+            </button>
+
+            <button
+              onClick={() => setPayment("card")}
+              className={`px-4 py-2 rounded-full ${
+                payment === "card"
+                  ? "bg-[#2c2c2c] text-white"
+                  : "bg-gray-100"
+              }`}
+            >
+              💳 Karte
+            </button>
+
+          </div>
+
+        </div>
+
+        {/* SUMMARY */}
+        <div className="bg-white p-6 rounded-2xl shadow-md">
+
+          <h2 className="font-semibold mb-4">Bestellung</h2>
+
+          <div className="space-y-2">
+            {items.map((item) => (
+              <div key={item.id} className="flex justify-between">
+                <span>{item.name} x{item.qty}</span>
+                <span>{(item.price * item.qty).toFixed(2)} €</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 border-t pt-4 flex justify-between font-semibold">
+            <span>Gesamt</span>
+            <span>{total.toFixed(2)} €</span>
+          </div>
+
+        </div>
+
+        {/* BUTTON */}
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full py-3 rounded-full bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06]"
+        >
+          {loading ? "Lädt..." : "Bestellen 🚀"}
+        </button>
+
+      </div>
+
+    </main>
+  );
+}
