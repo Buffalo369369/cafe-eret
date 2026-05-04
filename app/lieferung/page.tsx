@@ -23,7 +23,7 @@ export default function DeliveryPage() {
         <div className="absolute inset-0 overflow-hidden">
           <motion.div style={{ y }} className="w-full h-[125%]">
             <div
-              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_80%]"
+              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_52%]"
               style={{ backgroundImage: "url('/delivery.jpg')" }}
             />
           </motion.div>
@@ -82,7 +82,7 @@ export default function DeliveryPage() {
   />
 
   {/* МЯГКИЙ ЦВЕТ (очень прозрачный!) */}
-  <div className="absolute inset-0 bg-[#e9dfcf]/40" />
+  <div className="absolute inset-0 bg-[#e9dfcf]/25" />
 
   <div className="absolute inset-0 bg-gradient-to-b from-[#e9dfcf]/70 via-transparent to-[#e9dfcf]/70" />
 

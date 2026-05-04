@@ -47,25 +47,26 @@ export default function MenuPage() {
   const [active, setActive] = useState(menuData[0]?.title);
 
   return (
-    <main className="pt-[70px] md:pt-[90px]">
+    <main>
 
       {/* HEADER */}
-      <section className="relative py-6 md:py-10 px-6 md:px-20 text-center overflow-hidden bg-[#e9dfcf]">
+<section className="relative pt-[110px] pb-10 md:pt-[110px] md:pb-16 px-6 md:px-20 text-center overflow-hidden">
 
-  {/* фон */}
+  {/* PAPER BACKGROUND */}
   <div
     className="
       absolute inset-0
-      bg-[url('/paper.jpg')]
+      bg-[url('/paper2.jpg')]
       bg-cover
       bg-center
-      opacity-30
+      opacity-60
     "
   />
 
-  <div className="absolute inset-0 bg-[#e9dfcf]/80" />
+  {/* SOFT OVERLAY */}
+  <div className="absolute inset-0 bg-[#e9dfcf]/40" />
 
-  {/* текст */}
+  {/* CONTENT */}
   <div className="relative z-10">
     <h1 className="text-3xl md:text-6xl font-semibold text-[#2c2c2c]">
       Speisekarte
@@ -117,7 +118,7 @@ export default function MenuPage() {
      
 
       {/* MENU */}
-     <section className="relative px-6 md:px-20 py-10 md:py-16 bg-[#e9dfcf]">
+     <section className="relative px-6 md:px-20 py-10 md:py-16">
 
   <div
     className="
@@ -125,7 +126,7 @@ export default function MenuPage() {
       bg-[url('/paper.jpg')]
       bg-cover
       bg-center
-      opacity-20
+      opacity-40
       pointer-events-none
     "
   />
