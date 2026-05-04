@@ -99,24 +99,28 @@ export default function Footer() {
         {/* DIVIDER */}
         <div className="mt-8 mb-5 h-[1px] w-full bg-gradient-to-r from-transparent via-[#b88a5a]/40 to-transparent" />
 
+        
         {/* BOTTOM */}
-        <div className="flex flex-wrap justify-center items-center gap-4 text-xs text-[#2c2c2c]/60">
+<div className="text-center text-xs text-[#2c2c2c]/60 space-y-2 mt-6">
 
-  <span>© {new Date().getFullYear()} Café ERET</span>
+  <div>
+    © {new Date().getFullYear()} Café ERET
+    <span className="mx-2 opacity-40"></span>
+  </div>
 
-  <span className="opacity-40">|</span>
+  <div className="flex justify-center gap-4 flex-wrap">
+    <Link href="/impressum" className="hover:text-[#cc5c06] transition">
+      Impressum
+    </Link>
 
-  <Link href="/impressum" className="hover:text-[#cc5c06] transition">
-    Impressum
-  </Link>
+    <Link href="/datenschutz" className="hover:text-[#cc5c06] transition">
+      Datenschutz
+    </Link>
 
-  <Link href="/datenschutz" className="hover:text-[#cc5c06] transition">
-    Datenschutz
-  </Link>
-
-  <Link href="/agb" className="hover:text-[#cc5c06] transition">
-    AGB
-  </Link>
+    <Link href="/agb" className="hover:text-[#cc5c06] transition">
+      AGB
+    </Link>
+  </div>
 
 </div>
       </div>
