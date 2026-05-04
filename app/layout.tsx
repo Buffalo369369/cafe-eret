@@ -72,18 +72,16 @@ export default function RootLayout({
 
         {/* 🔔 TOASTER ВНУТРИ */}
         <Toaster
-          position="top-center"
-          toastOptions={{
-            style: {
-              background: "#f8f5ee",
-              color: "#2c2c2c",
-              borderRadius: "12px",
-              border: "1px solid #e0d6c3",
-              padding: "12px 16px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-            },
-          }}
-        />
+
+  position="top-center"
+
+  containerStyle={{
+
+    zIndex: 99999,
+
+  }}
+
+/>
         
       <CookieBanner /> 
       </body>

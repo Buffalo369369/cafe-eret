@@ -11,13 +11,19 @@ export default function DeliveryPage() {
     <main className="bg-[#e9dfcf]">
 
       {/* HERO */}
-      <section className="relative h-[250px] md:h-[320px] flex items-center justify-center text-center overflow-hidden">
+      <section className="
+  relative
+  h-[250px] md:h-[320px]
+  flex items-center justify-center
+  text-center
+  overflow-hidden
+">
 
         {/* PARALLAX */}
         <div className="absolute inset-0 overflow-hidden">
-          <motion.div style={{ y }} className="w-full h-[120%]">
+          <motion.div style={{ y }} className="w-full h-[125%]">
             <div
-              className="w-full h-full bg-cover bg-center"
+              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_80%]"
               style={{ backgroundImage: "url('/delivery.jpg')" }}
             />
           </motion.div>
@@ -28,17 +34,31 @@ export default function DeliveryPage() {
 
         {/* TITLE */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 text-white text-3xl md:text-5xl font-semibold"
-        >
-          Lieferung & Abholung
-        </motion.h1>
+
+  initial={{ opacity: 0, y: 30 }}
+
+  animate={{ opacity: 1, y: 0 }}
+
+  className="
+
+    relative z-10
+
+    text-white text-3xl md:text-5xl font-semibold
+
+    mt-15 md:mt-15
+
+  "
+
+>
+
+  Lieferung & Abholung
+
+</motion.h1>
 
       </section>
 
       {/* DELIVERY */}
-      <section className="px-6 md:px-20 py-12 md:py-16 max-w-5xl mx-auto text-center">
+      <section className="px-6 md:px-20 pt-6 pb-12 md:pt-10 md:pb-16 max-w-5xl mx-auto text-center">
 
         <h2 className="text-2xl md:text-4xl font-semibold text-[#2c2c2c] mb-6">
           Lieferung
@@ -53,17 +73,33 @@ export default function DeliveryPage() {
       </section>
 
       {/* PICKUP */}
-      <section className="px-6 md:px-20 py-12 md:py-16 bg-[#f5eee4] text-center">
+      <section className="relative px-6 md:px-20 pt-6 pb-12 md:pt-10 md:pb-16 text-center overflow-hidden">
 
-        <h2 className="text-2xl md:text-4xl font-semibold text-[#2c2c2c] mb-6">
-          Abholung
-        </h2>
+  {/* PAPER */}
+  <div
+    className="absolute inset-0 bg-cover bg-center opacity-60"
+    style={{ backgroundImage: "url('/paper2.jpg')" }}
+  />
 
-        <p className="text-[#5c4432] text-base md:text-lg max-w-xl mx-auto">
-          Du kannst deine Bestellung auch direkt bei uns abholen – schnell, einfach und ohne Wartezeit.
-        </p>
+  {/* МЯГКИЙ ЦВЕТ (очень прозрачный!) */}
+  <div className="absolute inset-0 bg-[#e9dfcf]/40" />
 
-      </section>
+  <div className="absolute inset-0 bg-gradient-to-b from-[#e9dfcf]/70 via-transparent to-[#e9dfcf]/70" />
+
+  {/* CONTENT */}
+  <div className="relative z-10">
+
+    <h2 className="text-2xl md:text-4xl font-semibold text-[#2c2c2c] mb-4">
+      Abholung
+    </h2>
+
+    <p className="text-[#5c4432] text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+      Du kannst deine Bestellung auch direkt bei uns abholen – schnell, einfach und ohne Wartezeit.
+    </p>
+
+  </div>
+
+</section>
 
       {/* INFO GRID */}
       <section className="px-6 md:px-20 py-12 md:py-16 max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
@@ -97,19 +133,31 @@ export default function DeliveryPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 md:px-20 py-16 text-center">
+      <section className="px-6 md:px-20 pt-0 pb-6 text-center">
 
-        <h2 className="text-2xl md:text-4xl font-semibold text-[#2c2c2c] mb-6">
-          Jetzt bestellen
-        </h2>
+  <div className="bg-white/70 backdrop-blur-md rounded-2xl py-6 px-6 shadow-md max-w-md mx-auto">
 
-        <Link href="/menu">
-          <button className="px-6 py-3 rounded-full bg-[#2c2c2c] text-white hover:bg-black transition">
-            Zur Speisekarte
-          </button>
-        </Link>
+    <h2 className="text-xl md:text-2xl font-semibold text-[#2c2c2c] mb-4">
+      Jetzt bestellen 🛒
+    </h2>
 
-      </section>
+    <Link href="/menu">
+      <button className="
+        px-6 py-2.5
+        rounded-full
+        bg-gradient-to-r from-[#fce590] via-[#f4b740] to-[#cc5c06]
+        text-[#2c2c2c]
+        text-sm font-medium
+        hover:scale-[1.05]
+        transition
+      ">
+        Zur Speisekarte
+      </button>
+    </Link>
+
+  </div>
+
+</section>
 
     </main>
   );

@@ -42,11 +42,16 @@ export default function ContactPage() {
       setLoading(false);
 
       if (res.ok) {
-        toast.success("Nachricht gesendet!");
-        form.reset();
-      } else {
-        toast.error("Fehler beim Senden");
-      }
+
+  toast.success("Nachricht erfolgreich gesendet ✨");
+
+  form.reset();
+
+} else {
+
+  toast.error("Fehler beim Senden ❌");
+
+}
     } catch (error) {
       setLoading(false);
       toast.error("Server Fehler");

@@ -38,9 +38,15 @@ function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   setTimeout(() => clone.remove(), 700);
 }
 
-const menu = menuData
-  .flatMap((section) => section.items)
-  .slice(0, 3);
+const menu = [
+
+  menuData[0].items[3], // 2-е блюдо
+
+  menuData[1].items[0], // из другой категории
+
+  menuData[3].items[1],
+
+];
 
 export default function Home() {
   const { scrollY } = useScroll();
