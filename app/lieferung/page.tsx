@@ -2,11 +2,10 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function DeliveryPage() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, -40]); // мягкий параллакс
+  const y = useTransform(scrollY, [0, 500], [0, -80]); // мягкий параллакс
 
   return (
     <main className="bg-[#e9dfcf]">
@@ -23,24 +22,10 @@ export default function DeliveryPage() {
         {/* PARALLAX */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div style={{ y }} className="w-full h-[125%]">
-            <div className="absolute inset-0 bg-[#e9dfcf]">
-
-  <Image
-    src="/delivery.jpg"
-    alt="Lieferung ERET Café"
-    fill
-    priority
-    className="
-      object-cover object-center md:object-[center_80%]
-      opacity-0
-      transition-opacity duration-700
-    "
-    onLoadingComplete={(img) => {
-      img.style.opacity = "1";
-    }}
-  />
-
-</div>
+            <div
+              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_52%]"
+              style={{ backgroundImage: "url('/delivery.jpg')" }}
+            />
           </motion.div>
         </div>
 
