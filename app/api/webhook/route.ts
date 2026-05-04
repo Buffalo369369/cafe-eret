@@ -42,15 +42,23 @@ async function sendToTelegram(order: any) {
     ?.map((i: any) => `${i.name} x${i.qty}`)
     .join("\n");
 
-  const text = `
-🛒 <b>Новый заказ (КАРТА)</b>
+  // ✅ ВОТ ЭТО ДОБАВЛЯЕМ
+  const total = order.items.reduce(
+  (sum: number, i: any) => sum + i.price * i.qty,
+  0
+);
 
-👤 ${order.form?.name || "-"}
-📞 ${order.form?.phone || "-"}
-📍 ${order.form?.address || "-"}
+const text = `
+<b>Новый заказ (💳 Карта)</b>
 
-🧾:
-${itemsText}
+<b>Имя:</b> ${order.form.name}
+<b>Телефон:</b> ${order.form.phone}
+<b>Адрес:</b> ${order.form.address}
+
+<b>Заказ:</b>
+${order.items.map((i: any) => `${i.name} x${i.qty}`).join("\n")}
+
+<b>Сумма:</b> ${total.toFixed(2)} €
 `;
 
   await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
