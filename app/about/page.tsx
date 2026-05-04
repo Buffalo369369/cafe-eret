@@ -2,29 +2,49 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
     <main className="bg-[#e9dfcf]">
 
-      {/* HERO */}
       <section className="relative h-[300px] md:h-[400px] flex items-center justify-center text-center overflow-hidden">
 
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/about.jpg')" }}
-        />
+  {/* IMAGE + ПЛАВНАЯ ЗАГРУЗКА */}
+  <div className="absolute inset-0">
 
-        <div className="absolute inset-0 bg-black/50" />
+    {/* фон чтобы не было серого */}
+    <div className="absolute inset-0 bg-[#e9dfcf]" />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 text-white text-3xl md:text-5xl font-semibold"
-        >
-          Über uns
-        </motion.h1>
-      </section>
+    <Image
+      src="/about.jpg"
+      alt="Über uns ERET Café"
+      fill
+      priority
+      className="
+        object-cover object-center
+        opacity-0 transition-opacity duration-700
+      "
+      onLoadingComplete={(img) => {
+        img.style.opacity = "1";
+      }}
+    />
+
+  </div>
+
+  {/* overlay */}
+  <div className="absolute inset-0 bg-black/50" />
+
+  {/* title */}
+  <motion.h1
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="relative z-10 text-white text-3xl md:text-5xl font-semibold"
+  >
+    Über uns
+  </motion.h1>
+
+</section>
 
       {/* TEXT */}
       <section className="px-6 md:px-20 py-12 md:py-16 max-w-4xl mx-auto text-center">
@@ -38,10 +58,13 @@ export default function AboutPage() {
       {/* IMAGE + TEXT */}
       <section className="px-6 md:px-20 py-10 md:py-16 grid md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto">
 
-        <img
-          src="/about2.jpg"
-          className="rounded-2xl shadow-lg"
-        />
+        <Image
+  src="/about2.jpg"
+  alt="ERET Café Innenbereich"
+  width={600}
+  height={400}
+  className="rounded-2xl shadow-lg object-cover"
+/>
 
         <div className="text-[#5c4432] space-y-4">
           <h2 className="text-2xl md:text-3xl font-semibold">

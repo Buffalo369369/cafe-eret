@@ -3,10 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function ContactPage() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, -120]);
+  const y = useTransform(scrollY, [0, 500], [0, -60]);
 
   const [loading, setLoading] = useState(false);
 
@@ -65,14 +66,47 @@ export default function ContactPage() {
       <section className="relative h-[250px] md:h-[320px] flex items-center justify-center text-center overflow-hidden">
 
         {/* PARALLAX */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div style={{ y }} className="w-full h-[120%]">
-            <div
-              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_80%]"
-              style={{ backgroundImage: "url('/contact.jpg')" }}
-            />
-          </motion.div>
-        </div>
+       <div className="absolute inset-0 overflow-hidden">
+
+  <motion.div style={{ y }} className="w-full h-[120%]">
+
+    {/* ФОН ЧТОБЫ НЕ БЫЛО СЕРОГО */}
+
+    <div className="absolute inset-0 bg-[#e9dfcf]">
+
+      <Image
+
+        src="/contact.jpg"
+
+        alt="Kontakt ERET Café"
+
+        fill
+
+        priority
+
+        className="
+
+          object-cover object-center md:object-[center_80%]
+
+          opacity-0
+
+          transition-opacity duration-700
+
+        "
+
+        onLoadingComplete={(img) => {
+
+          img.style.opacity = "1";
+
+        }}
+
+      />
+
+    </div>
+
+  </motion.div>
+
+</div>
 
         {/* OVERLAY */}
 <div className="absolute inset-0 bg-black/50" />
