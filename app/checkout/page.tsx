@@ -258,39 +258,61 @@ if (timeType === "scheduled") {
   </div>
 
   {timeType === "scheduled" && (
-  <div className="flex flex-col md:grid md:grid-cols-2 gap-4">
+  <div className="flex flex-col gap-4 w-full overflow-hidden">
 
-    <div className="space-y-2">
-      <label className="text-sm text-[#2c2c2c]/70">
-        Datum
+    {/* DATE */}
+    <div className="space-y-2 w-full">
+
+      <label className="text-sm text-[#2c2c2c]/70 block">
+        📅 Datum
       </label>
 
       <input
+        type="date"
+        value={scheduleDate}
+        min={new Date().toISOString().split("T")[0]}
+        onChange={(e) => setScheduleDate(e.target.value)}
+        className="
+          w-full
+          max-w-full
+          border
+          border-black/20
+          px-4
+          py-3
+          rounded-2xl
+          bg-white
+          outline-none
+          text-[#2c2c2c]
+        "
+      />
 
-  type="date"
-
-  value={scheduleDate}
-
-  min={new Date().toISOString().split("T")[0]}
-
-  onChange={(e) => setScheduleDate(e.target.value)}
-
-  className="w-full min-w-0 border px-4 py-3 rounded-2xl bg-white"
-
-/>
     </div>
 
-    <div className="space-y-2">
-      <label className="text-sm text-[#2c2c2c]/70">
-        Uhrzeit
+    {/* TIME */}
+    <div className="space-y-2 w-full">
+
+      <label className="text-sm text-[#2c2c2c]/70 block">
+        ⏰ Uhrzeit
       </label>
 
       <input
         type="time"
         value={scheduleTime}
         onChange={(e) => setScheduleTime(e.target.value)}
-        className="w-full min-w-0 border px-4 py-3 rounded-2xl bg-white"
+        className="
+          w-full
+          max-w-full
+          border
+          border-black/20
+          px-4
+          py-3
+          rounded-2xl
+          bg-white
+          outline-none
+          text-[#2c2c2c]
+        "
       />
+
     </div>
 
   </div>
