@@ -39,11 +39,14 @@ export default function AboutPage() {
             className="w-full h-[120%]"
           >
             <div
-              className="w-full h-full bg-cover bg-center"
-              style={{
-                backgroundImage: "url('/about.jpg')",
-              }}
-            />
+  className="
+    w-full h-full
+    bg-cover
+    bg-center
+    md:bg-[center_68%]
+  "
+  style={{ backgroundImage: "url('/about.jpg')" }}
+/>
           </motion.div>
 
         </div>

@@ -273,17 +273,18 @@ if (timeType === "scheduled") {
         min={new Date().toISOString().split("T")[0]}
         onChange={(e) => setScheduleDate(e.target.value)}
         className="
-          w-full
-          max-w-full
-          border
-          border-black/20
-          px-4
-          py-3
-          rounded-2xl
-          bg-white
-          outline-none
-          text-[#2c2c2c]
-        "
+  w-full
+  appearance-none
+  border
+  border-black/15
+  rounded-2xl
+  bg-white
+  px-4
+  h-[56px]
+  text-[#2c2c2c]
+  outline-none
+  overflow-hidden
+"
       />
 
     </div>
@@ -300,17 +301,18 @@ if (timeType === "scheduled") {
         value={scheduleTime}
         onChange={(e) => setScheduleTime(e.target.value)}
         className="
-          w-full
-          max-w-full
-          border
-          border-black/20
-          px-4
-          py-3
-          rounded-2xl
-          bg-white
-          outline-none
-          text-[#2c2c2c]
-        "
+  w-full
+  appearance-none
+  border
+  border-black/15
+  rounded-2xl
+  bg-white
+  px-4
+  h-[56px]
+  text-[#2c2c2c]
+  outline-none
+  overflow-hidden
+"
       />
 
     </div>
