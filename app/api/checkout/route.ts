@@ -5,7 +5,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
   try {
-    const { items, form } = await req.json();
+    const {
+  items,
+  form,
+  deliveryType,
+  timeType,
+  scheduleDate,
+  scheduleTime,
+} = await req.json();
 
     // ❗ проверка товаров
     if (!items || items.length === 0) {
@@ -16,12 +23,25 @@ export async function POST(req: Request) {
     }
 
     // ❗ проверка формы (очень желательно)
-    if (!form?.name || !form?.phone || !form?.address) {
-      return NextResponse.json(
-        { error: "Missing form data" },
-        { status: 400 }
-      );
-    }
+    if (
+
+  !form?.name ||
+
+  !form?.phone ||
+
+  (deliveryType === "delivery" && !form?.address)
+
+) {
+
+  return NextResponse.json(
+
+    { error: "Missing form data" },
+
+    { status: 400 }
+
+  );
+
+}
 
     const line_items = items.map((item: any) => ({
       price_data: {
@@ -43,12 +63,16 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/checkout`,
 
       metadata: {
-        order: JSON.stringify({
-          items,
-          form,
-          payment: "card",
-        }),
-      },
+  order: JSON.stringify({
+    items,
+    form,
+    payment: "card",
+    deliveryType,
+    timeType,
+    scheduleDate,
+    scheduleTime,
+  }),
+},
     });
 
     return NextResponse.json({ url: session.url });

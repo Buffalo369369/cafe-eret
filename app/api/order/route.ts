@@ -2,7 +2,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { items, form, payment } = await req.json();
+    const {
+  items,
+  form,
+  payment,
+  deliveryType,
+  timeType,
+  scheduleDate,
+  scheduleTime,
+} = await req.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "No items" }, { status: 400 });
@@ -48,6 +56,14 @@ export async function POST(req: Request) {
 💬 ${form?.comment || "-"}
 
 💳 ${payment === "card" ? "Karte" : "Bar"}
+
+${deliveryType === "pickup"
+  ? "🥡 Abholung"
+  : "🚚 Lieferung"}
+
+${timeType === "asap"
+  ? "⚡ So schnell wie möglich"
+  : `🕒 ${scheduleDate} — ${scheduleTime}`}
 
 🧾 ЗАКАЗ:
 ${itemsLines.join("\n")}

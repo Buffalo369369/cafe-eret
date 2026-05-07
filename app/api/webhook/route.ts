@@ -76,6 +76,14 @@ async function sendToTelegram(order: any) {
 
 💳 Karte
 
+${order.deliveryType === "pickup"
+  ? "🥡 Abholung"
+  : "🚚 Lieferung"}
+
+  ${order.timeType === "asap"
+  ? "⚡ So schnell wie möglich"
+  : `🕒 ${order.scheduleDate} — ${order.scheduleTime}`}
+
 🧾 ЗАКАЗ:
 ${itemsLines.join("\n")}
 

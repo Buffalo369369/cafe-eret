@@ -23,7 +23,7 @@ export default function DatenschutzPage() {
       <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-20 py-32">
 
         <h1 className="text-4xl md:text-5xl font-semibold mb-12 text-[#5c4432] text-center">
-          Datenschutzerklärung
+          Datenschutz
         </h1>
 
         <div className="bg-white/60 backdrop-blur-md rounded-2xl p-8 md:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-white/30 text-[15px] leading-relaxed whitespace-pre-line">

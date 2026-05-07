@@ -14,6 +14,14 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
   const [payment, setPayment] = useState<"cash" | "card">("cash");
+  const [deliveryType, setDeliveryType] =
+  useState<"delivery" | "pickup">("delivery");
+
+const [timeType, setTimeType] =
+  useState<"asap" | "scheduled">("asap");
+
+const [scheduleDate, setScheduleDate] = useState("");
+const [scheduleTime, setScheduleTime] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -24,10 +32,58 @@ export default function CheckoutPage() {
 
   const handleSubmit = async () => {
     if (loading) return;
-    if (!form.name || !form.phone || !form.address) {
+    if (
+  !form.name ||
+  !form.phone ||
+  (deliveryType === "delivery" && !form.address)
+) {
+  toast.error("Bitte alle Pflichtfelder ausfüllen");
+  return;
+} {
       toast.error("Bitte alle Pflichtfelder ausfüllen");
       return;
     }
+
+if (timeType === "scheduled") {
+
+  if (!scheduleDate || !scheduleTime) {
+    toast.error("Bitte Datum und Uhrzeit wählen");
+    return;
+  }
+
+  const selected = new Date(
+    `${scheduleDate}T${scheduleTime}`
+  );
+
+  const now = new Date();
+
+  if (selected < now) {
+    toast.error("Bitte zukünftige Zeit wählen");
+    return;
+  }
+
+  const day = selected.getDay();
+  const hour = selected.getHours();
+  const minutes = selected.getMinutes();
+
+  // Montag
+  if (day === 1) {
+    toast.error("Montag geschlossen");
+    return;
+  }
+
+  // раньше 10:00
+  if (hour < 10) {
+    toast.error("Wir öffnen um 10:00");
+    return;
+  }
+
+  // позже 17:00
+  if (hour > 16 || (hour === 16 && minutes > 59)) {
+    toast.error("Bestellungen nur bis 17:00 möglich");
+    return;
+  }
+}
 
     setLoading(true);
 
@@ -39,7 +95,14 @@ export default function CheckoutPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ items, form }),
+          body: JSON.stringify({
+  items,
+  form,
+  deliveryType,
+  timeType,
+  scheduleDate,
+  scheduleTime,
+}),
         });
 
         const data = await res.json();
@@ -58,7 +121,15 @@ export default function CheckoutPage() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ items, form, payment: "cash" }),
+    body: JSON.stringify({
+  items,
+  form,
+  payment: "cash",
+  deliveryType,
+  timeType,
+  scheduleDate,
+  scheduleTime,
+}),
   });
 
   toast.success("Bestellung gesendet 🎉");
@@ -97,11 +168,15 @@ export default function CheckoutPage() {
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
 
-          <input
-            placeholder="Adresse *"
-            className="w-full border px-4 py-2 rounded-lg"
-            onChange={(e) => setForm({ ...form, address: e.target.value })}
-          />
+         {deliveryType === "delivery" && (
+  <input
+    placeholder="Adresse *"
+    className="w-full border px-4 py-2 rounded-lg"
+    onChange={(e) =>
+      setForm({ ...form, address: e.target.value })
+    }
+  />
+)}
 
           <textarea
             placeholder="Kommentar"
@@ -110,6 +185,101 @@ export default function CheckoutPage() {
           />
 
         </div>
+
+{/* DELIVERY TYPE */}
+<div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
+
+  <h2 className="text-lg font-semibold">
+    Bestellungstyp
+  </h2>
+
+  <div className="flex gap-4 flex-wrap">
+
+    <button
+      onClick={() => setDeliveryType("delivery")}
+      className={`px-4 py-2 rounded-full ${
+        deliveryType === "delivery"
+          ? "bg-[#2c2c2c] text-white"
+          : "bg-gray-100"
+      }`}
+    >
+      🚚 Lieferung
+    </button>
+
+    <button
+      onClick={() => {
+  setDeliveryType("pickup");
+
+  setForm({
+    ...form,
+    address: "",
+  });
+}}
+      className={`px-4 py-2 rounded-full ${
+        deliveryType === "pickup"
+          ? "bg-[#2c2c2c] text-white"
+          : "bg-gray-100"
+      }`}
+    >
+      🥡 Abholung
+    </button>
+
+  </div>
+
+</div>
+
+{/* DELIVERY TIME */}
+<div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
+
+  <h2 className="text-lg font-semibold">
+    Lieferzeit
+  </h2>
+
+  <div className="flex gap-4 flex-wrap">
+
+    <button
+      onClick={() => setTimeType("asap")}
+      className={`px-4 py-2 rounded-full ${
+        timeType === "asap"
+          ? "bg-[#2c2c2c] text-white"
+          : "bg-gray-100"
+      }`}
+    >
+      ⚡ So schnell wie möglich
+    </button>
+
+    <button
+      onClick={() => setTimeType("scheduled")}
+      className={`px-4 py-2 rounded-full ${
+        timeType === "scheduled"
+          ? "bg-[#2c2c2c] text-white"
+          : "bg-gray-100"
+      }`}
+    >
+      🕒 Bestimmte Uhrzeit
+    </button>
+
+  </div>
+
+  {timeType === "scheduled" && (
+    <div className="grid md:grid-cols-2 gap-4">
+
+      <input
+        type="date"
+        className="w-full border px-4 py-2 rounded-lg"
+        onChange={(e) => setScheduleDate(e.target.value)}
+      />
+
+      <input
+        type="time"
+        className="w-full border px-4 py-2 rounded-lg"
+        onChange={(e) => setScheduleTime(e.target.value)}
+      />
+
+    </div>
+  )}
+
+</div>
 
         {/* PAYMENT */}
         <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
