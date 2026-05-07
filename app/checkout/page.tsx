@@ -32,18 +32,14 @@ const [scheduleTime, setScheduleTime] = useState("");
 
   const handleSubmit = async () => {
     if (loading) return;
-    if (
+   if (
   !form.name ||
   !form.phone ||
   (deliveryType === "delivery" && !form.address)
 ) {
   toast.error("Bitte alle Pflichtfelder ausfüllen");
   return;
-} {
-      toast.error("Bitte alle Pflichtfelder ausfüllen");
-      return;
-    }
-
+}
 if (timeType === "scheduled") {
 
   if (!scheduleDate || !scheduleTime) {
@@ -210,10 +206,10 @@ if (timeType === "scheduled") {
       onClick={() => {
   setDeliveryType("pickup");
 
-  setForm({
-    ...form,
+  setForm((prev) => ({
+    ...prev,
     address: "",
-  });
+  }));
 }}
       className={`px-4 py-2 rounded-full ${
         deliveryType === "pickup"
@@ -262,22 +258,43 @@ if (timeType === "scheduled") {
   </div>
 
   {timeType === "scheduled" && (
-    <div className="grid md:grid-cols-2 gap-4">
+  <div className="flex flex-col md:grid md:grid-cols-2 gap-4">
+
+    <div className="space-y-2">
+      <label className="text-sm text-[#2c2c2c]/70">
+        Datum
+      </label>
 
       <input
-        type="date"
-        className="w-full border px-4 py-2 rounded-lg"
-        onChange={(e) => setScheduleDate(e.target.value)}
-      />
+
+  type="date"
+
+  value={scheduleDate}
+
+  min={new Date().toISOString().split("T")[0]}
+
+  onChange={(e) => setScheduleDate(e.target.value)}
+
+  className="w-full min-w-0 border px-4 py-3 rounded-2xl bg-white"
+
+/>
+    </div>
+
+    <div className="space-y-2">
+      <label className="text-sm text-[#2c2c2c]/70">
+        Uhrzeit
+      </label>
 
       <input
         type="time"
-        className="w-full border px-4 py-2 rounded-lg"
+        value={scheduleTime}
         onChange={(e) => setScheduleTime(e.target.value)}
+        className="w-full min-w-0 border px-4 py-3 rounded-2xl bg-white"
       />
-
     </div>
-  )}
+
+  </div>
+)}
 
 </div>
 
