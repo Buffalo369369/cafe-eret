@@ -63,15 +63,14 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/checkout`,
 
       metadata: {
-  order: JSON.stringify({
-    items,
-    form,
-    payment: "card",
-    deliveryType,
-    timeType,
-    scheduleDate,
-    scheduleTime,
-  }),
+  name: form.name,
+  phone: form.phone,
+  address: form.address || "",
+  payment: "card",
+  deliveryType,
+  timeType,
+  scheduleDate: scheduleDate || "",
+  scheduleTime: scheduleTime || "",
 },
     });
 
