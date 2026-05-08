@@ -167,7 +167,7 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 z-[10001]"
+            className="fixed inset-0 bg-black/20 z-[9999]"
             onClick={() => setMenuOpen(false)}
           />
         )}
