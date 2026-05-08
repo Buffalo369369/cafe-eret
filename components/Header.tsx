@@ -23,6 +23,20 @@ export default function Header() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+
+  document.body.style.overflow =
+
+    menuOpen || cartOpen ? "hidden" : "";
+
+  return () => {
+
+    document.body.style.overflow = "";
+
+  };
+
+}, [menuOpen, cartOpen]);
+
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-[10000] bg-[#e9dfcf]/90 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]">
@@ -82,7 +96,10 @@ export default function Header() {
 
             {/* 🛒 CART */}
             <button
-              id="cart-icon"
+
+  id="cart-icon"
+
+  aria-label="Warenkorb öffnen"
               onClick={() => {
                 setMenuOpen(false);
                 setCartOpen(true);
@@ -113,6 +130,9 @@ export default function Header() {
 
             {/* 🍔 BURGER */}
             <button
+  aria-label={
+    menuOpen ? "Menü schließen" : "Menü öffnen"
+  }
               onClick={() => {
                 setCartOpen(false);
                 setMenuOpen((prev) => !prev);
@@ -147,7 +167,7 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 z-[9998]"
+            className="fixed inset-0 bg-black/20 z-[10001]"
             onClick={() => setMenuOpen(false)}
           />
         )}

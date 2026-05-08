@@ -161,8 +161,16 @@ export default function MenuPage() {
     visible: { opacity: 1, y: 0 },
   }}
   transition={{ duration: 0.4 }}
+  className="
+    bg-white/80
+    backdrop-blur-md
+    rounded-3xl
+    overflow-hidden
+    shadow-lg
+  "
 >
                       <img
+  decoding="async"
   src={item.image}
   alt={`${item.name} – Frühstück im ERET Café Mülheim`}
   loading="lazy"

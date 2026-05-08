@@ -31,114 +31,142 @@ const [scheduleTime, setScheduleTime] = useState("");
   });
 
   const handleSubmit = async () => {
-    if (loading) return;
-   if (
-  !form.name ||
-  !form.phone ||
-  (deliveryType === "delivery" && !form.address)
-) {
-  toast.error("Bitte alle Pflichtfelder ausfüllen");
-  return;
-}
-if (timeType === "scheduled") {
+  if (loading) return;
 
-  if (!scheduleDate || !scheduleTime) {
-    toast.error("Bitte Datum und Uhrzeit wählen");
+  // ✅ validation
+  if (
+    !form.name ||
+    !form.phone ||
+    (deliveryType === "delivery" && !form.address)
+  ) {
+    toast.error("Bitte alle Pflichtfelder ausfüllen");
     return;
   }
 
-  const selected = new Date(
-    `${scheduleDate}T${scheduleTime}`
-  );
+  // ✅ scheduled time validation
+  if (timeType === "scheduled") {
 
-  const now = new Date();
-
-  if (selected < now) {
-    toast.error("Bitte zukünftige Zeit wählen");
-    return;
-  }
-
-  const day = selected.getDay();
-  const hour = selected.getHours();
-  const minutes = selected.getMinutes();
-
-  // Montag
-  if (day === 1) {
-    toast.error("Montag geschlossen");
-    return;
-  }
-
-  // раньше 10:00
-  if (hour < 10) {
-    toast.error("Wir öffnen um 10:00");
-    return;
-  }
-
-  // позже 17:00
-  if (hour > 16 || (hour === 16 && minutes > 59)) {
-    toast.error("Bestellungen nur bis 17:00 möglich");
-    return;
-  }
-}
-
-    setLoading(true);
-
-    try {
-      // 💳 ОПЛАТА КАРТОЙ → Stripe
-      if (payment === "card") {
-        const res = await fetch("/api/checkout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-  items,
-  form,
-  deliveryType,
-  timeType,
-  scheduleDate,
-  scheduleTime,
-}),
-        });
-
-        const data = await res.json();
-
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          toast.error("Fehler bei Stripe");
-        }
-      }
-
-      // 💵 НАЛИЧНЫЕ → просто отправка
-     if (payment === "cash") {
-  await fetch("/api/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-  items,
-  form,
-  payment: "cash",
-  deliveryType,
-  timeType,
-  scheduleDate,
-  scheduleTime,
-}),
-  });
-
-  toast.success("Bestellung gesendet 🎉");
-
-  clearCart();              // ✅ ВОТ ЭТО ГЛАВНОЕ
-  router.push("/success");  // ✅ чтобы логика была одинаковая
-}
-    } catch (e) {
-      toast.error("Fehler beim Senden");
+    if (!scheduleDate || !scheduleTime) {
+      toast.error("Bitte Datum und Uhrzeit wählen");
+      return;
     }
 
+    const selected = new Date(
+      `${scheduleDate}T${scheduleTime}`
+    );
+
+    const now = new Date();
+
+    if (selected < now) {
+      toast.error("Bitte zukünftige Zeit wählen");
+      return;
+    }
+
+    const day = selected.getDay();
+    const hour = selected.getHours();
+    const minutes = selected.getMinutes();
+
+    // Montag geschlossen
+    if (day === 1) {
+      toast.error("Montag geschlossen");
+      return;
+    }
+
+    // vor 10:00
+    if (hour < 10) {
+      toast.error("Wir öffnen um 10:00");
+      return;
+    }
+
+    // nach 17:00
+    if (hour > 16 || (hour === 16 && minutes > 59)) {
+      toast.error("Bestellungen nur bis 17:00 möglich");
+      return;
+    }
+  }
+
+  setLoading(true);
+
+  try {
+
+    // 💳 CARD PAYMENT
+    if (payment === "card") {
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items,
+          form,
+          deliveryType,
+          timeType,
+          scheduleDate,
+          scheduleTime,
+        }),
+      });
+
+      if (!res.ok) {
+        toast.error("Stripe Fehler");
+        setLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      toast.error("Fehler bei Stripe");
+    }
+
+    // 💵 CASH PAYMENT
+    if (payment === "cash") {
+
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items,
+          form,
+          payment: "cash",
+          deliveryType,
+          timeType,
+          scheduleDate,
+          scheduleTime,
+        }),
+      });
+
+      if (!res.ok) {
+        toast.error("Fehler beim Senden");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Bestellung gesendet 🎉");
+
+      clearCart();
+
+      router.push("/success");
+    }
+
+  } catch (e) {
+
+    console.error(e);
+
+    toast.error("Fehler beim Senden");
+
+  } finally {
+
     setLoading(false);
-  };
+
+  }
+};
 
   return (
     <main className="bg-[#e9dfcf] pt-[90px] md:pt-[110px] min-h-screen px-6 md:px-20 py-12">

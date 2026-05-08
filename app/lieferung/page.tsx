@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function DeliveryPage() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, -80]); // мягкий параллакс
+  const y = useTransform(scrollY, [0, 300], [0, -60]); // мягкий параллакс
 
   return (
     <main className="bg-[#e9dfcf]">

@@ -8,8 +8,8 @@ export default function SuccessPage() {
   const clearCart = useCart((s) => s.clearCart);
 
   useEffect(() => {
-    clearCart();
-  }, []);
+  clearCart();
+}, [clearCart]);
 
   return (
     <main className="bg-[#e9dfcf] min-h-screen flex items-center justify-center px-6 pt-[100px] pb-20">

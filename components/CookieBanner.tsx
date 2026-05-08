@@ -31,7 +31,7 @@ export default function CookieBanner() {
       bg-white/90 backdrop-blur-md
       border border-[#e0d6c3]
       rounded-2xl shadow-xl
-      p-5 z-[9999]
+      p-5 z-[10001]
     ">
       <p className="text-sm text-[#2c2c2c] mb-4 leading-relaxed">
         Wir verwenden Cookies, um unsere Website zu verbessern und Ihnen die

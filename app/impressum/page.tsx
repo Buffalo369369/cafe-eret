@@ -70,6 +70,7 @@ export default function ImpressumPage() {
             <a
               href="https://ec.europa.eu/consumers/odr/"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-[#b88a5a] underline hover:text-[#cc5c06] transition"
             >
               https://ec.europa.eu/consumers/odr/

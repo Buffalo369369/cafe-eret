@@ -51,7 +51,9 @@ export async function POST(req: Request) {
 
 👤 ${form?.name || "-"}
 📞 ${form?.phone || "-"}
-📍 ${form?.address || "-"}
+${deliveryType === "delivery"
+  ? `📍 ${form?.address || "-"}`
+  : ""}
 
 💬 ${form?.comment || "-"}
 

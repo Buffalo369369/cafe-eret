@@ -159,6 +159,7 @@ export default function ContactPage() {
             />
 
             <textarea
+  maxLength={2000}
               name="message"
               placeholder="Nachricht"
               rows={4}
@@ -168,7 +169,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 rounded-full bg-[#2c2c2c] text-white hover:bg-black transition disabled:opacity-50"
+              className="w-full py-2 rounded-full bg-[#2c2c2c] text-white hover:bg-black transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Senden..." : "Senden"}
             </button>

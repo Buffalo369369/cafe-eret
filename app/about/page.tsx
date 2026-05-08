@@ -135,8 +135,10 @@ export default function AboutPage() {
               <div className="overflow-hidden rounded-3xl shadow-xl">
 
                 <img
-                  src={img}
-                  alt=""
+
+  src={img}
+
+  alt="Café ERET"
                   className="
                     w-full
                     h-[260px] md:h-[420px]

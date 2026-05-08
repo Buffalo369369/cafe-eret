@@ -3,45 +3,66 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY as string
+);
 
 export async function POST(req: Request) {
+
   const body = await req.text();
 
-  const sig = req.headers.get("stripe-signature") || "";
+  const sig =
+    req.headers.get("stripe-signature") || "";
 
   let event: Stripe.Event;
 
   try {
+
     event = stripe.webhooks.constructEvent(
       body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+
   } catch (err) {
-    console.error("Webhook error:", err);
+
+    console.error(
+      "Webhook error:",
+      err
+    );
 
     return NextResponse.json(
       { error: "Webhook error" },
       { status: 400 }
     );
+
   }
 
   // ✅ successful payment
-  if (event.type === "checkout.session.completed") {
+  if (
+    event.type ===
+    "checkout.session.completed"
+  ) {
 
-    // 🔥 получаем session + товары
-    const session = await stripe.checkout.sessions.retrieve(
-      (event.data.object as Stripe.Checkout.Session).id,
-      {
-        expand: ["line_items"],
-      }
-    );
+    // 🔥 session + items
+    const session =
+      await stripe.checkout.sessions.retrieve(
+        (
+          event.data.object as
+          Stripe.Checkout.Session
+        ).id,
+        {
+          expand: ["line_items"],
+        }
+      );
 
     await sendToTelegram(session);
+
   }
 
-  return NextResponse.json({ received: true });
+  return NextResponse.json({
+    received: true,
+  });
 }
 
 // 📩 TELEGRAM
@@ -64,10 +85,15 @@ async function sendToTelegram(
     "de-DE",
     {
       timeZone: "Europe/Berlin",
+
       day: "2-digit",
+
       month: "2-digit",
+
       year: "numeric",
+
       hour: "2-digit",
+
       minute: "2-digit",
     }
   );
@@ -93,9 +119,12 @@ async function sendToTelegram(
 
 👤 ${meta.name || "-"}
 📞 ${meta.phone || "-"}
+
 ${meta.deliveryType === "delivery"
   ? `📍 ${meta.address || "-"}`
   : ""}
+
+💬 ${meta.comment || "-"}
 
 💳 Karte
 
@@ -113,19 +142,39 @@ ${itemsLines.join("\n")}
 💰 ИТОГО: ${total.toFixed(2)} €
 `;
 
-  await fetch(
-    `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
-    {
-      method: "POST",
+  try {
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const telegramRes = await fetch(
+      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
+      {
+        method: "POST",
 
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text,
-      }),
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text,
+        }),
+      }
+    );
+
+    if (!telegramRes.ok) {
+
+      console.error(
+        "Telegram API error"
+      );
+
     }
-  );
+
+  } catch (err) {
+
+    console.error(
+      "Telegram send error:",
+      err
+    );
+
+  }
 }

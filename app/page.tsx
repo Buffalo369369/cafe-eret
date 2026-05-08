@@ -1,10 +1,17 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+
 import Link from "next/link";
+
+import Image from "next/image";
+
 import { useCart } from "@/store/cart";
+
 import toast from "react-hot-toast";
+
 import { menuData } from "@/store/menu";
+
 import { FaInstagram } from "react-icons/fa";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
@@ -71,7 +78,13 @@ const items = useCart((s) => s.items);
       >
         {/* BG */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div style={{ y }} className="w-full h-[120%]">
+          <motion.div
+
+  style={{ y, willChange: "transform" }}
+
+  className="w-full h-[120%]"
+
+>
             <div
               className="
                 w-full h-full bg-cover
@@ -157,9 +170,14 @@ const items = useCart((s) => s.items);
 
   {/* Instagram */}
   <a
-    href="https://instagram.com/cafe_eret"
-    target="_blank"
-    rel="noopener noreferrer"
+
+  href="https://instagram.com/cafe_eret"
+
+  target="_blank"
+
+  rel="noopener noreferrer"
+
+  aria-label="Instagram"
     className="group"
   >
     <div className="
@@ -188,7 +206,10 @@ const items = useCart((s) => s.items);
               </div>
 
              <a
+
   href="tel:+4917659342961"
+
+  aria-label="Telefon anrufen"
   className="
     flex items-center gap-2
     text-white/90
@@ -250,11 +271,15 @@ const items = useCart((s) => s.items);
 
   }}
    >
-      <img
+      <Image
 
   src={item.image}
 
   alt={`${item.name} – Frühstück im ERET Café Mülheim`}
+
+  width={600}
+
+  height={400}
 
   loading="lazy"
 

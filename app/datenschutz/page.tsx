@@ -84,8 +84,8 @@ Rechtsgrundlage:
 Die Datenweitergabe erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie auf 
 Grundlage unseres berechtigten Interesses an der Verwendung zuverlässiger und sicherer 
 Zahlungssysteme (Art. 6 Abs. 1 lit. f DSGVO).
-Details zur Datenschutzerklärung von Stripe finden Sie unter: https://stripe.com/de/privacy. 
-(https://stripe.com/de/privacy)
+Details zur Datenschutzerklärung von Stripe finden Sie unter: Stripe Datenschutzerklärung:
+https://stripe.com/de/privacy.
 3. Hosting-Anbieter: Zum Betrieb unserer Website.
 4. Hosting und Server-Log-Dateien
 Wir hosten die Inhalte unserer Website bei folgendem Anbieter:

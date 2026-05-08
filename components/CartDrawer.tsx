@@ -108,7 +108,7 @@ dragElastic={0.2}
                 </p>
               ) : (
                 <AnimatePresence>
-                  {items.map((item, i) => (
+                  {items.map((item) => (
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, y: 20, scale: 0.95 }}
