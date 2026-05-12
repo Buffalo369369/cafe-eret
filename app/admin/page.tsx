@@ -1,19 +1,50 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export default function AdminPage() {
 
   const [orders, setOrders] = useState<any[]>([]);
 
   useEffect(() => {
-    loadOrders();
-  }, []);
+
+  loadOrders();
+
+  const channel = supabaseAdmin
+    .channel("orders-realtime")
+
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "orders",
+      },
+
+      (payload) => {
+
+        console.log("NEW ORDER:", payload);
+
+        setOrders((prev) => [
+          payload.new,
+          ...prev,
+        ]);
+
+      }
+    )
+
+    .subscribe();
+
+  return () => {
+    supabaseAdmin.removeChannel(channel);
+  };
+
+}, []);
 
   async function loadOrders() {
 
-  const { data, error } = await supabase.from("orders")
+  const { data, error } = await supabaseAdmin.from("orders")
 
     .select("*")
 

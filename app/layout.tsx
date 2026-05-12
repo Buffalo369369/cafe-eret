@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import CookieBanner from "@/components/CookieBanner";
 
 
@@ -13,9 +12,14 @@ const arimo = Arimo({
 });
 
 export const metadata = {
-  canonical: "https://cafe-eret.de",
 
-  title: "ERET Café Mülheim | Frühstück, Brunch & Lieferung",
+  metadataBase: new URL(
+    "https://cafe-eret.de"
+  ),
+
+  title:
+    "ERET Café Mülheim | Frühstück, Brunch & Lieferung",
+
   description:
     "Genieße frisches Frühstück, Croissants und Brunch in Mülheim an der Ruhr. Lieferung & Abholung verfügbar.",
 
@@ -26,14 +30,23 @@ export const metadata = {
   ],
 
   alternates: {
-    canonical: "https://eret-cafe.de",
+    canonical:
+      "https://cafe-eret.de",
   },
 
   openGraph: {
+
     title: "ERET Café",
-    description: "Frühstück, Kaffee & Lieferung in Mülheim",
-    url: "https://eret-cafe.de",
-    siteName: "ERET Café",
+
+    description:
+      "Frühstück, Kaffee & Lieferung in Mülheim",
+
+    url:
+      "https://cafe-eret.de",
+
+    siteName:
+      "ERET Café",
+
     images: [
       {
         url: "/og.jpg",
@@ -41,7 +54,9 @@ export const metadata = {
         height: 630,
       },
     ],
+
     locale: "de_DE",
+
     type: "website",
   },
 };
