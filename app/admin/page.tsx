@@ -5,13 +5,9 @@ import { supabase } from "@/lib/supabase";
 
 export default function AdminPage() {
 
-  const audio =
+  const [audio, setAudio] =
 
-  typeof window !== "undefined"
-
-    ? new Audio("/sounds/order.mp3")
-
-    : null;
+  useState<HTMLAudioElement | null>(null);
 
   const [orders, setOrders] = useState<any[]>([]);
 
@@ -83,6 +79,14 @@ export default function AdminPage() {
   // ⚡ realtime
   useEffect(() => {
 
+    const sound = new Audio(
+
+    "/sounds/order.mp3"
+
+  );
+
+  setAudio(sound);
+
     loadOrders();
 
     const channel = supabase
@@ -102,8 +106,14 @@ export default function AdminPage() {
   console.log("NEW ORDER:", payload);
 
   // 🔔 звук
-  audio?.play();
 
+if (audio) {
+
+  audio.currentTime = 0;
+
+  audio.play();
+
+}
   // ✨ новый заказ сверху
   setOrders((prev) => [
     {
