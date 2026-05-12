@@ -13,7 +13,7 @@ const arimo = Arimo({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://eret-cafe.de"),
+  canonical: "https://cafe-eret.de",
 
   title: "ERET Café Mülheim | Frühstück, Brunch & Lieferung",
   description:

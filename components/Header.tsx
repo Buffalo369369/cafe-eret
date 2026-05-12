@@ -233,16 +233,20 @@ style={{ backgroundImage: "url('/paper.jpg')" }}
         )}
       </AnimatePresence>
 
-      {/* CART */}
-      <FloatingCartButton
+            {/* CART */}
 
-  open={cartOpen}
+      <FloatingCartButton onClick={() => setCartOpen(true)}/>
 
-  onClick={() => setCartOpen(true)}
+      <CartDrawer
 
-/>
+        open={cartOpen}
 
-<CartDrawer open={cartOpen} setOpen={setCartOpen} />
+        setOpen={setCartOpen}
+
+      />
+
     </>
+
   );
+
 }

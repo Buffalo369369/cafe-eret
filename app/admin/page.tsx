@@ -13,18 +13,28 @@ export default function AdminPage() {
 
   async function loadOrders() {
 
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", {
-        ascending: false,
-      });
+  const { data, error } = await supabase
 
-    setOrders(data || []);
-  }
+    .from("orders")
+
+    .select("*")
+
+    .order("created_at", {
+
+      ascending: false,
+
+    });
+
+  console.log("ORDERS:", data);
+
+  console.log("ERROR:", error);
+
+  setOrders(data || []);
+
+}
 
   return (
-    <main className="min-h-screen bg-[#f8f4ee] p-6">
+    <main className="min-h-screen bg-[#f8f4ee] p-6 pt-32">
 
       <h1 className="text-3xl font-semibold mb-8">
         Orders
