@@ -62,35 +62,47 @@ export async function POST(req: Request) {
     // ✅ save to Supabase
     await saveOrder({
 
-      customer_name:
-        meta.name || "",
+  customer_name:
+    meta.name || "",
 
-      phone:
-        meta.phone || "",
+  phone:
+    meta.phone || "",
 
-      address:
-        meta.address || "",
+  address:
+    meta.address || "",
 
-      order_type:
-        meta.deliveryType || "",
+  order_type:
+    meta.deliveryType || "",
 
-      payment_method:
-        "card",
+  payment_method:
+    "card",
 
-      items:
-        session.line_items?.data.map(
-          (i: any) => ({
-            name: i.description,
-            qty: i.quantity,
-          })
-        ) || [],
+  comment:
+    meta.comment || "",
 
-      total:
-        (session.amount_total || 0) / 100,
+  time_type:
+    meta.timeType || "",
 
-      status:
-        "new",
-    });
+  schedule_date:
+    meta.scheduleDate || "",
+
+  schedule_time:
+    meta.scheduleTime || "",
+
+  items:
+    session.line_items?.data.map(
+      (i: any) => ({
+        name: i.description,
+        qty: i.quantity,
+      })
+    ) || [],
+
+  total:
+    (session.amount_total || 0) / 100,
+
+  status:
+    "new",
+});
 
     // ✅ send to Telegram
     await sendToTelegram(session);
