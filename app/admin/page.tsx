@@ -1,15 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+} from "react";
+
 import { supabase } from "@/lib/supabase";
 
 export default function AdminPage() {
 
-  const [audio, setAudio] =
+  const audioRef =
+    useRef<HTMLAudioElement | null>(null);
 
-  useState<HTMLAudioElement | null>(null);
+  const unlockedRef =
+    useRef(false);
 
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] =
+    useState<any[]>([]);
+
+  // 🔓 разблокировка звука
+  const unlockAudio = async () => {
+
+    if (
+      audioRef.current &&
+      !unlockedRef.current
+    ) {
+
+      try {
+
+        await audioRef.current.play();
+
+        audioRef.current.pause();
+
+        audioRef.current.currentTime = 0;
+
+        unlockedRef.current = true;
+
+        console.log("🔔 audio unlocked");
+
+      } catch (err) {
+
+        console.log(
+          "audio unlock failed",
+          err
+        );
+
+      }
+
+    }
+
+  };
 
   // 🎨 status colors
   function getStatusColor(status: string) {
@@ -42,12 +83,13 @@ export default function AdminPage() {
   // 📦 load orders
   async function loadOrders() {
 
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", {
-        ascending: false,
-      });
+    const { data, error } =
+      await supabase
+        .from("orders")
+        .select("*")
+        .order("created_at", {
+          ascending: false,
+        });
 
     console.log("ORDERS:", data);
     console.log("ERROR:", error);
@@ -66,7 +108,7 @@ export default function AdminPage() {
       .update({ status })
       .eq("id", id);
 
-    // live local update
+    // local update
     setOrders((prev) =>
       prev.map((order) =>
         order.id === id
@@ -79,13 +121,9 @@ export default function AdminPage() {
   // ⚡ realtime
   useEffect(() => {
 
-    const sound = new Audio(
-
-    "/sounds/order.mp3"
-
-  );
-
-  setAudio(sound);
+    // 🔔 audio init
+    audioRef.current =
+      new Audio("/sounds/order.mp3");
 
     loadOrders();
 
@@ -103,53 +141,74 @@ export default function AdminPage() {
 
         (payload) => {
 
-  console.log("NEW ORDER:", payload);
+          console.log(
+            "NEW ORDER:",
+            payload
+          );
 
-  // 🔔 звук
+          // 🔔 звук
+          if (
+            audioRef.current &&
+            unlockedRef.current
+          ) {
 
-if (audio) {
+            audioRef.current.currentTime = 0;
 
-  audio.currentTime = 0;
+            audioRef.current.play();
 
-  audio.play();
+          }
 
-}
-  // ✨ новый заказ сверху
-  setOrders((prev) => [
-    {
-      ...payload.new,
-      isNew: true,
-    },
-    ...prev,
-  ]);
+          // ✨ новый заказ сверху
+          setOrders((prev) => [
+            {
+              ...payload.new,
+              isNew: true,
+            },
+            ...prev,
+          ]);
 
-  // убрать подсветку через 10 сек
-  setTimeout(() => {
+          // убрать подсветку
+          setTimeout(() => {
 
-    setOrders((prev) =>
-      prev.map((o) =>
-        o.id === payload.new.id
-          ? { ...o, isNew: false }
-          : o
-      )
-    );
+            setOrders((prev) =>
+              prev.map((o) =>
+                o.id === payload.new.id
+                  ? {
+                      ...o,
+                      isNew: false,
+                    }
+                  : o
+              )
+            );
 
-  }, 10000);
+          }, 10000);
 
-}
+        }
       )
 
       .subscribe();
 
     return () => {
+
       supabase.removeChannel(channel);
+
     };
 
   }, []);
 
   return (
 
-    <main className="min-h-screen bg-[#f8f4ee] p-6 pt-32">
+    <main
+
+      onClick={unlockAudio}
+
+      className="
+        min-h-screen
+        bg-[#f8f4ee]
+        p-6
+        pt-32
+      "
+    >
 
       <h1 className="text-3xl font-semibold mb-8">
         Orders
@@ -162,17 +221,22 @@ if (audio) {
           <div
             key={order.id}
             className={`
-  rounded-2xl
-  p-5
-  shadow
-  transition-all
+              rounded-2xl
+              p-5
+              shadow
+              transition-all
 
-  ${
-    order.isNew
-      ? "bg-green-100 ring-4 ring-green-300 animate-pulse"
-      : "bg-white"
-  }
-`}
+              ${
+                order.isNew
+                  ? `
+                    bg-green-100
+                    ring-4
+                    ring-green-300
+                    animate-pulse
+                  `
+                  : "bg-white"
+              }
+            `}
           >
 
             <div className="flex justify-between mb-4">
@@ -195,9 +259,11 @@ if (audio) {
                 <p>{order.phone}</p>
 
                 <p className="text-sm text-gray-500">
+
                   {new Date(
                     order.created_at
                   ).toLocaleString("de-DE")}
+
                 </p>
 
                 <p>{order.address}</p>
@@ -210,7 +276,8 @@ if (audio) {
 
                 )}
 
-                {order.time_type === "scheduled" && (
+                {order.time_type ===
+                  "scheduled" && (
 
                   <p>
                     🕒 {order.schedule_date}
@@ -220,7 +287,8 @@ if (audio) {
 
                 )}
 
-                {order.time_type === "asap" && (
+                {order.time_type ===
+                  "asap" && (
 
                   <p>
                     ⚡ So schnell wie möglich
@@ -235,7 +303,9 @@ if (audio) {
 
                 <p>{order.total} €</p>
 
-                <p>{order.payment_method}</p>
+                <p>
+                  {order.payment_method}
+                </p>
 
                 <p>{order.order_type}</p>
 
@@ -249,14 +319,22 @@ if (audio) {
                     rounded-full
                     text-sm
                     font-medium
-                    ${getStatusColor(order.status)}
+                    ${getStatusColor(
+                      order.status
+                    )}
                   `}
                 >
                   {order.status}
                 </div>
 
                 {/* BUTTONS */}
-                <div className="flex gap-2 mt-4 flex-wrap justify-end">
+                <div className="
+                  flex
+                  gap-2
+                  mt-4
+                  flex-wrap
+                  justify-end
+                ">
 
                   <button
                     onClick={() =>
@@ -266,7 +344,9 @@ if (audio) {
                       )
                     }
                     className="
-                      px-3 py-1 rounded-lg
+                      px-3
+                      py-1
+                      rounded-lg
                       bg-blue-500
                       text-white
                       text-sm
@@ -283,7 +363,9 @@ if (audio) {
                       )
                     }
                     className="
-                      px-3 py-1 rounded-lg
+                      px-3
+                      py-1
+                      rounded-lg
                       bg-orange-500
                       text-white
                       text-sm
@@ -300,7 +382,9 @@ if (audio) {
                       )
                     }
                     className="
-                      px-3 py-1 rounded-lg
+                      px-3
+                      py-1
+                      rounded-lg
                       bg-purple-500
                       text-white
                       text-sm
@@ -317,7 +401,9 @@ if (audio) {
                       )
                     }
                     className="
-                      px-3 py-1 rounded-lg
+                      px-3
+                      py-1
+                      rounded-lg
                       bg-green-500
                       text-white
                       text-sm
