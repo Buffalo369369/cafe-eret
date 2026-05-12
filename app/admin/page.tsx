@@ -87,11 +87,25 @@ export default function AdminPage() {
             <div className="flex justify-between mb-4">
 
               <div>
-                <h2 className="font-semibold text-lg">
-                  {order.customer_name}
-                </h2>
+               <div className="flex items-center gap-2">
+
+  <h2 className="font-semibold text-lg">
+    {order.customer_name}
+  </h2>
+
+  <span className="text-sm text-gray-500">
+    #{order.order_number}
+  </span>
+
+</div>
 
                 <p>{order.phone}</p>
+
+                <p className="text-sm text-gray-500">
+
+  {new Date(order.created_at).toLocaleString("de-DE")}
+
+</p>
 
                 <p>{order.address}</p>
                 {order.comment && (

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
 
     // 🔢 номер заказа
-    const orderId = Math.floor(1000 + Math.random() * 9000);
+  
 
     // 🇩🇪 время Германии
     const time = new Date().toLocaleString("de-DE", {
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     );
 
     const text = `
-🛒 Новый заказ #${orderId}
+🛒 Новый заказ
 
 🕒 ${time}
 

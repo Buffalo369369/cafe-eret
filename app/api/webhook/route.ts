@@ -65,7 +65,7 @@ const lineItems =
     const meta = session.metadata || {};
 
     // ✅ save to Supabase
-    await saveOrder({
+    const savedOrder = await saveOrder({
 
   customer_name:
     meta.name || "",
@@ -111,11 +111,9 @@ const lineItems =
 
     // ✅ send to Telegram
     await sendToTelegram(
-
   session,
-
-  lineItems
-
+  lineItems,
+  savedOrder.order_number
 );
 
   }
@@ -128,7 +126,8 @@ const lineItems =
 // 📩 TELEGRAM
 async function sendToTelegram(
   session: Stripe.Checkout.Session,
-  lineItems: Stripe.ApiList<Stripe.LineItem>
+  lineItems: Stripe.ApiList<Stripe.LineItem>,
+  orderNumber: number
 ) {
 
   const TELEGRAM_TOKEN =
@@ -138,8 +137,7 @@ async function sendToTelegram(
     process.env.TELEGRAM_CHAT_ID!;
 
   // 🔢 order id
-  const orderId =
-    Math.floor(1000 + Math.random() * 9000);
+
 
   // 🇩🇪 Germany time
   const time = new Date().toLocaleString(
@@ -175,7 +173,7 @@ async function sendToTelegram(
   const meta = session.metadata || {};
 
   const text = `
-🛒 Новый заказ #${orderId}
+🛒 Новый заказ #${orderNumber}
 
 🕒 ${time}
 
