@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { saveOrder } from "@/lib/saveOrder";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,42 @@ export async function POST(req: Request) {
         }
       );
 
+    const meta = session.metadata || {};
+
+    // ✅ save to Supabase
+    await saveOrder({
+
+      customer_name:
+        meta.name || "",
+
+      phone:
+        meta.phone || "",
+
+      address:
+        meta.address || "",
+
+      order_type:
+        meta.deliveryType || "",
+
+      payment_method:
+        "card",
+
+      items:
+        session.line_items?.data.map(
+          (i: any) => ({
+            name: i.description,
+            qty: i.quantity,
+          })
+        ) || [],
+
+      total:
+        (session.amount_total || 0) / 100,
+
+      status:
+        "new",
+    });
+
+    // ✅ send to Telegram
     await sendToTelegram(session);
 
   }
