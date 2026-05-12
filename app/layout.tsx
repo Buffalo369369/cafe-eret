@@ -59,8 +59,6 @@ export default function RootLayout({
 
         <Footer />
 
-        <WhatsAppButton />
-
         {/* 🔔 TOASTER ВНУТРИ */}
         <Toaster
 

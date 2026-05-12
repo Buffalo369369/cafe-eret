@@ -7,6 +7,7 @@ import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/store/cart";
 import Logo from "@/components/Logo";
 import { motion, AnimatePresence } from "framer-motion";
+import FloatingCartButton from "@/components/FloatingCartButton";
 
 export default function Header() {
   const [mounted, setMounted] = useState(false);
@@ -233,7 +234,15 @@ style={{ backgroundImage: "url('/paper.jpg')" }}
       </AnimatePresence>
 
       {/* CART */}
-      <CartDrawer open={cartOpen} setOpen={setCartOpen} />
+      <FloatingCartButton
+
+  open={cartOpen}
+
+  onClick={() => setCartOpen(true)}
+
+/>
+
+<CartDrawer open={cartOpen} setOpen={setCartOpen} />
     </>
   );
 }
