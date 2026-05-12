@@ -5,65 +5,140 @@ import { supabase } from "@/lib/supabase";
 
 export default function AdminPage() {
 
+  const audio =
+
+  typeof window !== "undefined"
+
+    ? new Audio("/sounds/order.mp3")
+
+    : null;
+
   const [orders, setOrders] = useState<any[]>([]);
 
-  useEffect(() => {
+  // 🎨 status colors
+  function getStatusColor(status: string) {
 
-  loadOrders();
+    switch (status) {
 
-  const channel = supabase
+      case "new":
+        return "bg-yellow-100 text-yellow-700";
 
-  .channel("orders-realtime")
+      case "confirmed":
+        return "bg-blue-100 text-blue-700";
 
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "orders",
-      },
+      case "preparing":
+        return "bg-orange-100 text-orange-700";
 
-      (payload) => {
+      case "delivery":
+        return "bg-purple-100 text-purple-700";
 
-        console.log("NEW ORDER:", payload);
+      case "done":
+        return "bg-green-100 text-green-700";
 
-        setOrders((prev) => [
-          payload.new,
-          ...prev,
-        ]);
+      case "cancelled":
+        return "bg-red-100 text-red-700";
 
-      }
-    )
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  }
 
-    .subscribe();
-
-  return () => {
-    supabase.removeChannel(channel);
-  };
-
-}, []);
-
+  // 📦 load orders
   async function loadOrders() {
 
-  const { data, error } = await supabase.from("orders")
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false,
+      });
 
-    .select("*")
+    console.log("ORDERS:", data);
+    console.log("ERROR:", error);
 
-    .order("created_at", {
+    setOrders(data || []);
+  }
 
-      ascending: false,
+  // 🔄 update status
+  async function updateStatus(
+    id: string,
+    status: string
+  ) {
 
-    });
+    await supabase
+      .from("orders")
+      .update({ status })
+      .eq("id", id);
 
-  console.log("ORDERS:", data);
+    // live local update
+    setOrders((prev) =>
+      prev.map((order) =>
+        order.id === id
+          ? { ...order, status }
+          : order
+      )
+    );
+  }
 
-  console.log("ERROR:", error);
+  // ⚡ realtime
+  useEffect(() => {
 
-  setOrders(data || []);
+    loadOrders();
+
+    const channel = supabase
+
+      .channel("orders-realtime")
+
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "orders",
+        },
+
+        (payload) => {
+
+  console.log("NEW ORDER:", payload);
+
+  // 🔔 звук
+  audio?.play();
+
+  // ✨ новый заказ сверху
+  setOrders((prev) => [
+    {
+      ...payload.new,
+      isNew: true,
+    },
+    ...prev,
+  ]);
+
+  // убрать подсветку через 10 сек
+  setTimeout(() => {
+
+    setOrders((prev) =>
+      prev.map((o) =>
+        o.id === payload.new.id
+          ? { ...o, isNew: false }
+          : o
+      )
+    );
+
+  }, 10000);
 
 }
+      )
+
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+
+  }, []);
 
   return (
+
     <main className="min-h-screen bg-[#f8f4ee] p-6 pt-32">
 
       <h1 className="text-3xl font-semibold mb-8">
@@ -76,83 +151,185 @@ export default function AdminPage() {
 
           <div
             key={order.id}
-            className="
-              bg-white
-              rounded-2xl
-              p-5
-              shadow
-            "
+            className={`
+  rounded-2xl
+  p-5
+  shadow
+  transition-all
+
+  ${
+    order.isNew
+      ? "bg-green-100 ring-4 ring-green-300 animate-pulse"
+      : "bg-white"
+  }
+`}
           >
 
             <div className="flex justify-between mb-4">
 
+              {/* LEFT */}
               <div>
-               <div className="flex items-center gap-2">
 
-  <h2 className="font-semibold text-lg">
-    {order.customer_name}
-  </h2>
+                <div className="flex items-center gap-2">
 
-  <span className="text-sm text-gray-500">
-    #{order.order_number}
-  </span>
+                  <h2 className="font-semibold text-lg">
+                    {order.customer_name}
+                  </h2>
 
-</div>
+                  <span className="text-sm text-gray-500">
+                    #{order.order_number}
+                  </span>
+
+                </div>
 
                 <p>{order.phone}</p>
 
                 <p className="text-sm text-gray-500">
-
-  {new Date(order.created_at).toLocaleString("de-DE")}
-
-</p>
+                  {new Date(
+                    order.created_at
+                  ).toLocaleString("de-DE")}
+                </p>
 
                 <p>{order.address}</p>
+
                 {order.comment && (
 
-  <p>
+                  <p>
+                    💬 {order.comment}
+                  </p>
 
-    💬 {order.comment}
+                )}
 
-  </p>
+                {order.time_type === "scheduled" && (
 
-)}
+                  <p>
+                    🕒 {order.schedule_date}
+                    {" — "}
+                    {order.schedule_time}
+                  </p>
 
-{order.time_type === "scheduled" && (
+                )}
 
-  <p>
+                {order.time_type === "asap" && (
 
-    🕒 {order.schedule_date} — {order.schedule_time}
+                  <p>
+                    ⚡ So schnell wie möglich
+                  </p>
 
-  </p>
+                )}
 
-)}
-
-{order.time_type === "asap" && (
-
-  <p>
-
-    ⚡ So schnell wie möglich
-
-  </p>
-
-)}
               </div>
 
+              {/* RIGHT */}
               <div className="text-right">
+
                 <p>{order.total} €</p>
 
                 <p>{order.payment_method}</p>
 
                 <p>{order.order_type}</p>
+
+                {/* STATUS */}
+                <div
+                  className={`
+                    mt-2
+                    inline-flex
+                    px-3
+                    py-1
+                    rounded-full
+                    text-sm
+                    font-medium
+                    ${getStatusColor(order.status)}
+                  `}
+                >
+                  {order.status}
+                </div>
+
+                {/* BUTTONS */}
+                <div className="flex gap-2 mt-4 flex-wrap justify-end">
+
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        order.id,
+                        "confirmed"
+                      )
+                    }
+                    className="
+                      px-3 py-1 rounded-lg
+                      bg-blue-500
+                      text-white
+                      text-sm
+                    "
+                  >
+                    Confirm
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        order.id,
+                        "preparing"
+                      )
+                    }
+                    className="
+                      px-3 py-1 rounded-lg
+                      bg-orange-500
+                      text-white
+                      text-sm
+                    "
+                  >
+                    Preparing
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        order.id,
+                        "delivery"
+                      )
+                    }
+                    className="
+                      px-3 py-1 rounded-lg
+                      bg-purple-500
+                      text-white
+                      text-sm
+                    "
+                  >
+                    Delivery
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      updateStatus(
+                        order.id,
+                        "done"
+                      )
+                    }
+                    className="
+                      px-3 py-1 rounded-lg
+                      bg-green-500
+                      text-white
+                      text-sm
+                    "
+                  >
+                    Done
+                  </button>
+
+                </div>
+
               </div>
 
             </div>
 
+            {/* ITEMS */}
             <div className="space-y-1">
 
               {order.items?.map(
-                (item: any, index: number) => (
+                (
+                  item: any,
+                  index: number
+                ) => (
 
                   <div key={index}>
                     {item.qty}x {item.name}
