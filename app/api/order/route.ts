@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { saveOrder } from "@/lib/saveOrder";
 
 export async function POST(req: Request) {
   try {
@@ -11,7 +12,7 @@ export async function POST(req: Request) {
   scheduleDate,
   scheduleTime,
 } = await req.json();
-
+    
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "No items" }, { status: 400 });
     }
@@ -44,8 +45,52 @@ export async function POST(req: Request) {
       0
     );
 
+    let savedOrder = null;
+
+if (payment === "cash") {
+
+  savedOrder = await saveOrder({
+
+    customer_name:
+      form?.name || "",
+
+    phone:
+      form?.phone || "",
+
+    address:
+      form?.address || "",
+
+    order_type:
+      deliveryType || "",
+
+    payment_method:
+      "cash",
+
+    items,
+
+    total,
+
+    status:
+      "new",
+
+    comment:
+      form?.comment || "",
+
+    time_type:
+      timeType || "",
+
+    schedule_date:
+      scheduleDate || "",
+
+    schedule_time:
+      scheduleTime || "",
+
+  });
+
+}
+    
     const text = `
-🛒 Новый заказ
+🛒 Новый заказ #${savedOrder?.order_number || ""}
 
 🕒 ${time}
 
