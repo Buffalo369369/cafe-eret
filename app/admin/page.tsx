@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminPage() {
 
@@ -13,7 +13,7 @@ export default function AdminPage() {
 
   async function loadOrders() {
 
-  const { data, error } = await supabaseAdmin.from("orders")
+  const { data, error } = await supabase.from("orders")
 
     .select("*")
 
