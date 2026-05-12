@@ -94,6 +94,35 @@ export default function AdminPage() {
                 <p>{order.phone}</p>
 
                 <p>{order.address}</p>
+                {order.comment && (
+
+  <p>
+
+    💬 {order.comment}
+
+  </p>
+
+)}
+
+{order.time_type === "scheduled" && (
+
+  <p>
+
+    🕒 {order.schedule_date} — {order.schedule_time}
+
+  </p>
+
+)}
+
+{order.time_type === "asap" && (
+
+  <p>
+
+    ⚡ So schnell wie möglich
+
+  </p>
+
+)}
               </div>
 
               <div className="text-right">

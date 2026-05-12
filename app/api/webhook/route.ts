@@ -47,15 +47,20 @@ export async function POST(req: Request) {
 
     // 🔥 session + items
     const session =
-      await stripe.checkout.sessions.retrieve(
-        (
-          event.data.object as
-          Stripe.Checkout.Session
-        ).id,
-        {
-          expand: ["line_items"],
-        }
-      );
+  await stripe.checkout.sessions.retrieve(
+    (
+      event.data.object as
+      Stripe.Checkout.Session
+    ).id
+  );
+
+const lineItems =
+  await stripe.checkout.sessions.listLineItems(
+    session.id,
+    {
+      limit: 100,
+    }
+  );
 
     const meta = session.metadata || {};
 
@@ -90,7 +95,7 @@ export async function POST(req: Request) {
     meta.scheduleTime || "",
 
   items:
-    session.line_items?.data.map(
+    lineItems.data.map(
       (i: any) => ({
         name: i.description,
         qty: i.quantity,
@@ -105,7 +110,13 @@ export async function POST(req: Request) {
 });
 
     // ✅ send to Telegram
-    await sendToTelegram(session);
+    await sendToTelegram(
+
+  session,
+
+  lineItems
+
+);
 
   }
 
@@ -116,7 +127,8 @@ export async function POST(req: Request) {
 
 // 📩 TELEGRAM
 async function sendToTelegram(
-  session: Stripe.Checkout.Session
+  session: Stripe.Checkout.Session,
+  lineItems: Stripe.ApiList<Stripe.LineItem>
 ) {
 
   const TELEGRAM_TOKEN =
@@ -149,7 +161,8 @@ async function sendToTelegram(
 
   // 🧾 items
   const itemsLines =
-    session.line_items?.data.map(
+
+  lineItems.data.map(
       (i: any) =>
         `• ${i.description} x${i.quantity}`
     ) || [];
