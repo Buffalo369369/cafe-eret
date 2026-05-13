@@ -30,6 +30,7 @@ export const menuData = [
         image: "/frn4.jpg",
         desc: "Serviert mit Sauerrahm und Konfitüre",
       },
+      
     ],
   },
 
