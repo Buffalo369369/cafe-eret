@@ -1,9 +1,9 @@
 "use client";
 
 import { useCart } from "@/store/cart";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useState, useEffect } from "react";
 
 export default function CheckoutPage() {
   const items = useCart((s) => s.items);
@@ -48,7 +48,7 @@ const [checkingDelivery, setCheckingDelivery] =
 
   useState(false);
 
- const [form, setForm] = useState({
+const [form, setForm] = useState({
 
   name: "",
 
@@ -63,6 +63,45 @@ const [checkingDelivery, setCheckingDelivery] =
   comment: "",
 
 });
+
+  useEffect(() => {
+
+  if (
+    deliveryType !== "delivery"
+  ) {
+    return;
+  }
+
+  if (
+    !form.street ||
+    !form.zip ||
+    !form.city
+  ) {
+    return;
+  }
+
+  if (!/^\d{5}$/.test(form.zip)) {
+    return;
+  }
+
+  const timeout = setTimeout(() => {
+
+    checkDelivery(
+      `${form.street}, ${form.zip} ${form.city}, Germany`
+    );
+
+  }, 500);
+
+  return () => clearTimeout(timeout);
+
+}, [
+  form.street,
+  form.zip,
+  form.city,
+  deliveryType,
+]);
+
+ 
   async function checkDelivery(
 
   address: string
@@ -157,17 +196,25 @@ const handleSubmit = async () => {
   }
 
   if (
-
   deliveryType === "delivery" &&
-
   !deliveryAvailable
-
 ) {
 
   toast.error(
-
     "Lieferung nicht verfügbar"
+  );
 
+  return;
+
+}
+
+if (
+  deliveryType === "delivery" &&
+  subtotal < 15
+) {
+
+  toast.error(
+    "Mindestbestellwert für Lieferung ist 15 €"
   );
 
   return;
@@ -401,21 +448,7 @@ if (
           })
         }
 
-        onBlur={() => {
-
-  if (!/^\d{5}$/.test(form.zip)) {
-
-    return;
-
-  }
-
-  checkDelivery(
-
-    `${form.street}, ${form.zip} ${form.city}, Germany`
-
-  );
-
-}}
+        
       />
 
     </div>
@@ -526,6 +559,12 @@ if (
   city: "",
 
 }));
+
+setDeliveryFee(0);
+
+setDeliveryDistance("");
+
+setDeliveryAvailable(true);
 }}
       className={`px-4 py-2 rounded-full ${
         deliveryType === "pickup"
@@ -739,7 +778,17 @@ if (
 
       </span>
 
-    </div>
+</div>
+
+{deliveryType === "delivery" && (
+
+  <p className="text-sm text-gray-500">
+
+    Mindestbestellwert für Lieferung: 15 €
+
+  </p>
+
+)}
 
   </div>
 
@@ -749,13 +798,12 @@ if (
         <button
           onClick={handleSubmit}
           disabled={
-
   loading ||
-
-  (deliveryType === "delivery" &&
-
-    !deliveryAvailable)
-
+  checkingDelivery ||
+  (
+    deliveryType === "delivery" &&
+    !deliveryAvailable
+  )
 }
           className="w-full py-3 rounded-full bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06]"
         >
