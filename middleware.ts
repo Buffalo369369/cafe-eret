@@ -7,10 +7,20 @@ export function middleware(
 
   // только admin
   if (
-    req.nextUrl.pathname.startsWith(
-      "/admin"
-    )
-  ) {
+
+  req.nextUrl.pathname.startsWith(
+
+    "/admin"
+
+  ) ||
+
+  req.nextUrl.pathname.startsWith(
+
+    "/api/admin"
+
+  )
+
+){
 
     const basicAuth =
       req.headers.get("authorization");
