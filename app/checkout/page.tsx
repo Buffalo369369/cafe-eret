@@ -4,6 +4,7 @@ import { useCart } from "@/store/cart";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
+import { useCheckout } from "@/store/checkout";
 
 export default function CheckoutPage() {
   const items = useCart((s) => s.items);
@@ -48,21 +49,19 @@ const [checkingDelivery, setCheckingDelivery] =
 
   useState(false);
 
-const [form, setForm] = useState({
+const form = useCheckout((s) => s.form);
 
-  name: "",
+const setForm = useCheckout(
 
-  phone: "",
+  (s) => s.setForm
 
-  street: "",
+);
 
-  zip: "",
+const clearForm = useCheckout(
 
-  city: "",
+  (s) => s.clearForm
 
-  comment: "",
-
-});
+);
 
   useEffect(() => {
 
@@ -359,6 +358,8 @@ if (
 
       clearCart();
 
+      clearForm();
+
       router.push("/success");
     }
 
@@ -390,13 +391,31 @@ if (
           <input
             placeholder="Name *"
             className="w-full border px-4 py-2 rounded-lg"
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            value={form.name}
+            onChange={(e) =>
+
+  setForm({
+
+    name: e.target.value,
+
+  })
+
+}
           />
 
           <input
             placeholder="Telefon *"
             className="w-full border px-4 py-2 rounded-lg"
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            value={form.phone}
+            onChange={(e) =>
+
+  setForm({
+
+    phone: e.target.value,
+
+  })
+
+}
           />
 
          {deliveryType === "delivery" && (
@@ -411,11 +430,14 @@ if (
       value={form.street}
 
       onChange={(e) =>
-        setForm({
-          ...form,
-          street: e.target.value,
-        })
-      }
+
+  setForm({
+
+    street: e.target.value,
+
+  })
+
+}
     />
 
     {/* ZIP + CITY */}
@@ -428,11 +450,14 @@ if (
         value={form.zip}
 
         onChange={(e) =>
-          setForm({
-            ...form,
-            zip: e.target.value,
-          })
-        }
+
+  setForm({
+
+    zip: e.target.value,
+
+  })
+
+}
       />
 
       <input
@@ -442,10 +467,13 @@ if (
         value={form.city}
 
         onChange={(e) =>
-          setForm({
-            ...form,
-            city: e.target.value,
-          })
+
+  setForm({
+
+    name: e.target.value,
+
+  })
+
         }
 
         
@@ -519,7 +547,12 @@ if (
           <textarea
             placeholder="Kommentar"
             className="w-full border px-4 py-2 rounded-lg"
-            onChange={(e) => setForm({ ...form, comment: e.target.value })}
+            value={form.comment}
+            onChange={(e) => setForm({
+
+  comment: e.target.value,
+
+})}
           />
 
         </div>
@@ -548,9 +581,7 @@ if (
       onClick={() => {
   setDeliveryType("pickup");
 
-  setForm((prev) => ({
-
-  ...prev,
+  setForm({
 
   street: "",
 
@@ -558,7 +589,7 @@ if (
 
   city: "",
 
-}));
+});
 
 setDeliveryFee(0);
 
