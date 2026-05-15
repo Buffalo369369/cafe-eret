@@ -83,19 +83,25 @@ export default function AdminPage() {
   // 📦 load orders
   async function loadOrders() {
 
-    const { data, error } =
-      await supabase
-        .from("orders")
-        .select("*")
-        .order("created_at", {
-          ascending: false,
-        });
+  try {
 
-    console.log("ORDERS:", data);
-    console.log("ERROR:", error);
+    const res = await fetch(
+
+      "/api/admin/orders"
+
+    );
+
+    const data = await res.json();
 
     setOrders(data || []);
+
+  } catch (err) {
+
+    console.error(err);
+
   }
+
+}
 
   // 🔄 update status
   async function updateStatus(
