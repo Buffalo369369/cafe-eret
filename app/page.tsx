@@ -375,7 +375,7 @@ bg-gradient-to-b from-[#e9dfcf] via-[#fce590]/20 to-transparent" />
             </h2>
 
             <p className="mb-2">🚀 Schnelle Lieferung in ganz Mülheim</p>
-            <p>💸 Kostenlose Lieferung ab 30 €</p>
+            <p>💸 Kostenlose Lieferung ab 40 €</p>
 
           </div>
         </div>

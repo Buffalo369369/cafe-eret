@@ -403,11 +403,19 @@ if (
 
         onBlur={() => {
 
-          checkDelivery(
-            `${form.street}, ${form.zip} ${form.city}, Germany`
-          );
+  if (!/^\d{5}$/.test(form.zip)) {
 
-        }}
+    return;
+
+  }
+
+  checkDelivery(
+
+    `${form.street}, ${form.zip} ${form.city}, Germany`
+
+  );
+
+}}
       />
 
     </div>
