@@ -48,13 +48,21 @@ const [checkingDelivery, setCheckingDelivery] =
 
   useState(false);
 
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    address: "",
-    comment: "",
-  });
+ const [form, setForm] = useState({
 
+  name: "",
+
+  phone: "",
+
+  street: "",
+
+  zip: "",
+
+  city: "",
+
+  comment: "",
+
+});
   async function checkDelivery(
 
   address: string
@@ -128,7 +136,21 @@ const handleSubmit = async () => {
   if (
     !form.name ||
     !form.phone ||
-    (deliveryType === "delivery" && !form.address)
+    (
+
+  deliveryType === "delivery" &&
+
+  (
+
+    !form.street ||
+
+    !form.zip ||
+
+    !form.city
+
+  )
+
+)
   ) {
     toast.error("Bitte alle Pflichtfelder ausfüllen");
     return;
@@ -147,6 +169,20 @@ const handleSubmit = async () => {
     "Lieferung nicht verfügbar"
 
   );
+
+  return;
+
+}
+
+if (
+
+  deliveryType === "delivery" &&
+
+  !/^\d{5}$/.test(form.zip)
+
+) {
+
+  toast.error("Ungültige PLZ");
 
   return;
 
@@ -196,6 +232,9 @@ const handleSubmit = async () => {
 
   setLoading(true);
 
+  const fullAddress =
+  `${form.street}, ${form.zip} ${form.city}, Germany`;
+
   try {
 
     // 💳 CARD PAYMENT
@@ -208,7 +247,13 @@ const handleSubmit = async () => {
         },
         body: JSON.stringify({
           items,
-          form,
+          form: {
+
+  ...form,
+
+  address: fullAddress,
+
+},
           deliveryType,
           timeType,
           scheduleDate,
@@ -242,7 +287,13 @@ const handleSubmit = async () => {
         },
         body: JSON.stringify({
           items,
-          form,
+          form: {
+
+    ...form,
+
+    address: fullAddress,
+
+  },
           payment: "cash",
           deliveryType,
           timeType,
@@ -303,35 +354,64 @@ const handleSubmit = async () => {
 
          {deliveryType === "delivery" && (
 
-  <div className="space-y-2">
+<div className="space-y-3">
 
+    {/* STREET */}
     <input
-
-      placeholder="Adresse *"
-
+      placeholder="Straße und Hausnummer *"
       className="w-full border px-4 py-2 rounded-lg"
 
-      value={form.address}
-
-      onBlur={(e) =>
-
-        checkDelivery(e.target.value)
-
-      }
+      value={form.street}
 
       onChange={(e) =>
-
         setForm({
-
           ...form,
-
-          address: e.target.value,
-
+          street: e.target.value,
         })
-
       }
-
     />
+
+    {/* ZIP + CITY */}
+    <div className="grid grid-cols-2 gap-3">
+
+      <input
+        placeholder="PLZ *"
+        className="border px-4 py-2 rounded-lg"
+
+        value={form.zip}
+
+        onChange={(e) =>
+          setForm({
+            ...form,
+            zip: e.target.value,
+          })
+        }
+      />
+
+      <input
+        placeholder="Ort *"
+        className="border px-4 py-2 rounded-lg"
+
+        value={form.city}
+
+        onChange={(e) =>
+          setForm({
+            ...form,
+            city: e.target.value,
+          })
+        }
+
+        onBlur={() => {
+
+          checkDelivery(
+            `${form.street}, ${form.zip} ${form.city}, Germany`
+          );
+
+        }}
+      />
+
+    </div>
+
 
     <div className="text-sm">
 
@@ -428,9 +508,16 @@ const handleSubmit = async () => {
   setDeliveryType("pickup");
 
   setForm((prev) => ({
-    ...prev,
-    address: "",
-  }));
+
+  ...prev,
+
+  street: "",
+
+  zip: "",
+
+  city: "",
+
+}));
 }}
       className={`px-4 py-2 rounded-full ${
         deliveryType === "pickup"
