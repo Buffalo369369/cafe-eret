@@ -8,7 +8,14 @@ import toast from "react-hot-toast";
 export default function CheckoutPage() {
   const items = useCart((s) => s.items);
   const clearCart = useCart((s) => s.clearCart);
-  const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const subtotal = items.reduce(
+
+  (sum, i) => sum + i.price * i.qty,
+
+  0
+
+);
+
 
   const router = useRouter();
 
@@ -23,6 +30,24 @@ const [timeType, setTimeType] =
 const [scheduleDate, setScheduleDate] = useState("");
 const [scheduleTime, setScheduleTime] = useState("");
 
+const [deliveryFee, setDeliveryFee] =
+
+  useState(0);
+
+  const total = subtotal + deliveryFee;
+
+const [deliveryAvailable, setDeliveryAvailable] =
+
+  useState(true);
+
+const [deliveryDistance, setDeliveryDistance] =
+
+  useState("");
+
+const [checkingDelivery, setCheckingDelivery] =
+
+  useState(false);
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -30,7 +55,73 @@ const [scheduleTime, setScheduleTime] = useState("");
     comment: "",
   });
 
-  const handleSubmit = async () => {
+  async function checkDelivery(
+
+  address: string
+
+) {
+
+  if (!address) return;
+
+  try {
+
+    setCheckingDelivery(true);
+
+    const res = await fetch(
+
+      "/api/delivery",
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type":
+
+            "application/json",
+
+        },
+
+        body: JSON.stringify({
+
+          address,
+
+        }),
+
+      }
+
+    );
+
+    const data = await res.json();
+
+    setDeliveryAvailable(
+
+      data.available
+
+    );
+
+    setDeliveryFee(data.fee || 0);
+
+    setDeliveryDistance(
+
+      data.distance || ""
+
+    );
+
+  } catch (err) {
+
+    console.error(err);
+
+  } finally {
+
+    setCheckingDelivery(false);
+
+  }
+
+}
+
+const handleSubmit = async () => {
   if (loading) return;
 
   // ✅ validation
@@ -42,6 +133,24 @@ const [scheduleTime, setScheduleTime] = useState("");
     toast.error("Bitte alle Pflichtfelder ausfüllen");
     return;
   }
+
+  if (
+
+  deliveryType === "delivery" &&
+
+  !deliveryAvailable
+
+) {
+
+  toast.error(
+
+    "Lieferung nicht verfügbar"
+
+  );
+
+  return;
+
+}
 
   // ✅ scheduled time validation
   if (timeType === "scheduled") {
@@ -193,13 +302,97 @@ const [scheduleTime, setScheduleTime] = useState("");
           />
 
          {deliveryType === "delivery" && (
-  <input
-    placeholder="Adresse *"
-    className="w-full border px-4 py-2 rounded-lg"
-    onChange={(e) =>
-      setForm({ ...form, address: e.target.value })
-    }
-  />
+
+  <div className="space-y-2">
+
+    <input
+
+      placeholder="Adresse *"
+
+      className="w-full border px-4 py-2 rounded-lg"
+
+      value={form.address}
+
+      onBlur={(e) =>
+
+        checkDelivery(e.target.value)
+
+      }
+
+      onChange={(e) =>
+
+        setForm({
+
+          ...form,
+
+          address: e.target.value,
+
+        })
+
+      }
+
+    />
+
+    <div className="text-sm">
+
+      {checkingDelivery && (
+
+        <p className="text-gray-500">
+
+          Lieferkosten werden berechnet...
+
+        </p>
+
+      )}
+
+      {!checkingDelivery &&
+
+        deliveryDistance && (
+
+        <div className="space-y-1">
+
+          <p>
+
+            Entfernung:
+
+            {" "}
+
+            {deliveryDistance} km
+
+          </p>
+
+          {deliveryAvailable ? (
+
+            <p>
+
+              Lieferkosten:
+
+              {" "}
+
+              {deliveryFee.toFixed(2)} €
+
+            </p>
+
+          ) : (
+
+            <p className="text-red-500">
+
+              Leider liefern wir
+
+              nicht in diese Region.
+
+            </p>
+
+          )}
+
+        </div>
+
+      )}
+
+    </div>
+
+  </div>
+
 )}
 
           <textarea
@@ -384,30 +577,91 @@ const [scheduleTime, setScheduleTime] = useState("");
         </div>
 
         {/* SUMMARY */}
-        <div className="bg-white p-6 rounded-2xl shadow-md">
 
-          <h2 className="font-semibold mb-4">Bestellung</h2>
+<div className="bg-white p-6 rounded-2xl shadow-md">
 
-          <div className="space-y-2">
-            {items.map((item) => (
-              <div key={item.id} className="flex justify-between">
-                <span>{item.name} x{item.qty}</span>
-                <span>{(item.price * item.qty).toFixed(2)} €</span>
-              </div>
-            ))}
-          </div>
+  <h2 className="font-semibold mb-4">
 
-          <div className="mt-4 border-t pt-4 flex justify-between font-semibold">
-            <span>Gesamt</span>
-            <span>{total.toFixed(2)} €</span>
-          </div>
+    Bestellung
 
-        </div>
+  </h2>
+
+  <div className="space-y-2">
+
+    {items.map((item) => (
+
+      <div
+
+        key={item.id}
+
+        className="flex justify-between"
+
+      >
+
+        <span>
+
+          {item.name} x{item.qty}
+
+        </span>
+
+        <span>
+
+          {(item.price * item.qty).toFixed(2)} €
+
+        </span>
+
+      </div>
+
+    ))}
+
+  </div>
+
+  <div className="mt-4 border-t pt-4 space-y-2">
+
+    {deliveryType === "delivery" && (
+
+      <div className="flex justify-between">
+
+        <span>Lieferung</span>
+
+        <span>
+
+          {deliveryFee.toFixed(2)} €
+
+        </span>
+
+      </div>
+
+    )}
+
+    <div className="flex justify-between font-semibold">
+
+      <span>Gesamt</span>
+
+      <span>
+
+        {total.toFixed(2)} €
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
 
         {/* BUTTON */}
         <button
           onClick={handleSubmit}
-          disabled={loading}
+          disabled={
+
+  loading ||
+
+  (deliveryType === "delivery" &&
+
+    !deliveryAvailable)
+
+}
           className="w-full py-3 rounded-full bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06]"
         >
           {loading ? "Lädt..." : "Bestellen 🚀"}
