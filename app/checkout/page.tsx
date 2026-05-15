@@ -461,23 +461,24 @@ if (
       />
 
       <input
-        placeholder="Ort *"
-        className="border px-4 py-2 rounded-lg"
 
-        value={form.city}
+  placeholder="Ort *"
 
-        onChange={(e) =>
+  className="border px-4 py-2 rounded-lg"
 
-  setForm({
+  value={form.city}
 
-    name: e.target.value,
+  onChange={(e) =>
 
-  })
+    setForm({
 
-        }
+      city: e.target.value,
 
-        
-      />
+    })
+
+  }
+
+/>
 
     </div>
 
