@@ -49,7 +49,7 @@ const menu = [
 
   menuData[0].items[3], // 2-е блюдо
 
-  menuData[1].items[0], // из другой категории
+  menuData[2].items[0], // из другой категории
 
   menuData[3].items[1],
 

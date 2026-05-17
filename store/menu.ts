@@ -35,6 +35,33 @@ export const menuData = [
   },
 
   {
+    title: "Bowls",
+    items: [
+      {
+        id: "bow-1",
+        name: "Bowl",
+        price: 14,
+        image: "/bow1.jpg",
+        desc: "Frisch",
+      },
+      {
+        id: "bow-2",
+        name: "Bowl",
+        price: 16,
+        image: "/bow2.jpg",
+        desc: "Frisch",
+      },
+       {
+        id: "bow-3",
+        name: "Bowl",
+        price: 14,
+        image: "/bow3.jpg",
+        desc: "Frisch",
+      },
+    ],
+  },
+
+  {
     title: "Croissants",
     items: [
       {
