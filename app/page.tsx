@@ -51,7 +51,7 @@ const menu = [
 
   menuData[2].items[0], // из другой категории
 
-  menuData[3].items[1],
+  menuData[5].items[1],
 
 ];
 
