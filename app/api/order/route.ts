@@ -57,6 +57,10 @@ if (payment === "cash") {
     phone:
       form?.phone || "",
 
+      email:
+
+        form?.email || "",
+
     address:
       form?.address || "",
 
@@ -96,6 +100,7 @@ if (payment === "cash") {
 
 👤 ${form?.name || "-"}
 📞 ${form?.phone || "-"}
+📧 ${form?.email || "-"}
 ${deliveryType === "delivery"
   ? `📍 ${form?.address || "-"}`
   : ""}

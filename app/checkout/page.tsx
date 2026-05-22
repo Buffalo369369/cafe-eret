@@ -234,6 +234,16 @@ if (
 
 }
 
+if (
+  !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+) {
+
+  toast.error("Ungültige E-Mail");
+
+  return;
+
+}
+
   // ✅ scheduled time validation
   if (timeType === "scheduled") {
 
@@ -395,28 +405,63 @@ if (
             onChange={(e) =>
 
   setForm({
-
-    name: e.target.value,
-
-  })
-
-}
-          />
-
-          <input
-            placeholder="Telefon *"
-            className="w-full border px-4 py-2 rounded-lg"
-            value={form.phone}
-            onChange={(e) =>
-
-  setForm({
-
-    phone: e.target.value,
-
-  })
+  ...form,
+  name: e.target.value,
+})
 
 }
           />
+
+          {/* PHONE */}
+
+<input
+
+  placeholder="Telefon *"
+
+  className="w-full border px-4 py-2 rounded-lg"
+
+  value={form.phone}
+
+  onChange={(e) =>
+
+    setForm({
+
+      ...form,
+
+      phone: e.target.value,
+
+    })
+
+  }
+
+/>
+
+{/* EMAIL */}
+
+<input
+
+  type="email"
+
+  placeholder="E-Mail *"
+
+  className="w-full border px-4 py-2 rounded-lg"
+
+  value={form.email}
+
+  onChange={(e) =>
+
+    setForm({
+
+      ...form,
+
+      email: e.target.value,
+
+    })
+
+  }
+
+/>
+            
 
          {deliveryType === "delivery" && (
 
@@ -432,10 +477,9 @@ if (
       onChange={(e) =>
 
   setForm({
-
-    street: e.target.value,
-
-  })
+  ...form,
+  street: e.target.value,
+})
 
 }
     />
@@ -452,10 +496,9 @@ if (
         onChange={(e) =>
 
   setForm({
-
-    zip: e.target.value,
-
-  })
+  ...form,
+  zip: e.target.value,
+})
 
 }
       />
@@ -472,9 +515,11 @@ if (
 
     setForm({
 
-      city: e.target.value,
+  ...form,
 
-    })
+  city: e.target.value,
+
+})
 
   }
 
@@ -483,7 +528,7 @@ if (
     </div>
 
 
-    <div className="text-sm">
+    <div className="bg-[#f8f8f8] rounded-2xl p-3 text-sm">
 
       {checkingDelivery && (
 
@@ -550,9 +595,8 @@ if (
             className="w-full border px-4 py-2 rounded-lg"
             value={form.comment}
             onChange={(e) => setForm({
-
+  ...form,
   comment: e.target.value,
-
 })}
           />
 
@@ -583,6 +627,8 @@ if (
   setDeliveryType("pickup");
 
   setForm({
+
+  ...form,
 
   street: "",
 
@@ -837,9 +883,23 @@ setDeliveryAvailable(true);
     !deliveryAvailable
   )
 }
-          className="w-full py-3 rounded-full bg-gradient-to-r from-[#fff3a3] via-[#f4b740] to-[#cc5c06]"
+          className="
+w-full
+py-3
+rounded-full
+bg-gradient-to-r
+from-[#fff3a3]
+via-[#f4b740]
+to-[#cc5c06]
+disabled:opacity-50
+disabled:cursor-not-allowed
+"
         >
-          {loading ? "Lädt..." : "Bestellen 🚀"}
+          {loading
+  ? "Bestellung wird gesendet..."
+  : checkingDelivery
+  ? "Lieferung wird berechnet..."
+  : "Bestellen 🚀"}
         </button>
 
       </div>

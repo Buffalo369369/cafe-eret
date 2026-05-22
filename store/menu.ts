@@ -30,6 +30,20 @@ export const menuData = [
         image: "/frn4.jpg",
         desc: "Serviert mit Sauerrahm und Konfitüre",
       },
+      {
+        id: "fr-5",
+        name: "Syrniki",
+        price: 11,
+        image: "/frn5.jpg",
+        desc: "Serviert mit Sauerrahm und Konfitüre",
+      },
+      {
+        id: "fr-6",
+        name: "Syrniki",
+        price: 11,
+        image: "/frn6.jpg",
+        desc: "Serviert mit Sauerrahm und Konfitüre",
+      },
       
     ],
   },
@@ -85,6 +99,27 @@ export const menuData = [
         image: "/crs3.jpg",
         desc: "Frisch gebackenes Croissant mit Pistazienfüllung",
       },
+    ],
+  },
+
+  {
+    title: "Bruschette",
+    items: [
+      {
+        id: "brus-1",
+        name: "Himbeer-Croissant",
+        price: 4,
+        image: "/brus1.jpg",
+        desc: "Frisch gebackenes Croissant mit Himbeerfüllung",
+      },
+      {
+        id: "brus-2",
+        name: "Mandel-Croissant",
+        price: 4,
+        image: "/brus2.jpg",
+        desc: "Frisch gebackenes Croissant mit Mandelfüllung",
+      },
+      
     ],
   },
 

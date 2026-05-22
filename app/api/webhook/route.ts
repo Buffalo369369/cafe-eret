@@ -73,6 +73,10 @@ const lineItems =
   phone:
     meta.phone || "",
 
+    email:
+
+  meta.email || "",
+
   address:
     meta.address || "",
 

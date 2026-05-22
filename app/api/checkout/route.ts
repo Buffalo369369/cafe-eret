@@ -80,6 +80,8 @@ export async function POST(req: Request) {
     const session =
       await stripe.checkout.sessions.create({
 
+        customer_email: form.email,
+
         payment_method_types: ["card"],
 
         line_items,
@@ -97,6 +99,8 @@ export async function POST(req: Request) {
           name: form.name,
 
           phone: form.phone,
+
+          email: form.email,
 
           address: form.address || "",
 
