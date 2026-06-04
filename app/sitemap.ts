@@ -3,23 +3,23 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://eret-cafe.de",
+      url: "https://cafe-eret.de",
       lastModified: new Date(),
     },
     {
-      url: "https://eret-cafe.de/menu",
+      url: "https://cafe-eret.de/menu",
       lastModified: new Date(),
     },
     {
-      url: "https://eret-cafe.de/about",
+      url: "https://cafe-eret.de/about",
       lastModified: new Date(),
     },
     {
-      url: "https://eret-cafe.de/contact",
+      url: "https://cafe-eret.de/contact",
       lastModified: new Date(),
     },
     {
-      url: "https://eret-cafe.de/lieferung",
+      url: "https://cafe-eret.de/lieferung",
       lastModified: new Date(),
     },
   ];

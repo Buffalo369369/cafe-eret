@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://eret-cafe.de/sitemap.xml",
+    sitemap: "https://cafe-eret.de/sitemap.xml",
   };
 }

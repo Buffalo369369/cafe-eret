@@ -32,17 +32,17 @@ export const menuData = [
       },
       {
         id: "fr-5",
-        name: "Syrniki",
-        price: 11,
+        name: "Rustikales Frühstück",
+        price: 11.70,
         image: "/frn5.jpg",
-        desc: "Serviert mit Sauerrahm und Konfitüre",
+        desc: "Gebratene Kartoffeln mit Hähnchenbrust und Avocado. Serviert mit Antipasti und knusprigen Sauerteig-Crostini ",
       },
       {
         id: "fr-6",
-        name: "Syrniki",
-        price: 11,
+        name: "Frühstück Vital",
+        price: 9.50,
         image: "/frn6.jpg",
-        desc: "Serviert mit Sauerrahm und Konfitüre",
+        desc: "Haferflocken mit Brie und Avocado. Serviert mit knusprigen Sauerteig-Crostini",
       },
       
     ],
