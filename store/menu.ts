@@ -213,6 +213,17 @@ additives:[]
         price: 4,
         image: "/crs1.jpg",
         desc: "Frisch gebackenes Croissant mit Himbeerfüllung",
+        allergens:[
+
+"🌾 Gluten",
+
+"🥛 Milch",
+
+"🥚 Eier"
+
+],
+
+additives:[]
       },
       {
         id: "cr-2",
@@ -220,6 +231,13 @@ additives:[]
         price: 4,
         image: "/crs2.jpg",
         desc: "Frisch gebackenes Croissant mit Mandelfüllung",
+        allergens:[
+"🌾 Gluten",
+"🥛 Milch",
+"🥚 Eier",
+"🥜 Schalenfrüchte"
+],
+additives:[]
       },
        {
         id: "cr-3",
@@ -227,6 +245,13 @@ additives:[]
         price: 4,
         image: "/crs3.jpg",
         desc: "Frisch gebackenes Croissant mit Pistazienfüllung",
+        allergens:[
+"🌾 Gluten",
+"🥛 Milch",
+"🥚 Eier",
+"🥜 Schalenfrüchte"
+],
+additives:[]
       },
     ],
   },
@@ -398,6 +423,9 @@ additives:[]
         price: 2.8,
         image: "/gt1.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-2",
@@ -405,6 +433,9 @@ additives:[]
         price: 3,
         image: "/gt2.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-3",
@@ -412,6 +443,9 @@ additives:[]
         price: 2.8,
         image: "/gt3.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-4",
@@ -419,6 +453,9 @@ additives:[]
         price: 3,
         image: "/gt4.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-5",
@@ -426,6 +463,9 @@ additives:[]
         price: 3.5,
         image: "/gt5.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-6",
@@ -433,6 +473,9 @@ additives:[]
         price: 3.8,
         image: "/gt6.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-7",
@@ -440,6 +483,9 @@ additives:[]
         price: 4.5,
         image: "/gt7.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-8",
@@ -447,6 +493,9 @@ additives:[]
         price: 3.5,
         image: "/gt8.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-9",
@@ -454,6 +503,9 @@ additives:[]
         price: 3,
         image: "/gt9.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-10",
@@ -461,6 +513,9 @@ additives:[]
         price: 3,
         image: "/gt10.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-11",
@@ -468,6 +523,9 @@ additives:[]
         price: 3,
         image: "/gt11.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-12",
@@ -475,6 +533,9 @@ additives:[]
         price: 3,
         image: "/gt12.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-13",
@@ -482,6 +543,9 @@ additives:[]
         price: 3.5,
         image: "/gt13.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-14",
@@ -489,6 +553,9 @@ additives:[]
         price: 3.5,
         image: "/gt14.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-15",
@@ -496,6 +563,9 @@ additives:[]
         price: 3.5,
         image: "/gt15.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-16",
@@ -503,6 +573,9 @@ additives:[]
         price: 3,
         image: "/gt16.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-17",
@@ -510,6 +583,9 @@ additives:[]
         price: 3,
         image: "/gt17.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-18",
@@ -517,6 +593,9 @@ additives:[]
         price: 3,
         image: "/gt18.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-19",
@@ -524,6 +603,9 @@ additives:[]
         price: 2.5,
         image: "/gt19.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-20",
@@ -531,6 +613,9 @@ additives:[]
         price: 2.5,
         image: "/gt20.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-21",
@@ -538,6 +623,9 @@ additives:[]
         price: 2.5,
         image: "/gt21.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-22",
@@ -545,6 +633,9 @@ additives:[]
         price: 2.5,
         image: "/gt22.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-23",
@@ -552,6 +643,9 @@ additives:[]
         price: 2.3,
         image: "/gt23.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
       {
         id: "gt-24",
@@ -559,6 +653,9 @@ additives:[]
         price: 2.3,
         image: "/gt24.jpg",
         desc: " ",
+        allergens: [],
+
+additives: []
       },
 
       
