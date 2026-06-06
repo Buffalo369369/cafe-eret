@@ -44,7 +44,7 @@ export const menuData = [
       price: 11.7,
       image: "/frn5.jpg",
       desc: "Gebratene Kartoffeln mit Hähnchenbrust und Avocado. Serviert mit Antipasti und knusprigen Sauerteig-Crostini",
-      allergens: ["🌾 Gluten", "🥛 Milch", "🌭 Senf"],
+      allergens: ["🌾 Gluten", "🥛 Milch", ],
       additives: [],
     },
     {
@@ -227,7 +227,7 @@ export const menuData = [
       price: 11.5,
       image: "/sal2.jpg",
       desc: "Römersalat, Kirschtomaten, Caesar-Dressing, Hähnchen, Parmesan-Crumble und knusprige Röstzwiebeln",
-      allergens: ["🌾 Gluten", "🥚 Eier", "🐟 Fisch", "🥛 Milch", "🌭 Senf"],
+      allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch", "🌭 Senf"],
       additives: [],
     },
     {
@@ -236,7 +236,7 @@ export const menuData = [
       price: 11.5,
       image: "/sal3.jpg",
       desc: "Römersalat, Rucola, grüne Bohnen, Gurke, Paprika, Kirschtomaten, Nuss-Dressing. veganer Crumble",
-      allergens: ["🥜 Schalenfrüchte", "🌱 Sojabohnen", "🌾 Sesamsamen"],
+      allergens: ["🥜 Erdnüsse", "🌱 Sojabohnen", "🌾 Sesamsamen"],
       additives: [],
     },
   ],
