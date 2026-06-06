@@ -238,53 +238,53 @@ const totalPrice = item.price + extrasPrice;
                         </p>
 
                         {item.extras?.length > 0 && (
+  <div className="mt-3">
 
-  <div className="mt-3 space-y-2">
+    <p className="mb-2 text-xs text-[#5c4432]/70">
+      Optional hinzufügen
+    </p>
 
-    {item.extras.map((extra) => (
+    <div className="flex flex-wrap gap-2">
 
-      <label
-        key={extra.id}
-        className="
-          flex items-center gap-2
-          text-sm text-[#5c4432]
-        "
-      >
+      {item.extras.map((extra) => {
+        const checked =
+          selectedExtras[item.id]?.includes(extra.id) || false;
 
-        <input
-          type="checkbox"
-
-          checked={
-            selectedExtras[item.id]?.includes(extra.id) || false
-          }
-
-          onChange={(e) => {
-
-            setSelectedExtras((prev) => {
-
-              const current = prev[item.id] || [];
-
-              return {
+        return (
+          <button
+            key={extra.id}
+            type="button"
+            onClick={() =>
+              setSelectedExtras((prev) => ({
                 ...prev,
+                [item.id]: checked
+                  ? (prev[item.id] || []).filter(
+                      (x) => x !== extra.id
+                    )
+                  : [...(prev[item.id] || []), extra.id],
+              }))
+            }
+            className={`
+              px-3 py-2
+              rounded-full
+              text-xs
+              border
+              transition
+              ${
+                checked
+                  ? "bg-[#2c2c2c] text-white border-[#2c2c2c]"
+                  : "bg-[#f8f5ee] text-[#5c4432] border-[#e8dcc7]"
+              }
+            `}
+          >
+            {extra.name} (+{extra.price} €)
+          </button>
+        );
+      })}
 
-                [item.id]: e.target.checked
-                  ? [...current, extra.id]
-                  : current.filter((x) => x !== extra.id),
-              };
-
-            });
-
-          }}
-        />
-
-        {extra.name} (+{extra.price} €)
-
-      </label>
-
-    ))}
+    </div>
 
   </div>
-
 )}
 
                         <div className="mt-4">
