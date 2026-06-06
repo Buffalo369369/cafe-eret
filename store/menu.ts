@@ -10,6 +10,15 @@ export const menuData = [
       desc: "Serviert mit Ciabatta-Croutons",
       allergens: ["🌾 Gluten", "🥚 Eier"],
       additives: [],
+      extras: [
+
+    {id: "lachs",
+     name: "🐟 Marinierter Lachs",
+     price: 3.5},
+    {id: "chicken",
+     name: "🍗 Hähnchen",
+     price: 3}
+    ]
     },
     {
       id: "fr-2",
@@ -19,6 +28,15 @@ export const menuData = [
       desc: "Serviert mit Salat und Ciabatta-Croutons",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch"],
       additives: [],
+      extras: [
+
+    {id: "lachs",
+     name: "🐟 Marinierter Lachs",
+     price: 3.5},
+    {id: "chicken",
+     name: "🍗 Hähnchen",
+     price: 3}
+    ]
     },
     {
       id: "fr-3",
@@ -28,6 +46,15 @@ export const menuData = [
       desc: "Serviert mit Salat und Ciabatta-Croutons",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch"],
       additives: [],
+      extras: [
+
+    {id: "lachs",
+     name: "🐟 Marinierter Lachs",
+     price: 3.5},
+    {id: "chicken",
+     name: "🍗 Hähnchen",
+     price: 3}
+    ]
     },
     {
       id: "fr-4",
@@ -37,6 +64,7 @@ export const menuData = [
       desc: "Serviert mit Sauerrahm und Konfitüre",
       allergens: ["🌾 Gluten", "🥛 Milch", "🥚 Eier"],
       additives: [],
+      extras: []
     },
     {
       id: "fr-5",
@@ -46,6 +74,15 @@ export const menuData = [
       desc: "Gebratene Kartoffeln mit Hähnchenbrust und Avocado. Serviert mit Antipasti und knusprigen Sauerteig-Crostini",
       allergens: ["🌾 Gluten", "🥛 Milch", ],
       additives: [],
+      extras: [
+
+    {id: "lachs",
+     name: "🐟 Marinierter Lachs",
+     price: 3.5},
+    {id: "chicken",
+     name: "🍗 Hähnchen",
+     price: 3}
+    ]
     },
     {
       id: "fr-6",
@@ -55,6 +92,15 @@ export const menuData = [
       desc: "Haferflocken mit Brie und Avocado. Serviert mit knusprigen Sauerteig-Crostini",
       allergens: ["🌾 Gluten", "🥛 Milch"],
       additives: [],
+      extras: [
+
+    {id: "lachs",
+     name: "🐟 Marinierter Lachs",
+     price: 3.5},
+    {id: "chicken",
+     name: "🍗 Hähnchen",
+     price: 3}
+    ]
     },
   ],
 },
@@ -70,6 +116,7 @@ export const menuData = [
       desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Garnelen, Unagi-Sauce",
       allergens: ["🦐 Krebstiere", "🌱 Sojabohnen", "🌭 Senf", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
     {
       id: "bow-2",
@@ -79,6 +126,7 @@ export const menuData = [
       desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Lachs, Unagi-Sauce",
       allergens: ["🐟 Fisch", "🌱 Sojabohnen", "🌭 Senf", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
     {
       id: "bow-3",
@@ -88,6 +136,7 @@ export const menuData = [
       desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Unagi-Sauce",
       allergens: ["🌱 Sojabohnen", "🌭 Senf", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
     {
       id: "bow-4",
@@ -97,6 +146,7 @@ export const menuData = [
       desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Hähnchen, Unagi-Sauce",
       allergens: ["🌱 Sojabohnen", "🌭 Senf", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
   ],
 },
@@ -112,6 +162,7 @@ export const menuData = [
       desc: "Frisch gebackenes Croissant mit Himbeerfüllung",
       allergens: ["🌾 Gluten", "🥛 Milch", "🥚 Eier"],
       additives: [],
+      extras: []
     },
     {
       id: "cr-2",
@@ -121,6 +172,7 @@ export const menuData = [
       desc: "Frisch gebackenes Croissant mit Mandelfüllung",
       allergens: ["🌾 Gluten", "🥛 Milch", "🥚 Eier", "🥜 Schalenfrüchte"],
       additives: [],
+      extras: []
     },
     {
       id: "cr-3",
@@ -130,6 +182,7 @@ export const menuData = [
       desc: "Frisch gebackenes Croissant mit Pistazienfüllung",
       allergens: ["🌾 Gluten", "🥛 Milch", "🥚 Eier", "🥜 Schalenfrüchte"],
       additives: [],
+      extras: []
     },
   ],
 },
@@ -145,6 +198,7 @@ export const menuData = [
       desc: "mit Prosciutto und getrockneten Tomaten",
       allergens: ["🌾 Gluten", "🥛 Milch", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
     {
       id: "brus-2",
@@ -154,6 +208,7 @@ export const menuData = [
       desc: "mit Frischkäse, Gurke und mild gesalzenem Lachs",
       allergens: ["🌾 Gluten", "🐟 Fisch", "🥛 Milch", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
     {
       id: "brus-3",
@@ -163,6 +218,7 @@ export const menuData = [
       desc: "mit Avocado, Spiegelei, Blattsalat und Cherrytomaten",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
   ],
 },
@@ -178,6 +234,7 @@ export const menuData = [
       desc: "Mit Römersalat und Caesar-Dressing",
       allergens: ["🌾 Gluten", "🥚 Eier", "🐟 Fisch", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
     {
       id: "sw-2",
@@ -187,6 +244,7 @@ export const menuData = [
       desc: "Mit Römersalat und Caesar-Dressing",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
     {
       id: "sw-3",
@@ -196,6 +254,7 @@ export const menuData = [
       desc: "Mit Römersalat und Caesar-Dressing",
       allergens: ["🌾 Gluten", "🥚 Eier", "🐟 Fisch", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
     {
       id: "sw-4",
@@ -205,6 +264,7 @@ export const menuData = [
       desc: "Mit Römersalat und Caesar-Dressing",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
   ],
 },
@@ -220,6 +280,7 @@ export const menuData = [
       desc: "Römersalat, Rucola, Kirschtomaten, Kalamata-Oliven, Gurke, Crumble, Passionsfrucht-Dressing",
       allergens: ["🌾 Gluten", "🥚 Eier", "🐟 Fisch", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
     {
       id: "sa-2",
@@ -229,6 +290,7 @@ export const menuData = [
       desc: "Römersalat, Kirschtomaten, Caesar-Dressing, Hähnchen, Parmesan-Crumble und knusprige Röstzwiebeln",
       allergens: ["🌾 Gluten", "🥚 Eier", "🥛 Milch", "🌭 Senf"],
       additives: [],
+      extras: []
     },
     {
       id: "sa-3",
@@ -238,6 +300,7 @@ export const menuData = [
       desc: "Römersalat, Rucola, grüne Bohnen, Gurke, Paprika, Kirschtomaten, Nuss-Dressing. veganer Crumble",
       allergens: ["🥜 Erdnüsse", "🌱 Sojabohnen", "🌾 Sesamsamen"],
       additives: [],
+      extras: []
     },
   ],
 },
@@ -251,7 +314,8 @@ export const menuData = [
       image: "/gt1.jpg",
       desc: "",
       allergens: [],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-2",
@@ -260,7 +324,8 @@ export const menuData = [
       image: "/gt2.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-3",
@@ -269,7 +334,8 @@ export const menuData = [
       image: "/gt3.jpg",
       desc: "",
       allergens: [],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-4",
@@ -278,7 +344,8 @@ export const menuData = [
       image: "/gt4.jpg",
       desc: "",
       allergens: [],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-5",
@@ -287,7 +354,8 @@ export const menuData = [
       image: "/gt5.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-6",
@@ -296,7 +364,8 @@ export const menuData = [
       image: "/gt6.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-7",
@@ -305,7 +374,8 @@ export const menuData = [
       image: "/gt7.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-8",
@@ -314,7 +384,8 @@ export const menuData = [
       image: "/gt8.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-9",
@@ -323,7 +394,8 @@ export const menuData = [
       image: "/gt9.jpg",
       desc: "",
       allergens: [],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-10",
@@ -332,7 +404,8 @@ export const menuData = [
       image: "/gt10.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-11",
@@ -341,7 +414,8 @@ export const menuData = [
       image: "/gt11.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-12",
@@ -350,7 +424,8 @@ export const menuData = [
       image: "/gt12.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-13",
@@ -359,7 +434,8 @@ export const menuData = [
       image: "/gt13.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-14",
@@ -368,7 +444,8 @@ export const menuData = [
       image: "/gt14.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-15",
@@ -377,7 +454,8 @@ export const menuData = [
       image: "/gt15.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-16",
@@ -386,7 +464,8 @@ export const menuData = [
       image: "/gt16.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-17",
@@ -395,7 +474,8 @@ export const menuData = [
       image: "/gt17.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-18",
@@ -404,7 +484,8 @@ export const menuData = [
       image: "/gt18.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-19",
@@ -417,7 +498,8 @@ export const menuData = [
         "☕ Koffein",
         "🎨 Farbstoff",
         "🍋 Säuerungsmittel"
-      ]
+      ],
+      extras: []
     },
     {
       id: "gt-20",
@@ -431,7 +513,8 @@ export const menuData = [
         "🍬 Süßungsmittel",
         "🎨 Farbstoff",
         "🍋 Säuerungsmittel"
-      ]
+      ],
+      extras: []
     },
     {
       id: "gt-21",
@@ -440,7 +523,8 @@ export const menuData = [
       image: "/gt21.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-22",
@@ -449,7 +533,8 @@ export const menuData = [
       image: "/gt22.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-23",
@@ -458,7 +543,8 @@ export const menuData = [
       image: "/gt23.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-24",
@@ -467,7 +553,8 @@ export const menuData = [
       image: "/gt24.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     }
   ]
 },
@@ -481,7 +568,8 @@ export const menuData = [
       image: "/gt25.jpg",
       desc: "mit Kokosmilch und Karamell",
       allergens: ["🌴 Kokosnuss"],
-      additives: ["🍮 Karamellsirup", "☕ Koffein"]
+      additives: ["🍮 Karamellsirup", "☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-26",
@@ -490,7 +578,8 @@ export const menuData = [
       image: "/gt26.jpg",
       desc: "mit Milch und Karamell",
       allergens: ["🥛 Milch"],
-      additives: ["🍮 Karamellsirup", "☕ Koffein"]
+      additives: ["🍮 Karamellsirup", "☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-27",
@@ -499,7 +588,8 @@ export const menuData = [
       image: "/gt27.jpg",
       desc: "mit Eiswürfeln",
       allergens: [],
-      additives: ["☕ Koffein"]
+      additives: ["☕ Koffein"],
+      extras: []
     },
     {
       id: "gt-28",
@@ -508,7 +598,8 @@ export const menuData = [
       image: "/gt28.jpg",
       desc: "",
       allergens: [],
-      additives: ["☕ Koffein", "🍋 Chinin"]
+      additives: ["☕ Koffein", "🍋 Chinin"],
+      extras: []
     },
     {
       id: "gt-29",
@@ -517,7 +608,8 @@ export const menuData = [
       image: "/gt29.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-30",
@@ -526,7 +618,8 @@ export const menuData = [
       image: "/gt30.jpg",
       desc: "",
       allergens: [],
-      additives: []
+      additives: [],
+      extras: []
     },
     {
       id: "gt-31",
@@ -535,7 +628,8 @@ export const menuData = [
       image: "/gt31.jpg",
       desc: "",
       allergens: ["🥛 Milch"],
-      additives: ["🍵 Koffein"]
+      additives: ["🍵 Koffein"],
+      extras: []
     },
     {
       id: "gt-32",
@@ -544,7 +638,8 @@ export const menuData = [
       image: "/gt32.jpg",
       desc: "mit Kokosmilch und Karamell",
       allergens: ["🌴 Kokosnuss"],
-      additives: ["🍵 Koffein", "🍮 Karamellsirup"]
+      additives: ["🍵 Koffein", "🍮 Karamellsirup"],
+      extras: []
     },
     {
       id: "gt-33",
@@ -553,7 +648,8 @@ export const menuData = [
       image: "/gt33.jpg",
       desc: "mit Kokosmilch und Himbeere",
       allergens: ["🌴 Kokosnuss"],
-      additives: ["🍵 Koffein", "🍓 Himbeersirup"]
+      additives: ["🍵 Koffein", "🍓 Himbeersirup"],
+      extras: []
     },
     {
       id: "gt-34",
@@ -562,7 +658,8 @@ export const menuData = [
       image: "/gt34.jpg",
       desc: "mit Kokosmilch und Mango",
       allergens: ["🌴 Kokosnuss"],
-      additives: ["🍵 Koffein", "🥭 Mangosirup"]
+      additives: ["🍵 Koffein", "🥭 Mangosirup"],
+      extras: []
     }
   ]
 }

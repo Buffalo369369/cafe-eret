@@ -47,6 +47,10 @@ export default function MenuPage() {
   // ✅ ВОТ ЧЕГО НЕ ХВАТАЛО
   const [active, setActive] = useState(menuData[0]?.title);
 
+  const [selectedExtras, setSelectedExtras] = useState<
+Record<string, string[]>
+>({});
+
   return (
     <main>
 
@@ -149,7 +153,32 @@ export default function MenuPage() {
               <div className="grid md:grid-cols-3 gap-6">
 
                 {section.items.map((item) => {
-                  const current = items.find((x) => x.id === item.id);
+                  const chosenExtras =
+
+  item.extras?.filter((extra) =>
+
+    selectedExtras[item.id]?.includes(extra.id)
+
+  ) || [];
+
+const cartId =
+
+  item.id +
+
+  "-" +
+
+  chosenExtras.map((e) => e.id).join("-");
+
+const current = items.find((x) => x.id === cartId);
+                  const extrasPrice =
+  item.extras
+    ?.filter((extra) =>
+      selectedExtras[item.id]?.includes(extra.id)
+    )
+    .reduce((sum, extra) => sum + extra.price, 0) || 0;
+
+const totalPrice = item.price + extrasPrice;
+                  
 
                   return (
                     <motion.div
@@ -199,7 +228,7 @@ export default function MenuPage() {
   </div>
 
   <span className="text-[#b88a5a] font-bold text-sm">
-    {item.price} €
+    {totalPrice.toFixed(2)} €
   </span>
 
 </div>
@@ -208,17 +237,78 @@ export default function MenuPage() {
                           {item.desc}
                         </p>
 
+                        {item.extras?.length > 0 && (
+
+  <div className="mt-3 space-y-2">
+
+    {item.extras.map((extra) => (
+
+      <label
+        key={extra.id}
+        className="
+          flex items-center gap-2
+          text-sm text-[#5c4432]
+        "
+      >
+
+        <input
+          type="checkbox"
+
+          checked={
+            selectedExtras[item.id]?.includes(extra.id) || false
+          }
+
+          onChange={(e) => {
+
+            setSelectedExtras((prev) => {
+
+              const current = prev[item.id] || [];
+
+              return {
+                ...prev,
+
+                [item.id]: e.target.checked
+                  ? [...current, extra.id]
+                  : current.filter((x) => x !== extra.id),
+              };
+
+            });
+
+          }}
+        />
+
+        {extra.name} (+{extra.price} €)
+
+      </label>
+
+    ))}
+
+  </div>
+
+)}
+
                         <div className="mt-4">
 
                           {!current ? (
                             <button
                               onClick={(e) => {
                                 flyToCart(e);
-                                addItem({
-                                  id: item.id,
-                                  name: item.name,
-                                  price: item.price,
-                                });
+                                
+
+addItem({
+  id: cartId,
+
+  name:
+    item.name +
+    (
+      chosenExtras.length
+        ? " + " +
+          chosenExtras.map((e) => e.name).join(", ")
+        : ""
+    ),
+
+  price: totalPrice,
+});
                                 toast.success("Hinzugefügt 🛒");
                               }}
                               className="w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm hover:bg-black active:scale-[0.97] transition"
@@ -229,7 +319,7 @@ export default function MenuPage() {
                             <div className="flex items-center justify-between">
 
                               <button
-                                onClick={() => decrease(item.id)}
+                               onClick={() => decrease(cartId)}
                                 className="w-8 h-8 rounded-full border"
                               >
                                 −
@@ -240,7 +330,7 @@ export default function MenuPage() {
                               </span>
 
                               <button
-                                onClick={() => increase(item.id)}
+                              onClick={() => increase(cartId)}
                                 className="w-8 h-8 rounded-full border"
                               >
                                 +
