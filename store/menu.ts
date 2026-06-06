@@ -661,5 +661,123 @@ additives: []
       
     ],
   },
-  
+  {
+  title: "Kalte Getränke",
+  items: [
+    {
+      id: "gt-25",
+      name: "Eis Latte",
+      price: 4.5,
+      image: "/gt25.jpg",
+      desc: "mit Kokosmilch und Karamell",
+      allergens: [
+        "🌴 Kokosnuss"
+      ],
+      additives: [
+        "Karamellsirup"
+      ]
+    },
+    {
+      id: "gt-26",
+      name: "Eis Latte",
+      price: 4.5,
+      image: "/gt26.jpg",
+      desc: "mit Milch und Karamell",
+      allergens: [
+        "🥛 Milch"
+      ],
+      additives: [
+        "Karamellsirup"
+      ]
+    },
+    {
+      id: "gt-27",
+      name: "Eis Kaffee",
+      price: 3.5,
+      image: "/gt27.jpg",
+      desc: "mit Eiswürfeln",
+      allergens: [],
+      additives: []
+    },
+    {
+      id: "gt-28",
+      name: "Espresso Tonic",
+      price: 4,
+      image: "/gt28.jpg",
+      desc: "",
+      allergens: [],
+      additives: [
+        "Chinin"
+      ]
+    },
+    {
+      id: "gt-29",
+      name: "Limonade Klassisch",
+      price: 4.5,
+      image: "/gt29.jpg",
+      desc: "",
+      allergens: [],
+      additives: []
+    },
+    {
+      id: "gt-30",
+      name: "Limonade Mango",
+      price: 4.5,
+      image: "/gt30.jpg",
+      desc: "",
+      allergens: [],
+      additives: []
+    },
+    {
+      id: "gt-31",
+      name: "Eis Matcha Latte",
+      price: 4,
+      image: "/gt31.jpg",
+      desc: "",
+      allergens: [
+        "🥛 Milch"
+      ],
+      additives: []
+    },
+    {
+      id: "gt-32",
+      name: "Eis Matcha Latte",
+      price: 5,
+      image: "/gt32.jpg",
+      desc: "mit Kokosmilch und Karamell",
+      allergens: [
+        "🌴 Kokosnuss"
+      ],
+      additives: [
+        "Karamellsirup"
+      ]
+    },
+    {
+      id: "gt-33",
+      name: "Himbeere Matcha",
+      price: 5.5,
+      image: "/gt33.jpg",
+      desc: "mit Kokosmilch und Himbeere",
+      allergens: [
+        "🌴 Kokosnuss"
+      ],
+      additives: [
+        "Himbeersirup"
+      ]
+    },
+    {
+      id: "gt-34",
+      name: "Mango Matcha",
+      price: 5.5,
+      image: "/gt34.jpg",
+      desc: "mit Kokosmilch und Mango",
+      allergens: [
+        "🌴 Kokosnuss"
+      ],
+      additives: [
+        "Mangosirup"
+      ]
+    }
+  ]
+}
 ];
