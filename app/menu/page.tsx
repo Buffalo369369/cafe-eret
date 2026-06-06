@@ -5,6 +5,7 @@ import { useCart } from "@/store/cart";
 import toast from "react-hot-toast";
 import { menuData } from "@/store/menu";
 import { useState } from "react";
+import AllergenInfo from "@/components/AllergenInfo";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   const button = e.currentTarget;
@@ -180,14 +181,26 @@ export default function MenuPage() {
                       <div className="p-4">
 
                         <div className="flex justify-between items-start gap-2">
-                          <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
-                            {item.name}
-                          </h3>
 
-                          <span className="text-[#b88a5a] font-bold text-sm">
-                            {item.price} €
-                          </span>
-                        </div>
+  <div className="flex items-center gap-2">
+
+    <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
+      {item.name}
+    </h3>
+
+   <AllergenInfo
+
+  list={item.allergens || []}
+
+/>
+
+  </div>
+
+  <span className="text-[#b88a5a] font-bold text-sm">
+    {item.price} €
+  </span>
+
+</div>
 
                         <p className="text-xs text-black/60 mt-1">
                           {item.desc}

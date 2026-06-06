@@ -3,47 +3,137 @@ export const menuData = [
     title: "Frühstück",
     items: [
       {
-        id: "fr-1",
-        name: "Spiegeleier mit Gemüse",
-        price: 10,
-        image: "/frn1.jpg",
-        desc: "Serviert mit Ciabatta-Croutons",
-      },
+
+  id: "fr-1",
+
+  name: "Spiegeleier mit Gemüse",
+
+  price: 10,
+
+  image: "/frn1.jpg",
+
+  desc: "Serviert mit Ciabatta-Croutons",
+
+  allergens: [
+
+    "🌾 Gluten",
+
+    "🥚 Eier"
+
+  ],
+
+  additives: []
+
+},
       {
-        id: "fr-2",
-        name: "Omlett",
-        price: 11,
-        image: "/frn2.jpg",
-        desc: "Serviert mit Salat und Ciabatta-Croutons",
-      },
+
+  id: "fr-2",
+
+  name: "Omlett",
+
+  price: 11,
+
+  image: "/frn2.jpg",
+
+  desc: "Serviert mit Salat und Ciabatta-Croutons",
+
+  allergens: [
+
+  "🌾 Gluten",
+
+  "🥚 Eier",
+
+  "🥛 Milch"
+
+],
+
+  additives: []
+
+},
       {
-        id: "fr-3",
-        name: "Rührei",
-        price: 11,
-        image: "/frn3.jpg",
-        desc: "Serviert mit Salat und Ciabatta-Croutons",
-      },
+
+  id: "fr-3",
+
+  name: "Rührei",
+
+  price: 11,
+
+  image: "/frn3.jpg",
+
+  desc: "Serviert mit Salat und Ciabatta-Croutons",
+
+  allergens: [
+
+    "🌾 Gluten",
+
+    "🥚 Eier",
+
+    "🥛 Milch"
+
+  ],
+
+  additives: []
+
+},
       {
-        id: "fr-4",
-        name: "Syrniki",
-        price: 11,
-        image: "/frn4.jpg",
-        desc: "Serviert mit Sauerrahm und Konfitüre",
-      },
+
+  id: "fr-4",
+
+  name: "Syrniki",
+
+  price: 11,
+
+  image: "/frn4.jpg",
+
+  desc: "Serviert mit Sauerrahm und Konfitüre",
+
+  allergens: [
+
+  "🌾 Gluten",
+
+  "🥛 Milch",
+
+  "🥚 Eier"
+
+],
+
+additives: []
+
+},
       {
         id: "fr-5",
         name: "Rustikales Frühstück",
         price: 11.70,
         image: "/frn5.jpg",
         desc: "Gebratene Kartoffeln mit Hähnchenbrust und Avocado. Serviert mit Antipasti und knusprigen Sauerteig-Crostini ",
-      },
+      allergens: [
+
+    "🌾 Gluten",
+
+    "🥛 Milch"
+
+  ],
+
+  additives:[]
+
+},
       {
         id: "fr-6",
         name: "Frühstück Vital",
         price: 9.50,
         image: "/frn6.jpg",
         desc: "Haferflocken mit Brie und Avocado. Serviert mit knusprigen Sauerteig-Crostini",
-      },
+      allergens: [
+
+    "🌾 Gluten",
+
+    "🥛 Milch"
+
+  ],
+
+  additives:[]
+
+},
       
     ],
   },
@@ -53,24 +143,63 @@ export const menuData = [
     items: [
       {
         id: "bow-1",
-        name: "Bowl",
+        name: "Garnelen Bowl",
         price: 14,
         image: "/bow1.jpg",
-        desc: "Frisch",
+        desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Garnelen, Unagi-Sauce",
+        allergens:[
+
+"🦐 Krebstiere",
+
+"🌱 Sojabohnen",
+
+"🌭 Senf",
+
+"🌾 Sesamsamen"
+
+],
+
+additives:[]
       },
       {
         id: "bow-2",
-        name: "Bowl",
-        price: 16,
+        name: "Lachs Bowl",
+        price: 13.5,
         image: "/bow2.jpg",
-        desc: "Frisch",
+        desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Lachs, Unagi-Sauce",
+        allergens:[
+"🐟 Fisch",
+"🌱 Sojabohnen",
+"🌭 Senf",
+"🌾 Sesamsamen"
+],
+additives:[]
       },
        {
         id: "bow-3",
-        name: "Bowl",
-        price: 14,
+        name: "Veggie Bowl",
+        price: 12,
         image: "/bow3.jpg",
-        desc: "Frisch",
+        desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Unagi-Sauce",
+        allergens:[
+"🌱 Sojabohnen",
+"🌭 Senf",
+"🌾 Sesamsamen"
+],
+additives:[]
+      },
+      {
+        id: "bow-4",
+        name: "Hähnchen Bowl",
+        price: 12.5,
+        image: "/bow4.jpg",
+        desc: "Reis, Avocado, Gurke, Edamame, Pilze, Mango, Hähnchen, Unagi-Sauce",
+        allergens:[
+"🌱 Sojabohnen",
+"🌭 Senf",
+"🌾 Sesamsamen"
+],
+additives:[]
       },
     ],
   },
@@ -107,17 +236,44 @@ export const menuData = [
     items: [
       {
         id: "brus-1",
-        name: "Himbeer-Croissant",
-        price: 4,
+        name: "Prosciutto Bruschetta",
+        price: 8.7,
         image: "/brus1.jpg",
-        desc: "Frisch gebackenes Croissant mit Himbeerfüllung",
+        desc: "mit Prosciutto und getrockneten Tomaten",
+        allergens:[
+"🌾 Gluten",
+"🥛 Milch",
+"🌾 Sesamsamen"
+],
+additives:[]
       },
       {
         id: "brus-2",
-        name: "Mandel-Croissant",
-        price: 4,
+        name: "Lachs & Gurke Bruschetta",
+        price: 8.7,
         image: "/brus2.jpg",
-        desc: "Frisch gebackenes Croissant mit Mandelfüllung",
+        desc: "mit Frischkäse, Gurke und mild gesalzenem Lachs",
+        allergens:[
+"🌾 Gluten",
+"🐟 Fisch",
+"🥛 Milch",
+"🌾 Sesamsamen"
+],
+additives:[]
+      },
+      {
+        id: "brus-3",
+        name: "Avocado & Ei Bruschetta",
+        price: 8,
+        image: "/brus3.jpg",
+        desc: "mit Avocado, Spiegelei, Blattsalat und Cherrytomaten",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🥛 Milch",
+"🌾 Sesamsamen"
+],
+additives:[]
       },
       
     ],
@@ -132,6 +288,14 @@ export const menuData = [
         price: 9,
         image: "/snd1.jpg",
         desc: "Mit Römersalat und Caesar-Dressing",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🐟 Fisch",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },
       {
         id: "sw-2",
@@ -139,6 +303,13 @@ export const menuData = [
         price: 8,
         image: "/snd2.jpg",
         desc: "Mit Römersalat und Caesar-Dressing",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },
       {
         id: "sw-3",
@@ -146,12 +317,27 @@ export const menuData = [
         price: 9,
         image: "/snd3.jpg",
         desc: "Mit Römersalat und Caesar-Dressing",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🐟 Fisch",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },{
         id: "sw-4",
         name: "Hähnchen-Sandwich im Croissant",
         price: 8,
         image: "/snd4.jpg",
         desc: "Mit Römersalat und Caesar-Dressing",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },
     ],
   },
@@ -165,6 +351,14 @@ export const menuData = [
         price: 11.5,
         image: "/sal1.jpg",
         desc: "Römersalat, Rucola, Kirschtomaten, Kalamata-Oliven, Gurke, Crumble, Passionsfrucht-Dressing",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🐟 Fisch",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },
       {
         id: "sa-2",
@@ -172,6 +366,13 @@ export const menuData = [
         price: 11.5,
         image: "/sal2.jpg",
         desc: "Römersalat, Kirschtomaten, Caesar-Dressing, Hähnchen, Parmesan-Crumble und knusprige Röstzwiebeln",
+        allergens:[
+"🌾 Gluten",
+"🥚 Eier",
+"🥛 Milch",
+"🌭 Senf"
+],
+additives:[]
       },
        {
         id: "sa-3",
@@ -179,6 +380,12 @@ export const menuData = [
         price: 11.5,
         image: "/sal3.jpg",
         desc: "Römersalat, Rucola, grüne Bohnen, Gurke, Paprika, Kirschtomaten, Nuss-Dressing. veganer Crumble",
+        allergens:[
+"🥜 Erdnüsse",
+"🌱 Sojabohnen",
+"🌾 Sesamsamen"
+],
+additives:[]
       },
     ],
   },
