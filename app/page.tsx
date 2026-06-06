@@ -14,6 +14,8 @@ import { menuData } from "@/store/menu";
 
 import { FaInstagram } from "react-icons/fa";
 
+import AllergenInfo from "@/components/AllergenInfo";
+
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   const button = e.currentTarget;
   const cart = document.getElementById("cart-icon");
@@ -270,7 +272,20 @@ const items = useCart((s) => s.items);
     visible: { opacity: 1, y: 0 },
 
   }}
-   >
+
+  className="
+
+    bg-white/80
+
+    rounded-3xl
+
+    overflow-hidden
+
+    shadow-lg
+
+  "
+
+>
       <Image
 
   src={item.image}
@@ -289,14 +304,29 @@ const items = useCart((s) => s.items);
 
       <div className="p-5 bg-white">
         <div className="flex justify-between items-start gap-2">
-          <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
-            {item.name}
-          </h3>
 
-          <span className="font-bold text-[#b88a5a] text-sm">
-            {item.price} €
-          </span>
-        </div>
+  <div className="flex items-center gap-2 flex-1">
+
+    <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
+      {item.name}
+    </h3>
+
+    <AllergenInfo
+
+  allergens={item.allergens}
+
+  additives={item.additives}
+
+/>
+
+  </div>
+
+  <span className="font-bold text-[#b88a5a] text-sm">
+    {item.price} €
+  </span>
+
+</div>
+
 
         <div className="mt-4">
 

@@ -190,7 +190,9 @@ export default function MenuPage() {
 
    <AllergenInfo
 
-  list={item.allergens || []}
+  allergens={item.allergens}
+
+  additives={item.additives}
 
 />
 
