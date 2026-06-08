@@ -215,7 +215,9 @@ text-decoration:none;
 
 <br><br>
 
-⭐ Wir freuen uns über Ihre Bewertung auf Google.
+⭐ Hat Ihnen Ihr Frühstück gefallen?
+
+Wir würden uns sehr über eine Bewertung freuen ❤️
 
 <br><br>
 
@@ -231,7 +233,7 @@ text-decoration:none;
 font-weight:bold;
 "
 >
-⭐ Google bewerten
+⭐ Jetzt bewerten
 </a>
 
 </div>
