@@ -66,7 +66,7 @@ export default function DeliveryPage() {
 
         <div className="text-[#5c4432] space-y-2 text-base md:text-lg">
           <p>🚀 Schnelle Lieferung in ganz Mülheim</p>
-          <p>Mindestbestellwert für Lieferung: 15 €</p>
+          <p>🛒 Mindestbestellwert für Lieferung: 15 €</p>
           <p>💸 Kostenlose Lieferung ab 40 €</p>
           <p>⏱ Lieferzeit: ca. 30–45 Minuten</p>
         </div>
