@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { saveOrder } from "@/lib/saveOrder";
+import { sendOrderEmail } from "@/lib/sendOrderEmail";
+
 
 export async function POST(req: Request) {
   try {
@@ -88,6 +90,36 @@ if (payment === "cash") {
 
     schedule_time:
       scheduleTime || "",
+
+  });
+
+}
+
+if (payment === "cash" && savedOrder) {
+
+  await sendOrderEmail({
+
+    email: form?.email || "",
+
+    name: form?.name || "",
+
+    orderNumber: savedOrder.order_number,
+
+    items,
+
+    total,
+
+    deliveryType,
+
+    paymentMethod: "cash",
+
+    timeType,
+
+    scheduleDate: scheduleDate || "",
+
+    scheduleTime: scheduleTime || "",
+
+    phone: form?.phone || "",
 
   });
 

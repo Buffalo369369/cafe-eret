@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { saveOrder } from "@/lib/saveOrder";
+import { sendOrderEmail } from "@/lib/sendOrderEmail";
 
 export const dynamic = "force-dynamic";
 
@@ -46,13 +47,12 @@ export async function POST(req: Request) {
   ) {
 
     // 🔥 session + items
-    const session =
-  await stripe.checkout.sessions.retrieve(
-    (
-      event.data.object as
-      Stripe.Checkout.Session
-    ).id
-  );
+    const session = await stripe.checkout.sessions.retrieve(
+  (event.data.object as Stripe.Checkout.Session).id,
+  {
+    expand: ["line_items"],
+  }
+);
 
 const lineItems =
   await stripe.checkout.sessions.listLineItems(
@@ -98,13 +98,13 @@ const lineItems =
   schedule_time:
     meta.scheduleTime || "",
 
-  items:
-    lineItems.data.map(
-      (i: any) => ({
-        name: i.description,
-        qty: i.quantity,
-      })
-    ) || [],
+  items: lineItems.data.map((i: any) => ({
+
+  name: i.description,
+
+  qty: i.quantity,
+
+})),
 
   total:
     (session.amount_total || 0) / 100,
@@ -119,6 +119,38 @@ const lineItems =
   lineItems,
   savedOrder.order_number
 );
+
+const total =
+
+  (session.amount_total || 0) / 100;
+
+await sendOrderEmail({
+  email: meta.email || "",
+
+  name: meta.name || "",
+
+  orderNumber: savedOrder.order_number,
+
+  items:
+    lineItems.data.map((i: any) => ({
+      name: i.description,
+      qty: i.quantity,
+    })),
+
+  total,
+
+  deliveryType: meta.deliveryType || "",
+
+  paymentMethod: "card",
+
+  timeType: meta.timeType || "",
+
+  scheduleDate: meta.scheduleDate || "",
+
+  scheduleTime: meta.scheduleTime || "",
+
+  phone: meta.phone || "",
+});
 
   }
 
