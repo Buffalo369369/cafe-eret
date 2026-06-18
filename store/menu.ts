@@ -14,7 +14,7 @@ export const menuData = [
 
     {id: "lachs",
      name: "🐟 Marinierter Lachs",
-     price: 3.5},
+     price: 3},
     {id: "chicken",
      name: "🍗 Hähnchen",
      price: 3}
@@ -32,7 +32,7 @@ export const menuData = [
 
     {id: "lachs",
      name: "🐟 Marinierter Lachs",
-     price: 3.5},
+     price: 3},
     {id: "chicken",
      name: "🍗 Hähnchen",
      price: 3}
@@ -50,7 +50,7 @@ export const menuData = [
 
     {id: "lachs",
      name: "🐟 Marinierter Lachs",
-     price: 3.5},
+     price: 3},
     {id: "chicken",
      name: "🍗 Hähnchen",
      price: 3}
@@ -78,7 +78,7 @@ export const menuData = [
 
     {id: "lachs",
      name: "🐟 Marinierter Lachs",
-     price: 3.5},
+     price: 3},
     {id: "chicken",
      name: "🍗 Hähnchen",
      price: 3}
@@ -96,7 +96,7 @@ export const menuData = [
 
     {id: "lachs",
      name: "🐟 Marinierter Lachs",
-     price: 3.5},
+     price: 3},
     {id: "chicken",
      name: "🍗 Hähnchen",
      price: 3}
