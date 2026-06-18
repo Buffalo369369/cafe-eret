@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
+import { Analytics } from "@vercel/analytics/react";
 
 
 const arimo = Arimo({
@@ -87,8 +88,11 @@ export default function RootLayout({
 
 />
         
-      <CookieBanner /> 
-      </body>
-    </html>
+      <CookieBanner />
+
+<Analytics />
+
+</body>
+</html>
   );
 }
