@@ -222,7 +222,7 @@ Wir würden uns sehr über eine Bewertung freuen ❤️
 <br><br>
 
 <a
-href="https://g.page/r/....."
+href="https://g.page/r/CQTs9aCIXbB-EBM/review"
 style="
 display:inline-block;
 padding:14px 24px;
