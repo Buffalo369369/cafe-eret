@@ -51,6 +51,12 @@ export default function MenuPage() {
 Record<string, string[]>
 >({});
 
+const [selectedOptions, setSelectedOptions] = useState<
+
+  Record<string, Record<string, string>>
+
+>({});
+
   return (
     <main>
 
@@ -154,22 +160,31 @@ Record<string, string[]>
 
                 {section.items.map((item) => {
                   const chosenExtras =
-
   item.extras?.filter((extra) =>
-
     selectedExtras[item.id]?.includes(extra.id)
-
   ) || [];
 
+const selectedMilk =
+  item.options?.[0]?.values.find(
+    (option) =>
+      option.id ===
+      (
+        selectedOptions[item.id]?.["🥛 Milch auswählen"] ??
+        "normal"
+      )
+  );
+
+const milkId = selectedMilk?.id || "normal";
+
 const cartId =
-
   item.id +
-
   "-" +
-
+  milkId +
+  "-" +
   chosenExtras.map((e) => e.id).join("-");
 
-const current = items.find((x) => x.id === cartId);
+const current =
+  items.find((x) => x.id === cartId);
                   const extrasPrice =
   item.extras
     ?.filter((extra) =>
@@ -287,6 +302,84 @@ const totalPrice = item.price + extrasPrice;
   </div>
 )}
 
+{item.options?.map((group) => (
+
+  <div
+    key={group.title}
+    className="mt-4"
+  >
+
+    <p className="text-xs text-[#5c4432]/70 mb-2">
+      {group.title}
+    </p>
+
+    <div className="flex flex-wrap gap-2">
+
+      {group.values.map((option) => {
+
+        const selected =
+          (
+            selectedOptions[item.id]?.[group.title] ??
+            "normal"
+          ) === option.id;
+
+        return (
+
+          <button
+            key={option.id}
+            type="button"
+
+            onClick={() =>
+              setSelectedOptions((prev) => ({
+                ...prev,
+                [item.id]: {
+                  ...prev[item.id],
+                  [group.title]: option.id,
+                },
+              }))
+            }
+
+           className={`
+
+  px-2.5
+
+  py-1.5
+
+  rounded-full
+
+  text-[11px]
+
+  font-medium
+
+  border
+
+  transition
+
+  ${
+
+    selected
+
+      ? "bg-[#2c2c2c] text-white border-[#2c2c2c]"
+
+      : "bg-[#f8f5ee] text-[#5c4432] border-[#e8dcc7]"
+
+  }
+
+`}
+          >
+            {option.name}
+          </button>
+
+        );
+
+      })}
+
+    </div>
+
+  </div>
+
+))}
+
                         <div className="mt-4">
 
                           {!current ? (
@@ -299,13 +392,30 @@ addItem({
   id: cartId,
 
   name:
-    item.name +
-    (
-      chosenExtras.length
-        ? " + " +
-          chosenExtras.map((e) => e.name).join(", ")
-        : ""
-    ),
+
+  item.name +
+
+  (selectedMilk
+
+    ? ` (${selectedMilk.name})`
+
+    : "") +
+
+  (
+
+    chosenExtras.length
+
+      ? " + " +
+
+        chosenExtras
+
+          .map((e) => e.name)
+
+          .join(", ")
+
+      : ""
+
+  ),
 
   price: totalPrice,
 });

@@ -1,5 +1,69 @@
-export const menuData = [
+type MenuOptionValue = {
+  id: string;
+  name: string;
+  price: number;
+};
+
+type MenuOption = {
+  title: string;
+  values: MenuOptionValue[];
+};
+
+type Extra = {
+  id: string;
+  name: string;
+  price: number;
+};
+
+type MenuItem = {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  desc: string;
+  allergens: string[];
+  additives: string[];
+  extras: Extra[];
+  options?: MenuOption[];
+};
+
+type MenuSection = {
+  title: string;
+  items: MenuItem[];
+};
+
+const milkOptions: MenuOption[] = [
+
   {
+    title: "🥛 Milch auswählen",
+    values: [
+      {
+        id: "normal",
+        name: "🥛 Normale Milch",
+        price: 0,
+      },
+      {
+        id: "lactose",
+        name: "🥛 Laktosefreie Milch",
+        price: 0,
+      },
+      {
+        id: "oat",
+        name: "🌾 Hafermilch",
+        price: 0,
+      },
+      {
+        id: "coconut",
+        name: "🥥 Kokosmilch",
+        price: 0,
+      },
+    ],
+  },
+];
+
+export const menuData: MenuSection[] = [
+  {
+    
   title: "Frühstück",
   items: [
     {
@@ -325,7 +389,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-3",
@@ -355,7 +420,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-6",
@@ -365,7 +431,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-7",
@@ -375,7 +442,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-8",
@@ -385,7 +453,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-9",
@@ -485,7 +554,8 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: [],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-19",
@@ -566,10 +636,11 @@ export const menuData = [
       name: "Eis Latte",
       price: 4.5,
       image: "/gt25.jpg",
-      desc: "mit Kokosmilch und Karamell",
+      desc: "mit Karamell",
       allergens: ["🌴 Kokosnuss"],
       additives: ["🍮 Karamellsirup", "☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-26",
@@ -579,7 +650,8 @@ export const menuData = [
       desc: "mit Milch und Karamell",
       allergens: ["🥛 Milch"],
       additives: ["🍮 Karamellsirup", "☕ Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-27",
@@ -629,37 +701,42 @@ export const menuData = [
       desc: "",
       allergens: ["🥛 Milch"],
       additives: ["🍵 Koffein"],
-      extras: []
+      extras: [],
+      options: milkOptions,
+      
     },
     {
       id: "gt-32",
       name: "Eis Matcha Latte",
       price: 5,
       image: "/gt32.jpg",
-      desc: "mit Kokosmilch und Karamell",
+      desc: "mit Karamell",
       allergens: ["🌴 Kokosnuss"],
       additives: ["🍵 Koffein", "🍮 Karamellsirup"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-33",
       name: "Himbeere Matcha",
       price: 5.5,
       image: "/gt33.jpg",
-      desc: "mit Kokosmilch und Himbeere",
+      desc: "mit Himbeere",
       allergens: ["🌴 Kokosnuss"],
       additives: ["🍵 Koffein", "🍓 Himbeersirup"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     },
     {
       id: "gt-34",
       name: "Mango Matcha",
       price: 5.5,
       image: "/gt34.jpg",
-      desc: "mit Kokosmilch und Mango",
+      desc: "mit Mango",
       allergens: ["🌴 Kokosnuss"],
       additives: ["🍵 Koffein", "🥭 Mangosirup"],
-      extras: []
+      extras: [],
+      options: milkOptions,
     }
   ]
 }
