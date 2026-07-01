@@ -774,15 +774,30 @@ setDeliveryAvailable(true);
             </button>
 
             <button
-              onClick={() => setPayment("card")}
-              className={`px-4 py-2 rounded-full ${
-                payment === "card"
-                  ? "bg-[#2c2c2c] text-white"
-                  : "bg-gray-100"
-              }`}
-            >
-              💳 Karte
-            </button>
+
+  disabled
+
+  className="
+
+    px-4
+
+    py-2
+
+    rounded-full
+
+    bg-gray-200
+
+    text-gray-500
+
+    cursor-not-allowed
+
+  "
+
+>
+
+  💳 Karte (vorübergehend nicht verfügbar)
+
+</button>
 
           </div>
 
