@@ -7,22 +7,6 @@ const stripe = new Stripe(
 
 export async function POST(req: Request) {
 
-  return NextResponse.json(
-
-  {
-
-    error: "Kartenzahlung ist vorübergehend nicht verfügbar.",
-
-  },
-
-  {
-
-    status: 503,
-
-  }
-
-);
-
   try {
 
     const {
