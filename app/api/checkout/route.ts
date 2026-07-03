@@ -13,6 +13,7 @@ export async function POST(req: Request) {
       items,
       form,
       deliveryType,
+      deliveryFee,
       timeType,
       scheduleDate,
       scheduleTime,
@@ -76,6 +77,24 @@ export async function POST(req: Request) {
       }
     );
 
+    if (
+  deliveryType === "delivery" &&
+  Number(deliveryFee) > 0
+) {
+  line_items.push({
+    price_data: {
+      currency: "eur",
+      product_data: {
+        name: "🚚 Lieferung",
+      },
+      unit_amount: Math.round(
+        Number(deliveryFee) * 100
+      ),
+    },
+    quantity: 1,
+  });
+}
+
     // ✅ Stripe session
     const session =
       await stripe.checkout.sessions.create({
@@ -109,6 +128,8 @@ export async function POST(req: Request) {
           payment: "card",
 
           deliveryType,
+
+          deliveryFee: String(deliveryFee || 0),
 
           timeType,
 

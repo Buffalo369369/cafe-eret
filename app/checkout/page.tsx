@@ -302,19 +302,28 @@ if (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          items,
-          form: {
 
-  ...form,
+  items,
 
-  address: fullAddress,
+  form: {
 
-},
-          deliveryType,
-          timeType,
-          scheduleDate,
-          scheduleTime,
-        }),
+    ...form,
+
+    address: fullAddress,
+
+  },
+
+  deliveryType,
+
+  deliveryFee,
+
+  timeType,
+
+  scheduleDate,
+
+  scheduleTime,
+
+})
       });
 
       if (!res.ok) {
@@ -342,20 +351,30 @@ if (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          items,
-          form: {
+
+  items,
+
+  form: {
 
     ...form,
 
     address: fullAddress,
 
   },
-          payment: "cash",
-          deliveryType,
-          timeType,
-          scheduleDate,
-          scheduleTime,
-        }),
+
+  payment: "cash",
+
+  deliveryType,
+
+  deliveryFee,
+
+  timeType,
+
+  scheduleDate,
+
+  scheduleTime,
+
+}),
       });
 
       if (!res.ok) {
