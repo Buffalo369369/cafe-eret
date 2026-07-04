@@ -209,7 +209,7 @@ const handleSubmit = async () => {
 
 if (
   deliveryType === "delivery" &&
-  subtotal < 15
+  subtotal < 0
 ) {
 
   toast.error(
