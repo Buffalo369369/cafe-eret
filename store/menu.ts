@@ -86,7 +86,7 @@ export const menuData: MenuSection[] = [
     },
     {
       id: "fr-2",
-      name: "Omlett",
+      name: "Omelett",
       price: 11,
       image: "/frn2.jpg",
       desc: "Serviert mit Salat und Ciabatta-Croutons",

@@ -2,7 +2,7 @@ export const allergens: Record<string, string[]> = {
   // Frühstück
   "Spiegeleier mit Gemüse": ["Gluten", "Eier"],
 
-  "Omlett": ["Gluten", "Eier", "Milch"],
+  "Omelett": ["Gluten", "Eier", "Milch"],
 
   "Rührei": ["Gluten", "Eier", "Milch"],
 
