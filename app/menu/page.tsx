@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useCart } from "@/store/cart";
 import toast from "react-hot-toast";
 import { menuData } from "@/store/menu";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AllergenInfo from "@/components/AllergenInfo";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
@@ -47,6 +47,55 @@ export default function MenuPage() {
   // ✅ ВОТ ЧЕГО НЕ ХВАТАЛО
   const [active, setActive] = useState(menuData[0]?.title);
 
+  const categoryRefs = useRef<
+  Record<string, HTMLButtonElement | null>
+>({});
+
+  useEffect(() => {
+  const handleScroll = () => {
+    const offset = 180; // высота header + панели категорий
+
+    let current = menuData[0].title;
+
+    for (const section of menuData) {
+      const el = document.getElementById(section.title);
+
+      if (!el) continue;
+
+      const top = el.getBoundingClientRect().top;
+
+      if (top <= offset) {
+        current = section.title;
+      } else {
+        break;
+      }
+    }
+
+    setActive(current);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  // сразу определить активную секцию
+  handleScroll();
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+
+useEffect(() => {
+  const button = categoryRefs.current[active];
+
+  if (!button) return;
+
+  button.scrollIntoView({
+    behavior: "smooth",
+    inline: "center",
+    block: "nearest",
+  });
+}, [active]);
+
   const [selectedExtras, setSelectedExtras] = useState<
 Record<string, string[]>
 >({});
@@ -88,10 +137,25 @@ const [selectedOptions, setSelectedOptions] = useState<
 
       {/* STICKY CATEGORY BAR */}
       <div className="sticky top-[70px] md:top-[80px] z-30 bg-[#e9dfcf]/95 backdrop-blur-md border-b border-black/5">
-  <div className="flex gap-3 overflow-x-auto px-6 py-3 no-scrollbar">
+  <div
+  className="
+    flex
+    gap-3
+    overflow-x-auto
+    px-6
+    py-3
+    no-scrollbar
+    snap-x
+    snap-mandatory
+    scroll-smooth
+  "
+>
 
     {menuData.map((section) => (
       <button
+        ref={(el) => {
+        categoryRefs.current[section.title] = el;
+        }}
         key={section.title}
         onClick={() => {
   setActive(section.title);
@@ -111,7 +175,7 @@ const [selectedOptions, setSelectedOptions] = useState<
   window.scrollTo({ top: y, behavior: "smooth" });
 }}
         className={`
-          whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition
+          snap-center whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition
           ${
             active === section.title
               ? "bg-[#2c2c2c] text-white shadow-md"

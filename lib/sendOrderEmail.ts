@@ -69,11 +69,16 @@ border-radius:12px;
   if (!email) return;
   
   await resend.emails.send({
-    from: "ERET Café <orders@cafe-eret.de>",
-    to: email,
-    subject: `Bestellung #${orderNumber}`,
 
-    html: `
+  from: "ERET Café <orders@cafe-eret.de>",
+
+  replyTo: process.env.REPLY_TO_EMAIL,
+
+  to: email,
+
+  subject: `Bestellung #${orderNumber}`,
+
+  html: `
 <div style="
 max-width:650px;
 margin:auto;
