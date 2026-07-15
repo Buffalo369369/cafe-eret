@@ -23,7 +23,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [payment, setPayment] = useState<"cash" | "card">("cash");
   const [deliveryType, setDeliveryType] =
-  useState<"delivery" | "pickup">("delivery");
+  useState<"delivery" | "pickup">("pickup");
 
 const [timeType, setTimeType] =
   useState<"asap" | "scheduled">("asap");
@@ -631,15 +631,19 @@ if (
   <div className="flex gap-4 flex-wrap">
 
     <button
-      onClick={() => setDeliveryType("delivery")}
-      className={`px-4 py-2 rounded-full ${
-        deliveryType === "delivery"
-          ? "bg-[#2c2c2c] text-white"
-          : "bg-gray-100"
-      }`}
-    >
-      🚚 Lieferung
-    </button>
+  disabled
+  className="
+    px-4
+    py-2
+    rounded-full
+    bg-gray-100
+    text-gray-400
+    cursor-not-allowed
+    opacity-80
+  "
+>
+  🚚 Lieferung ab September
+</button>
 
     <button
       onClick={() => {
@@ -672,7 +676,13 @@ setDeliveryAvailable(true);
       🥡 Abholung
     </button>
 
-  </div>
+    </div>
+
+    <p className="text-sm text-[#5c4432]/70 leading-relaxed">
+  🚚 Unser Lieferservice startet im September.
+  <br />
+  Bis dahin bieten wir ausschließlich Abholung an.
+</p>
 
 </div>
 
