@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/store/cart";
+import { usePathname } from "next/navigation";
 
 type Props = {
   onClick: () => void;
@@ -10,7 +11,12 @@ export default function FloatingCartButton({
   onClick,
 }: Props) {
 
-  const count = useCart((s) =>
+  const pathname = usePathname();
+
+if (pathname === "/speisekarte") {
+  return null;
+}
+const count = useCart((s) =>
     s.items.reduce((sum, i) => sum + i.qty, 0)
   );
 

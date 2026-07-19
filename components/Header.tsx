@@ -16,6 +16,10 @@ export default function Header() {
 
   const pathname = usePathname();
 
+  if (pathname === "/speisekarte") {
+  return null;
+}
+
   const count = useCart((s) =>
     s.items.reduce((sum, i) => sum + i.qty, 0)
   );

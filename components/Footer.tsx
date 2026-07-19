@@ -2,8 +2,15 @@
 
 import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+
+  const pathname = usePathname();
+
+if (pathname === "/speisekarte") {
+  return null;
+}
   return (
     <footer className="relative text-[#2c2c2c] overflow-hidden">
 
