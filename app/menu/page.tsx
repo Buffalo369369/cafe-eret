@@ -38,7 +38,11 @@ function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   setTimeout(() => clone.remove(), 700);
 }
 
-export default function MenuPage() {
+export default function MenuPage({
+  qrMode = false,
+}: {
+  qrMode?: boolean;
+}) {
   const addItem = useCart((s) => s.addItem);
   const increase = useCart((s) => s.increaseQty);
   const decrease = useCart((s) => s.decreaseQty);
@@ -110,33 +114,45 @@ const [selectedOptions, setSelectedOptions] = useState<
     <main>
 
       {/* HEADER */}
-<section className="relative pt-[110px] pb-10 md:pt-[110px] md:pb-16 px-6 md:px-20 text-center overflow-hidden">
+{!qrMode && (
+  <section className="relative pt-[110px] pb-10 md:pt-[110px] md:pb-16 px-6 md:px-20 text-center overflow-hidden">
 
-  {/* PAPER BACKGROUND */}
-  <div
-    className="
-      absolute inset-0
-      bg-[url('/paper2.jpg')]
-      bg-cover
-      bg-center
-      opacity-60
-    "
-  />
+    {/* PAPER BACKGROUND */}
+    <div
+      className="
+        absolute inset-0
+        bg-[url('/paper2.jpg')]
+        bg-cover
+        bg-center
+        opacity-60
+      "
+    />
 
-  {/* SOFT OVERLAY */}
-  <div className="absolute inset-0 bg-[#e9dfcf]/40" />
+    {/* SOFT OVERLAY */}
+    <div className="absolute inset-0 bg-[#e9dfcf]/40" />
 
-  {/* CONTENT */}
-  <div className="relative z-10">
-    <h1 className="text-3xl md:text-6xl font-semibold text-[#2c2c2c]">
-      Speisekarte
-    </h1>
-  </div>
+    {/* CONTENT */}
+    <div className="relative z-10">
+      <h1 className="text-3xl md:text-6xl font-semibold text-[#2c2c2c]">
+        Speisekarte
+      </h1>
+    </div>
 
-</section>
+  </section>
+)}]
 
       {/* STICKY CATEGORY BAR */}
-      <div className="sticky top-[70px] md:top-[80px] z-30 bg-[#e9dfcf]/95 backdrop-blur-md border-b border-black/5">
+      <div
+  className={`
+    sticky
+    ${qrMode ? "top-0" : "top-[70px] md:top-[80px]"}
+    z-30
+    bg-[#e9dfcf]/95
+    backdrop-blur-md
+    border-b
+    border-black/5
+  `}
+>
   <div
   className="
     flex
@@ -167,10 +183,9 @@ const [selectedOptions, setSelectedOptions] = useState<
     document.querySelector("header")?.clientHeight || 0;
 
   const y =
-    el.getBoundingClientRect().top +
-    window.scrollY -
-    headerHeight -
-    80; // ← воздух сверху
+  el.getBoundingClientRect().top +
+  window.scrollY -
+  (qrMode ? 10 : headerHeight + 80);
 
   window.scrollTo({ top: y, behavior: "smooth" });
 }}
@@ -193,7 +208,7 @@ const [selectedOptions, setSelectedOptions] = useState<
      
 
       {/* MENU */}
-     <section className="relative px-6 md:px-20 py-10 md:py-16">
+     <section className="relative px-6 md:px-20 pt-2 pb-10 md:pt-2 md:pb-16">
 
   <div
     className="
@@ -316,7 +331,7 @@ const totalPrice = item.price + extrasPrice;
                           {item.desc}
                         </p>
 
-                        {item.extras?.length > 0 && (
+                        {!qrMode && item.extras?.length > 0 && (
   <div className="mt-3">
 
     <p className="mb-2 text-xs text-[#5c4432]/70">
@@ -366,7 +381,8 @@ const totalPrice = item.price + extrasPrice;
   </div>
 )}
 
-{item.options?.map((group) => (
+{!qrMode &&
+  item.options?.map((group) => (
 
   <div
     key={group.title}
@@ -444,76 +460,61 @@ const totalPrice = item.price + extrasPrice;
 
 ))}
 
-                        <div className="mt-4">
 
-                          {!current ? (
-                            <button
-                              onClick={(e) => {
-                                flyToCart(e);
-                                
+                       {!qrMode && (
+  <div className="mt-4">
 
-addItem({
-  id: cartId,
+    {!current ? (
+      <button
+        onClick={(e) => {
+          flyToCart(e);
 
-  name:
+          addItem({
+            id: cartId,
+            name:
+              item.name +
+              (selectedMilk
+                ? ` (${selectedMilk.name})`
+                : "") +
+              (chosenExtras.length
+                ? " + " +
+                  chosenExtras
+                    .map((e) => e.name)
+                    .join(", ")
+                : ""),
+            price: totalPrice,
+          });
 
-  item.name +
+          toast.success("Hinzugefügt 🛒");
+        }}
+        className="w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm hover:bg-black active:scale-[0.97] transition"
+      >
+        In den Warenkorb
+      </button>
+    ) : (
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => decrease(cartId)}
+          className="w-8 h-8 rounded-full border"
+        >
+          −
+        </button>
 
-  (selectedMilk
+        <span className="font-medium">
+          {current.qty}
+        </span>
 
-    ? ` (${selectedMilk.name})`
+        <button
+          onClick={() => increase(cartId)}
+          className="w-8 h-8 rounded-full border"
+        >
+          +
+        </button>
+      </div>
+    )}
 
-    : "") +
-
-  (
-
-    chosenExtras.length
-
-      ? " + " +
-
-        chosenExtras
-
-          .map((e) => e.name)
-
-          .join(", ")
-
-      : ""
-
-  ),
-
-  price: totalPrice,
-});
-                                toast.success("Hinzugefügt 🛒");
-                              }}
-                              className="w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm hover:bg-black active:scale-[0.97] transition"
-                            >
-                              In den Warenkorb
-                            </button>
-                          ) : (
-                            <div className="flex items-center justify-between">
-
-                              <button
-                               onClick={() => decrease(cartId)}
-                                className="w-8 h-8 rounded-full border"
-                              >
-                                −
-                              </button>
-
-                              <span className="font-medium">
-                                {current.qty}
-                              </span>
-
-                              <button
-                              onClick={() => increase(cartId)}
-                                className="w-8 h-8 rounded-full border"
-                              >
-                                +
-                              </button>
-
-                            </div>
-                          )}
-
-                        </div>
+  </div>
+)}
 
                       </div>
                     </motion.div>

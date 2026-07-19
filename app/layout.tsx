@@ -5,7 +5,7 @@ import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
 import { Analytics } from "@vercel/analytics/react";
-
+import LayoutShell from "@/components/LayoutShell";
 
 const arimo = Arimo({
   subsets: ["latin"],
@@ -69,11 +69,11 @@ export default function RootLayout({
   return (
     <html lang="de" data-scroll-behavior="smooth">
       <body className={arimo.className}>
-        <Header />
+        <LayoutShell>
 
-        {children}
+  {children}
 
-        <Footer />
+</LayoutShell>
 
         {/* 🔔 TOASTER ВНУТРИ */}
         <Toaster
