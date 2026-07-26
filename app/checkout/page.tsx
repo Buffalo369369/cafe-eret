@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useCheckout } from "@/store/checkout";
+import { calculateOrderPricing } from "@/lib/order-pricing";
 
 export default function CheckoutPage() {
   const items = useCart((s) => s.items);
@@ -29,8 +30,6 @@ const [coupon, setCoupon] = useState<{
   value: number;
 } | null>(null);
 
-const [discount, setDiscount] = useState(0);
-
 const [checkingCoupon, setCheckingCoupon] =
   useState(false);
   const [payment, setPayment] = useState<"cash" | "card">("cash");
@@ -47,14 +46,11 @@ const [deliveryFee, setDeliveryFee] =
 
   useState(0);
 
-  const totalBeforeDiscount =
-  subtotal + deliveryFee;
-
-const total =
-  Math.max(
-    totalBeforeDiscount - discount,
-    0
-  );
+  const { discount, total } = calculateOrderPricing({
+    items,
+    deliveryFee,
+    coupon,
+  });
 
 const [deliveryAvailable, setDeliveryAvailable] =
 
@@ -211,20 +207,11 @@ async function applyCoupon() {
       toast.error(data.message);
 
       setCoupon(null);
-      setDiscount(0);
 
       return;
     }
 
     setCoupon(data.coupon);
-
-    const value =
-      data.coupon.type === "percent"
-        ? totalBeforeDiscount *
-          (data.coupon.value / 100)
-        : data.coupon.value;
-
-    setDiscount(value);
 
     toast.success("Gutschein angewendet 🎉");
   } finally {
@@ -387,7 +374,8 @@ if (
       });
 
       if (!res.ok) {
-        toast.error("Stripe Fehler");
+        const data = await res.json().catch(() => null);
+        toast.error(data?.error || "Stripe Fehler");
         setLoading(false);
         return;
       }
@@ -440,7 +428,8 @@ if (
       });
 
       if (!res.ok) {
-        toast.error("Fehler beim Senden");
+        const data = await res.json().catch(() => null);
+        toast.error(data?.error || "Fehler beim Senden");
         setLoading(false);
         return;
       }

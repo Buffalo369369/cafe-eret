@@ -435,6 +435,18 @@ export default function AdminPage() {
 
                   <div key={index}>
                     {item.qty}x {item.name}
+                    {typeof item.price === "number" && (
+                      <span
+                        className={
+                          item.price < 0
+                            ? "ml-2 text-green-700"
+                            : "ml-2 text-gray-500"
+                        }
+                      >
+                        {item.price < 0 ? "−" : ""}
+                        {Math.abs(item.price * item.qty).toFixed(2)} €
+                      </span>
+                    )}
                   </div>
 
                 )
