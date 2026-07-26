@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { saveOrder } from "@/lib/saveOrder";
 import { sendOrderEmail } from "@/lib/sendOrderEmail";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 
 export async function POST(req: Request) {
@@ -13,6 +14,7 @@ export async function POST(req: Request) {
   timeType,
   scheduleDate,
   scheduleTime,
+  coupon,
 } = await req.json();
     
     if (!items || items.length === 0) {
@@ -93,6 +95,12 @@ if (payment === "cash") {
 
   });
 
+}
+
+if (coupon) {
+  await supabaseAdmin.rpc("increment_coupon_usage", {
+    coupon_code: coupon,
+  });
 }
 
 if (payment === "cash" && savedOrder) {

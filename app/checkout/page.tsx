@@ -21,6 +21,18 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+
+const [coupon, setCoupon] = useState<{
+  code: string;
+  type: "fixed" | "percent";
+  value: number;
+} | null>(null);
+
+const [discount, setDiscount] = useState(0);
+
+const [checkingCoupon, setCheckingCoupon] =
+  useState(false);
   const [payment, setPayment] = useState<"cash" | "card">("cash");
   const [deliveryType, setDeliveryType] =
   useState<"delivery" | "pickup">("pickup");
@@ -35,7 +47,14 @@ const [deliveryFee, setDeliveryFee] =
 
   useState(0);
 
-  const total = subtotal + deliveryFee;
+  const totalBeforeDiscount =
+  subtotal + deliveryFee;
+
+const total =
+  Math.max(
+    totalBeforeDiscount - discount,
+    0
+  );
 
 const [deliveryAvailable, setDeliveryAvailable] =
 
@@ -165,6 +184,52 @@ const clearForm = useCheckout(
 
   }
 
+}
+
+async function applyCoupon() {
+  if (!couponCode.trim()) {
+    toast.error("Bitte Gutscheincode eingeben");
+    return;
+  }
+
+  try {
+    setCheckingCoupon(true);
+
+    const res = await fetch("/api/coupon", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code: couponCode,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!data.valid) {
+      toast.error(data.message);
+
+      setCoupon(null);
+      setDiscount(0);
+
+      return;
+    }
+
+    setCoupon(data.coupon);
+
+    const value =
+      data.coupon.type === "percent"
+        ? totalBeforeDiscount *
+          (data.coupon.value / 100)
+        : data.coupon.value;
+
+    setDiscount(value);
+
+    toast.success("Gutschein angewendet 🎉");
+  } finally {
+    setCheckingCoupon(false);
+  }
 }
 
 const handleSubmit = async () => {
@@ -323,6 +388,8 @@ if (
 
   scheduleTime,
 
+  coupon: coupon?.code ?? null,
+
 })
       });
 
@@ -373,6 +440,8 @@ if (
   scheduleDate,
 
   scheduleTime,
+
+  coupon: coupon?.code ?? null,
 
 }),
       });
@@ -866,47 +935,66 @@ setDeliveryAvailable(true);
 
   </div>
 
-  <div className="mt-4 border-t pt-4 space-y-2">
+  <div className="mt-6">
+  <label className="block text-sm font-medium mb-2">
+    🎁 Gutscheincode
+  </label>
 
-    {deliveryType === "delivery" && (
+  <div className="flex gap-2">
+    <input
+      type="text"
+      value={couponCode}
+      onChange={(e) =>
+        setCouponCode(e.target.value.toUpperCase())
+      }
+      placeholder="z.B. 10ERET10"
+      className="flex-1 border rounded-lg px-4 py-2"
+    />
 
-      <div className="flex justify-between">
-
-        <span>Lieferung</span>
-
-        <span>
-
-          {deliveryFee.toFixed(2)} €
-
-        </span>
-
-      </div>
-
-    )}
-
-    <div className="flex justify-between font-semibold">
-
-      <span>Gesamt</span>
-
-      <span>
-
-        {total.toFixed(2)} €
-
-      </span>
-
+    <button
+      type="button"
+      onClick={applyCoupon}
+      disabled={checkingCoupon}
+      className="px-4 rounded-lg bg-[#2c2c2c] text-white disabled:opacity-50"
+    >
+      {checkingCoupon ? "..." : "Anwenden"}
+    </button>
+  </div>
 </div>
 
-{deliveryType === "delivery" && (
+  <div className="mt-4 border-t pt-4 space-y-2">
 
-  <p className="text-sm text-gray-500">
-
-    Mindestbestellwert für Lieferung: 15 €
-
-  </p>
-
-)}
-
+  <div className="flex justify-between">
+    <span>Zwischensumme</span>
+    <span>{subtotal.toFixed(2)} €</span>
   </div>
+
+  {discount > 0 && (
+    <div className="flex justify-between text-green-700">
+      <span>Rabatt</span>
+      <span>-{discount.toFixed(2)} €</span>
+    </div>
+  )}
+
+  {deliveryType === "delivery" && (
+    <div className="flex justify-between">
+      <span>Lieferung</span>
+      <span>{deliveryFee.toFixed(2)} €</span>
+    </div>
+  )}
+
+  <div className="flex justify-between font-semibold text-lg border-t pt-2">
+    <span>Gesamt</span>
+    <span>{total.toFixed(2)} €</span>
+  </div>
+
+  {deliveryType === "delivery" && (
+    <p className="text-sm text-gray-500">
+      Mindestbestellwert für Lieferung: 15 €
+    </p>
+  )}
+
+</div>
 
 </div>
 
