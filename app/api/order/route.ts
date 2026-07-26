@@ -44,10 +44,29 @@ export async function POST(req: Request) {
     );
 
     // 💰 сумма
-    const total = items.reduce(
-      (sum: number, i: any) => sum + i.price * i.qty,
-      0
-    );
+    const subtotal = items.reduce(
+  (sum: number, i: any) => sum + i.price * i.qty,
+  0
+);
+
+let discount = 0;
+
+if (coupon) {
+  const { data: couponData } = await supabaseAdmin
+    .from("coupons")
+    .select("type,value")
+    .eq("code", coupon)
+    .single();
+
+  if (couponData) {
+    discount =
+      couponData.type === "percent"
+        ? subtotal * (couponData.value / 100)
+        : couponData.value;
+  }
+}
+
+const total = Math.max(subtotal - discount, 0);
 
     let savedOrder = null;
 
@@ -160,6 +179,7 @@ ${timeType === "asap"
 🧾 ЗАКАЗ:
 ${itemsLines.join("\n")}
 
+${discount > 0 ? `🎁 Rabatt: -${discount.toFixed(2)} €\n` : ""}
 💰 ИТОГО: ${total.toFixed(2)} €
 `;
 

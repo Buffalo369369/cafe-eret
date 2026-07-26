@@ -367,29 +367,22 @@ if (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-
   items,
 
   form: {
-
     ...form,
-
     address: fullAddress,
-
   },
 
+  payment: "card",
+
   deliveryType,
-
   deliveryFee,
-
   timeType,
-
   scheduleDate,
-
   scheduleTime,
 
   coupon: coupon?.code ?? null,
-
 })
       });
 
