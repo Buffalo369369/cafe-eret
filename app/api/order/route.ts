@@ -125,30 +125,20 @@ if (coupon) {
 if (payment === "cash" && savedOrder) {
 
   await sendOrderEmail({
-
-    email: form?.email || "",
-
-    name: form?.name || "",
-
-    orderNumber: savedOrder.order_number,
-
-    items,
-
-    total,
-
-    deliveryType,
-
-    paymentMethod: "cash",
-
-    timeType,
-
-    scheduleDate: scheduleDate || "",
-
-    scheduleTime: scheduleTime || "",
-
-    phone: form?.phone || "",
-
-  });
+  email: form?.email || "",
+  name: form?.name || "",
+  orderNumber: savedOrder.order_number,
+  items,
+  total,
+  discount,
+  coupon,
+  deliveryType,
+  paymentMethod: "cash",
+  timeType,
+  scheduleDate: scheduleDate || "",
+  scheduleTime: scheduleTime || "",
+  phone: form?.phone || "",
+});
 
 }
     

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY as string
@@ -9,15 +10,16 @@ export async function POST(req: Request) {
 
   try {
 
-    const {
-      items,
-      form,
-      deliveryType,
-      deliveryFee,
-      timeType,
-      scheduleDate,
-      scheduleTime,
-    } = await req.json();
+  const {
+  items,
+  form,
+  deliveryType,
+  deliveryFee,
+  timeType,
+  scheduleDate,
+  scheduleTime,
+  coupon,
+} = await req.json();
 
     // ✅ items validation
     if (!items || items.length === 0) {
@@ -46,7 +48,35 @@ export async function POST(req: Request) {
 
     }
 
-    // ✅ Stripe line items
+    const subtotal = items.reduce(
+  (sum: number, item: any) => sum + item.price * item.qty,
+  0
+);
+
+let discount = 0;
+
+if (coupon) {
+  const { data: couponData } = await supabaseAdmin
+    .from("coupons")
+    .select("type,value,active,used_count,usage_limit,expires_at")
+    .eq("code", coupon)
+    .single();
+
+  if (
+    couponData &&
+    couponData.active &&
+    (!couponData.expires_at ||
+      new Date(couponData.expires_at) > new Date()) &&
+    couponData.used_count < couponData.usage_limit
+  ) {
+    discount =
+      couponData.type === "percent"
+        ? subtotal * (couponData.value / 100)
+        : couponData.value;
+  }
+}
+
+// ✅ Stripe line items
     const line_items = items.map(
       (item: any) => {
 
@@ -95,6 +125,8 @@ export async function POST(req: Request) {
   });
 }
 
+
+
     // ✅ Stripe session
     const session =
       await stripe.checkout.sessions.create({
@@ -138,6 +170,9 @@ export async function POST(req: Request) {
 
           scheduleTime:
             scheduleTime || "",
+
+            coupon:
+            coupon || "",
         },
       });
 

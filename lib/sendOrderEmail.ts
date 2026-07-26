@@ -17,15 +17,12 @@ export async function sendOrderEmail({
   total,
   deliveryType,
   paymentMethod,
-
-timeType,
-
-scheduleDate,
-
-scheduleTime,
-
-phone,
-
+  timeType,
+  scheduleDate,
+  scheduleTime,
+  phone,
+  discount,
+  coupon,
 }: {
 
   email: string;
@@ -49,6 +46,10 @@ phone,
   scheduleTime: string;
 
   phone: string;
+
+  discount?: number;
+
+  coupon?: string | null;
 
 }) {
 
@@ -159,6 +160,20 @@ margin-top:25px;
 <h2 style="margin-top:0">
 💰 Gesamtbetrag
 </h2>
+
+${
+  discount && discount > 0
+    ? `
+<p style="color:#2e7d32;font-size:16px;margin-bottom:8px;">
+🎁 Gutschein: <b>${coupon}</b>
+</p>
+
+<p style="color:#2e7d32;font-size:18px;margin-bottom:8px;">
+Rabatt: -${discount.toFixed(2)} €
+</p>
+`
+    : ""
+}
 
 <h1 style="
 color:#b88a5a;
