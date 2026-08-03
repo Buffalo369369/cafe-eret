@@ -6,8 +6,15 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useCheckout } from "@/store/checkout";
 import { calculateOrderPricing } from "@/lib/order-pricing";
+import {
+  getOrderingAvailability,
+  VACATION_NOTICE,
+} from "@/lib/ordering-availability";
 
 export default function CheckoutPage() {
+  const [orderingAvailable, setOrderingAvailable] = useState(
+    () => getOrderingAvailability().isAvailable
+  );
   const items = useCart((s) => s.items);
   const clearCart = useCart((s) => s.clearCart);
   const subtotal = items.reduce(
@@ -77,6 +84,16 @@ const clearForm = useCheckout(
   (s) => s.clearForm
 
 );
+
+  useEffect(() => {
+    const refreshOrderingAvailability = () => {
+      setOrderingAvailable(getOrderingAvailability().isAvailable);
+    };
+
+    const interval = window.setInterval(refreshOrderingAvailability, 60_000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
 
@@ -220,6 +237,11 @@ async function applyCoupon() {
 }
 
 const handleSubmit = async () => {
+  if (!getOrderingAvailability().isAvailable) {
+    toast.error(VACATION_NOTICE);
+    return;
+  }
+
   if (loading) return;
 
   // ✅ validation
@@ -460,6 +482,15 @@ if (
     <main className="bg-[#e9dfcf] pt-[90px] md:pt-[110px] min-h-screen px-6 md:px-20 py-12">
 
       <div className="max-w-3xl mx-auto space-y-10">
+
+        {!orderingAvailable && (
+          <div
+            role="status"
+            className="whitespace-pre-line rounded-2xl border border-[#b88a5a] bg-[#fff9ef] p-6 text-center leading-relaxed text-[#5c4432] shadow-md"
+          >
+            {VACATION_NOTICE}
+          </div>
+        )}
 
         <h1 className="text-3xl md:text-5xl font-semibold text-center text-[#2c2c2c]">
           Checkout
@@ -985,6 +1016,7 @@ setDeliveryAvailable(true);
           onClick={handleSubmit}
           disabled={
   loading ||
+  !orderingAvailable ||
   checkingDelivery ||
   (
     deliveryType === "delivery" &&
@@ -1005,6 +1037,8 @@ disabled:cursor-not-allowed
         >
           {loading
   ? "Bestellung wird gesendet..."
+  : !orderingAvailable
+  ? "Bestellungen ab 25. August wieder möglich"
   : checkingDelivery
   ? "Lieferung wird berechnet..."
   : "Bestellen 🚀"}

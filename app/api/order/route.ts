@@ -13,8 +13,19 @@ import {
   incrementCouponUsage,
 } from "@/lib/coupons";
 import { sendOrderTelegram } from "@/lib/sendOrderTelegram";
+import {
+  getOrderingAvailability,
+  VACATION_NOTICE,
+} from "@/lib/ordering-availability";
 
 export async function POST(req: Request) {
+  if (!getOrderingAvailability().isAvailable) {
+    return NextResponse.json(
+      { error: VACATION_NOTICE, orderingAvailable: false },
+      { status: 403 }
+    );
+  }
+
   try {
     const {
       items,

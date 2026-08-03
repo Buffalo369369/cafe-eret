@@ -9,10 +9,21 @@ import {
   CouponValidationError,
   getValidCoupon,
 } from "@/lib/coupons";
+import {
+  getOrderingAvailability,
+  VACATION_NOTICE,
+} from "@/lib/ordering-availability";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
+  if (!getOrderingAvailability().isAvailable) {
+    return NextResponse.json(
+      { error: VACATION_NOTICE, orderingAvailable: false },
+      { status: 403 }
+    );
+  }
+
   try {
     const {
       items,
