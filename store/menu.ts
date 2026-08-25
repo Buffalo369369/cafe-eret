@@ -366,6 +366,16 @@ export const menuData: MenuSection[] = [
       additives: [],
       extras: []
     },
+    {
+      id: "sa-4",
+      name: "Ceasar-Salat mit Lachs",
+      price: 11.5,
+      image: "/sal4.jpg",
+      desc: "Römersalat, Kirschtomaten, Caesar-Dressing, mild gesalzener Lachs, Parmesan-Crumble und knusprige Röstzwiebeln",
+      allergens: ["🌾 Gluten", "🥚 Eier", "🐟 Fisch", "🥛 Milch", "🌭 Senf"],
+      additives: [],
+      extras: []
+    },
   ],
 },
   {

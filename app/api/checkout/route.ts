@@ -11,15 +11,15 @@ import {
 } from "@/lib/coupons";
 import {
   getOrderingAvailability,
-  VACATION_NOTICE,
 } from "@/lib/ordering-availability";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
-  if (!getOrderingAvailability().isAvailable) {
+  const orderingAvailability = getOrderingAvailability();
+  if (!orderingAvailability.isAvailable) {
     return NextResponse.json(
-      { error: VACATION_NOTICE, orderingAvailable: false },
+      { error: orderingAvailability.message, orderingAvailable: false },
       { status: 403 }
     );
   }

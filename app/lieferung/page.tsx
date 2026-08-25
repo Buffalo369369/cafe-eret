@@ -124,7 +124,8 @@ export default function DeliveryPage() {
           </h3>
 
           <p>
-            ⏰ Di – So: 10:00 – 17:00
+            ⏰ Dienstag – Freitag: 09:00 – 18:00
+            <span className="block">Samstag – Sonntag: 10:00 – 18:00</span>
             <span className="block text-sm text-black/50">
               Montag: geschlossen
             </span>

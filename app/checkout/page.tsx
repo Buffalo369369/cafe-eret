@@ -8,13 +8,14 @@ import { useCheckout } from "@/store/checkout";
 import { calculateOrderPricing } from "@/lib/order-pricing";
 import {
   getOrderingAvailability,
-  VACATION_NOTICE,
+  getOpeningHoursForDate,
 } from "@/lib/ordering-availability";
 
 export default function CheckoutPage() {
-  const [orderingAvailable, setOrderingAvailable] = useState(
-    () => getOrderingAvailability().isAvailable
+  const [orderingAvailability, setOrderingAvailability] = useState(
+    () => getOrderingAvailability()
   );
+  const orderingAvailable = orderingAvailability.isAvailable;
   const items = useCart((s) => s.items);
   const clearCart = useCart((s) => s.clearCart);
   const subtotal = items.reduce(
@@ -87,7 +88,7 @@ const clearForm = useCheckout(
 
   useEffect(() => {
     const refreshOrderingAvailability = () => {
-      setOrderingAvailable(getOrderingAvailability().isAvailable);
+      setOrderingAvailability(getOrderingAvailability());
     };
 
     const interval = window.setInterval(refreshOrderingAvailability, 60_000);
@@ -237,8 +238,9 @@ async function applyCoupon() {
 }
 
 const handleSubmit = async () => {
-  if (!getOrderingAvailability().isAvailable) {
-    toast.error(VACATION_NOTICE);
+  const currentOrderingAvailability = getOrderingAvailability();
+  if (!currentOrderingAvailability.isAvailable) {
+    toast.error(currentOrderingAvailability.message);
     return;
   }
 
@@ -337,25 +339,25 @@ if (
       return;
     }
 
-    const day = selected.getDay();
     const hour = selected.getHours();
-    const minutes = selected.getMinutes();
+    const openingHours = getOpeningHoursForDate(scheduleDate);
 
     // Montag geschlossen
-    if (day === 1) {
+    if (!openingHours) {
       toast.error("Montag geschlossen");
       return;
     }
 
-    // vor 10:00
-    if (hour < 10) {
-      toast.error("Wir öffnen um 10:00");
+    const openingHour = Number(openingHours.opensAt.split(":")[0]);
+    const closingHour = Number(openingHours.closesAt.split(":")[0]);
+
+    if (hour < openingHour) {
+      toast.error(`Wir öffnen um ${String(openingHour).padStart(2, "0")}:00`);
       return;
     }
 
-    // nach 17:00
-    if (hour > 16 || (hour === 16 && minutes > 59)) {
-      toast.error("Bestellungen nur bis 17:00 möglich");
+    if (hour >= closingHour) {
+      toast.error(`Bestellungen nur bis ${openingHours.closesAt} möglich`);
       return;
     }
   }
@@ -488,7 +490,7 @@ if (
             role="status"
             className="whitespace-pre-line rounded-2xl border border-[#b88a5a] bg-[#fff9ef] p-6 text-center leading-relaxed text-[#5c4432] shadow-md"
           >
-            {VACATION_NOTICE}
+            {orderingAvailability.message}
           </div>
         )}
 
@@ -1038,7 +1040,7 @@ disabled:cursor-not-allowed
           {loading
   ? "Bestellung wird gesendet..."
   : !orderingAvailable
-  ? "Bestellungen ab 25. August wieder möglich"
+  ? "Bestellungen derzeit nicht möglich"
   : checkingDelivery
   ? "Lieferung wird berechnet..."
   : "Bestellen 🚀"}

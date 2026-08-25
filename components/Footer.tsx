@@ -55,7 +55,10 @@ if (pathname === "/speisekarte") {
             </h3>
 
             <p className="text-[#2c2c2c]/80 text-sm">
-              Di – So: 10:00 – 17:00
+              Dienstag – Freitag: 09:00 – 18:00
+            </p>
+            <p className="text-[#2c2c2c]/80 text-sm mt-1">
+              Samstag – Sonntag: 10:00 – 18:00
             </p>
             <p className="text-[#2c2c2c]/50 text-sm mt-1">
               Montag: geschlossen
