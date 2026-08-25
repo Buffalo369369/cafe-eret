@@ -73,15 +73,6 @@ img {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-input[type="date"],
-
-input[type="time"] {
-
-  min-width: 0;
-
-  width: 100%;
-
-}
 * {
   -webkit-tap-highlight-color: transparent;
 }

@@ -8,6 +8,30 @@ import {
 
 import { supabase } from "@/lib/supabase";
 
+type AdminOrderItem = {
+  name: string;
+  qty: number;
+  price?: number;
+};
+
+type AdminOrder = {
+  id: string;
+  customer_name: string;
+  order_number: number;
+  phone: string;
+  created_at: string;
+  address: string;
+  comment?: string;
+  time_type: string;
+  schedule_time?: string;
+  total: number | string;
+  payment_method: string;
+  order_type: string;
+  status: string;
+  items?: AdminOrderItem[];
+  isNew?: boolean;
+};
+
 export default function AdminPage() {
 
   const audioRef =
@@ -17,7 +41,7 @@ export default function AdminPage() {
     useRef(false);
 
   const [orders, setOrders] =
-    useState<any[]>([]);
+    useState<AdminOrder[]>([]);
 
   // 🔓 разблокировка звука
   const unlockAudio = async () => {
@@ -93,7 +117,7 @@ export default function AdminPage() {
 
     const data = await res.json();
 
-    setOrders(data || []);
+    setOrders(Array.isArray(data) ? (data as AdminOrder[]) : []);
 
   } catch (err) {
 
@@ -131,7 +155,9 @@ export default function AdminPage() {
     audioRef.current =
       new Audio("/sounds/order.mp3");
 
-    loadOrders();
+    const initialLoad = window.setTimeout(() => {
+      void loadOrders();
+    }, 0);
 
     const channel = supabase
 
@@ -146,6 +172,8 @@ export default function AdminPage() {
         },
 
         (payload) => {
+
+          const newOrder = payload.new as unknown as AdminOrder;
 
           console.log(
             "NEW ORDER:",
@@ -167,7 +195,7 @@ export default function AdminPage() {
           // ✨ новый заказ сверху
           setOrders((prev) => [
             {
-              ...payload.new,
+              ...newOrder,
               isNew: true,
             },
             ...prev,
@@ -178,7 +206,7 @@ export default function AdminPage() {
 
             setOrders((prev) =>
               prev.map((o) =>
-                o.id === payload.new.id
+                o.id === newOrder.id
                   ? {
                       ...o,
                       isNew: false,
@@ -195,6 +223,8 @@ export default function AdminPage() {
       .subscribe();
 
     return () => {
+
+      window.clearTimeout(initialLoad);
 
       supabase.removeChannel(channel);
 
@@ -283,12 +313,10 @@ export default function AdminPage() {
                 )}
 
                 {order.time_type ===
-                  "scheduled" && (
+                  "today" && (
 
                   <p>
-                    🕒 {order.schedule_date}
-                    {" — "}
-                    {order.schedule_time}
+                    🕒 Heute um {order.schedule_time}
                   </p>
 
                 )}
@@ -429,7 +457,7 @@ export default function AdminPage() {
 
               {order.items?.map(
                 (
-                  item: any,
+                  item: AdminOrderItem,
                   index: number
                 ) => (
 

@@ -6,8 +6,7 @@ export async function sendOrderTelegram({
   paymentMethod,
   deliveryType,
   timeType,
-  scheduleDate,
-  scheduleTime,
+  selectedTime,
   items,
   pricing,
   coupon,
@@ -17,8 +16,7 @@ export async function sendOrderTelegram({
   paymentMethod: "cash" | "card";
   deliveryType: string;
   timeType: string;
-  scheduleDate?: string;
-  scheduleTime?: string;
+  selectedTime?: string;
   items: OrderItem[];
   pricing: OrderPricing;
   coupon?: string;
@@ -49,7 +47,7 @@ ${deliveryType === "delivery" ? `📍 ${customer.address || "-"}` : ""}
 💳 ${paymentMethod === "card" ? "Karte" : "Bar"}
 
 ${deliveryType === "pickup" ? "🥡 Abholung" : "🚚 Lieferung"}
-${timeType === "asap" ? "⚡ So schnell wie möglich" : `🕒 ${scheduleDate} — ${scheduleTime}`}
+${timeType === "asap" ? "⚡ So schnell wie möglich" : `🕒 Heute um ${selectedTime}`}
 
 🧾 ЗАКАЗ:
 ${itemsLines.join("\n")}

@@ -11,12 +11,14 @@ import {
 } from "@/lib/coupons";
 import {
   getOrderingAvailability,
+  validateOrderTiming,
 } from "@/lib/ordering-availability";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
-  const orderingAvailability = getOrderingAvailability();
+  const now = new Date();
+  const orderingAvailability = getOrderingAvailability(now);
   if (!orderingAvailability.isAvailable) {
     return NextResponse.json(
       { error: orderingAvailability.message, orderingAvailable: false },
@@ -31,13 +33,23 @@ export async function POST(req: Request) {
       deliveryType,
       deliveryFee: requestedDeliveryFee,
       timeType,
-      scheduleDate,
-      scheduleTime,
+      selectedTime,
+      scheduleDate: requestedDate,
       coupon: couponCode,
     } = await req.json();
 
     if (!Array.isArray(items) || items.length === 0 || !items.every(isValidOrderItem)) {
       return NextResponse.json({ error: "Invalid items" }, { status: 400 });
+    }
+
+    const timingError = validateOrderTiming({
+      timeType,
+      selectedTime,
+      requestedDate,
+      now,
+    });
+    if (timingError) {
+      return NextResponse.json({ error: timingError }, { status: 400 });
     }
 
     if (
@@ -119,8 +131,7 @@ export async function POST(req: Request) {
         discountCents: String(pricing.discountCents),
         totalCents: String(pricing.totalCents),
         timeType: timeType || "",
-        scheduleDate: scheduleDate || "",
-        scheduleTime: scheduleTime || "",
+        selectedTime: selectedTime || "",
         coupon: coupon?.code || "",
       },
     });

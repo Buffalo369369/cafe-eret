@@ -18,8 +18,7 @@ export async function sendOrderEmail({
   deliveryType,
   paymentMethod,
   timeType,
-  scheduleDate,
-  scheduleTime,
+  selectedTime,
   phone,
   discount,
   coupon,
@@ -41,9 +40,7 @@ export async function sendOrderEmail({
 
   timeType: string;
 
-  scheduleDate: string;
-
-  scheduleTime: string;
+  selectedTime: string;
 
   phone: string;
 
@@ -197,7 +194,7 @@ ${paymentMethod === "card"
 <p style="color:#7b6a58">
 ${timeType === "asap"
   ? "⚡ So schnell wie möglich"
-  : `🕒 ${scheduleDate} ${scheduleTime}`}
+  : `🕒 Heute um ${selectedTime}`}
 </p>
 
 <p style="color:#7b6a58">

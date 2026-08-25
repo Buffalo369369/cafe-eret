@@ -7,8 +7,9 @@ import { useState, useEffect } from "react";
 import { useCheckout } from "@/store/checkout";
 import { calculateOrderPricing } from "@/lib/order-pricing";
 import {
+  getAvailableTodayTimeSlots,
   getOrderingAvailability,
-  getOpeningHoursForDate,
+  NO_TODAY_SLOTS_NOTICE,
 } from "@/lib/ordering-availability";
 
 export default function CheckoutPage() {
@@ -45,10 +46,10 @@ const [checkingCoupon, setCheckingCoupon] =
   useState<"delivery" | "pickup">("pickup");
 
 const [timeType, setTimeType] =
-  useState<"asap" | "scheduled">("asap");
+  useState<"asap" | "today">("asap");
 
-const [scheduleDate, setScheduleDate] = useState("");
-const [scheduleTime, setScheduleTime] = useState("");
+const [selectedTime, setSelectedTime] = useState("");
+  const todayTimeSlots = getAvailableTodayTimeSlots();
 
 const [deliveryFee, setDeliveryFee] =
 
@@ -320,44 +321,14 @@ if (
 
 }
 
-  // ✅ scheduled time validation
-  if (timeType === "scheduled") {
-
-    if (!scheduleDate || !scheduleTime) {
-      toast.error("Bitte Datum und Uhrzeit wählen");
+  if (timeType === "today") {
+    if (todayTimeSlots.length === 0) {
+      toast.error(NO_TODAY_SLOTS_NOTICE);
       return;
     }
 
-    const selected = new Date(
-      `${scheduleDate}T${scheduleTime}`
-    );
-
-    const now = new Date();
-
-    if (selected < now) {
-      toast.error("Bitte zukünftige Zeit wählen");
-      return;
-    }
-
-    const hour = selected.getHours();
-    const openingHours = getOpeningHoursForDate(scheduleDate);
-
-    // Montag geschlossen
-    if (!openingHours) {
-      toast.error("Montag geschlossen");
-      return;
-    }
-
-    const openingHour = Number(openingHours.opensAt.split(":")[0]);
-    const closingHour = Number(openingHours.closesAt.split(":")[0]);
-
-    if (hour < openingHour) {
-      toast.error(`Wir öffnen um ${String(openingHour).padStart(2, "0")}:00`);
-      return;
-    }
-
-    if (hour >= closingHour) {
-      toast.error(`Bestellungen nur bis ${openingHours.closesAt} möglich`);
+    if (!todayTimeSlots.includes(selectedTime)) {
+      toast.error("Bitte wählen Sie eine verfügbare Uhrzeit für heute.");
       return;
     }
   }
@@ -390,8 +361,7 @@ if (
   deliveryType,
   deliveryFee,
   timeType,
-  scheduleDate,
-  scheduleTime,
+  selectedTime,
 
   coupon: coupon?.code ?? null,
 })
@@ -441,10 +411,7 @@ if (
   deliveryFee,
 
   timeType,
-
-  scheduleDate,
-
-  scheduleTime,
+  selectedTime,
 
   coupon: coupon?.code ?? null,
 
@@ -780,7 +747,10 @@ setDeliveryAvailable(true);
   <div className="flex gap-4 flex-wrap">
 
     <button
-      onClick={() => setTimeType("asap")}
+      onClick={() => {
+        setTimeType("asap");
+        setSelectedTime("");
+      }}
       className={`px-4 py-2 rounded-full ${
         timeType === "asap"
           ? "bg-[#2c2c2c] text-white"
@@ -791,80 +761,44 @@ setDeliveryAvailable(true);
     </button>
 
     <button
-      onClick={() => setTimeType("scheduled")}
+      onClick={() => setTimeType("today")}
       className={`px-4 py-2 rounded-full ${
-        timeType === "scheduled"
+        timeType === "today"
           ? "bg-[#2c2c2c] text-white"
           : "bg-gray-100"
       }`}
     >
-      🕒 Bestimmte Uhrzeit
+      🕒 Heute um
     </button>
 
   </div>
 
-  {timeType === "scheduled" && (
-  <div className="flex flex-col gap-4 w-full overflow-hidden">
+  {orderingAvailable && todayTimeSlots.length === 0 && (
+    <p className="rounded-xl bg-[#fff9ef] p-4 text-sm text-[#5c4432]">
+      {NO_TODAY_SLOTS_NOTICE}
+    </p>
+  )}
 
-    {/* DATE */}
+  {timeType === "today" && todayTimeSlots.length > 0 && (
     <div className="space-y-2 w-full">
-
-      <label className="text-sm text-[#2c2c2c]/70 block">
-        📅 Datum
+      <label className="text-sm text-[#2c2c2c]/70 block" htmlFor="today-time">
+        ⏰ Uhrzeit heute
       </label>
-
-      <input
-        type="date"
-        value={scheduleDate}
-        min={new Date().toISOString().split("T")[0]}
-        onChange={(e) => setScheduleDate(e.target.value)}
-        className="
-  w-full
-  appearance-none
-  border
-  border-black/15
-  rounded-2xl
-  bg-white
-  px-4
-  h-[56px]
-  text-[#2c2c2c]
-  outline-none
-  overflow-hidden
-"
-      />
-
+      <select
+        id="today-time"
+        value={selectedTime}
+        onChange={(event) => setSelectedTime(event.target.value)}
+        className="w-full border border-black/15 rounded-2xl bg-white px-4 h-[56px] text-[#2c2c2c] outline-none"
+      >
+        <option value="">Uhrzeit wählen</option>
+        {todayTimeSlots.map((time) => (
+          <option key={time} value={time}>
+            {time} Uhr
+          </option>
+        ))}
+      </select>
     </div>
-
-    {/* TIME */}
-    <div className="space-y-2 w-full">
-
-      <label className="text-sm text-[#2c2c2c]/70 block">
-        ⏰ Uhrzeit
-      </label>
-
-      <input
-        type="time"
-        value={scheduleTime}
-        onChange={(e) => setScheduleTime(e.target.value)}
-        className="
-  w-full
-  appearance-none
-  border
-  border-black/15
-  rounded-2xl
-  bg-white
-  px-4
-  h-[56px]
-  text-[#2c2c2c]
-  outline-none
-  overflow-hidden
-"
-      />
-
-    </div>
-
-  </div>
-)}
+  )}
 
 </div>
 

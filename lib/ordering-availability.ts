@@ -1,24 +1,16 @@
 export const CAFE_TIME_ZONE = "Europe/Berlin";
-export const ORDERING_REOPENS_ON = "2026-08-25";
+export const CLOSED_CAFE_NOTICE =
+  "Das Café ist derzeit geschlossen. Bestellungen sind nur während unserer Öffnungszeiten möglich.";
+export const NO_TODAY_SLOTS_NOTICE =
+  "Für heute können leider keine weiteren Bestellungen angenommen werden.";
 
-export const VACATION_NOTICE = `🌴 Wir machen Urlaub!
-
-Unser Café ist bis einschließlich 24. August geschlossen.
-Ab dem 25. August sind wir wieder für Sie da und nehmen gerne Ihre Bestellungen entgegen.
-
-Vielen Dank für Ihr Verständnis ❤️
-Ihr ERET Café Team`;
-
-export const ORDERING_HOURS_NOTICE =
-  "Bestellungen sind zu unseren Öffnungszeiten möglich: Dienstag–Freitag 09:00–18:00 Uhr, Samstag–Sonntag 10:00–18:00 Uhr.";
-
-type BerlinDateTime = {
+export type BerlinDateTime = {
   date: string;
   hour: number;
   minute: number;
 };
 
-function getBerlinDateTime(now: Date): BerlinDateTime {
+export function getBerlinDateTime(now = new Date()): BerlinDateTime {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: CAFE_TIME_ZONE,
     year: "numeric",
@@ -68,20 +60,72 @@ export function isTimeWithinOpeningHours({
   return currentMinutes >= openingMinutes && currentMinutes < closingMinutes;
 }
 
-/**
- * Enforces vacation and regular opening hours in the cafe's local timezone.
- * Orders reopen automatically on 25 August 2026 and are then accepted only
- * Tuesday–Friday 09:00–18:00 and Saturday–Sunday 10:00–18:00.
- */
 export function getOrderingAvailability(now = new Date()) {
   const berlinDateTime = getBerlinDateTime(now);
-  const isVacation = berlinDateTime.date < ORDERING_REOPENS_ON;
-  const isOpen = isTimeWithinOpeningHours(berlinDateTime);
 
   return {
-    isAvailable: !isVacation && isOpen,
+    isAvailable: isTimeWithinOpeningHours(berlinDateTime),
     berlinDate: berlinDateTime.date,
-    isVacation,
-    message: isVacation ? VACATION_NOTICE : ORDERING_HOURS_NOTICE,
+    message: CLOSED_CAFE_NOTICE,
   };
+}
+
+/** Returns future same-day pickup times in 15-minute intervals, ending at 17:30. */
+export function getAvailableTodayTimeSlots(now = new Date()) {
+  const berlinDateTime = getBerlinDateTime(now);
+  const hours = getOpeningHoursForDate(berlinDateTime.date);
+  if (!hours) return [];
+
+  const [openingHour, openingMinute] = hours.opensAt.split(":").map(Number);
+  const openingMinutes = openingHour * 60 + openingMinute;
+  const currentMinutes = berlinDateTime.hour * 60 + berlinDateTime.minute;
+  const lastSlotMinutes = 17 * 60 + 30;
+  const slots: string[] = [];
+
+  for (let minutes = openingMinutes; minutes <= lastSlotMinutes; minutes += 15) {
+    if (minutes <= currentMinutes) continue;
+
+    const hour = String(Math.floor(minutes / 60)).padStart(2, "0");
+    const minute = String(minutes % 60).padStart(2, "0");
+    slots.push(`${hour}:${minute}`);
+  }
+
+  return slots;
+}
+
+/** Validates the only supported timing modes for both cash and Stripe orders. */
+export function validateOrderTiming({
+  timeType,
+  selectedTime,
+  requestedDate,
+  now = new Date(),
+}: {
+  timeType: unknown;
+  selectedTime: unknown;
+  requestedDate: unknown;
+  now?: Date;
+}) {
+  // A date is not accepted at all: today-only orders use Berlin's current date.
+  if (
+    requestedDate !== undefined &&
+    requestedDate !== null &&
+    requestedDate !== ""
+  ) {
+    return "Bestellungen für ein anderes Datum sind nicht möglich.";
+  }
+
+  if (timeType === "asap" && !selectedTime) return null;
+
+  if (timeType !== "today") {
+    return "Ungültige Bestellzeit.";
+  }
+
+  const slots = getAvailableTodayTimeSlots(now);
+  if (slots.length === 0) return NO_TODAY_SLOTS_NOTICE;
+
+  if (typeof selectedTime !== "string" || !slots.includes(selectedTime)) {
+    return "Bitte wählen Sie eine verfügbare Uhrzeit für heute.";
+  }
+
+  return null;
 }

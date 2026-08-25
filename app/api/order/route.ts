@@ -15,10 +15,12 @@ import {
 import { sendOrderTelegram } from "@/lib/sendOrderTelegram";
 import {
   getOrderingAvailability,
+  validateOrderTiming,
 } from "@/lib/ordering-availability";
 
 export async function POST(req: Request) {
-  const orderingAvailability = getOrderingAvailability();
+  const now = new Date();
+  const orderingAvailability = getOrderingAvailability(now);
   if (!orderingAvailability.isAvailable) {
     return NextResponse.json(
       { error: orderingAvailability.message, orderingAvailable: false },
@@ -34,13 +36,23 @@ export async function POST(req: Request) {
       deliveryType,
       deliveryFee: requestedDeliveryFee,
       timeType,
-      scheduleDate,
-      scheduleTime,
+      selectedTime,
+      scheduleDate: requestedDate,
       coupon: couponCode,
     } = await req.json();
 
     if (payment !== "cash") {
       return NextResponse.json({ error: "Invalid payment method" }, { status: 400 });
+    }
+
+    const timingError = validateOrderTiming({
+      timeType,
+      selectedTime,
+      requestedDate,
+      now,
+    });
+    if (timingError) {
+      return NextResponse.json({ error: timingError }, { status: 400 });
     }
     if (!Array.isArray(items) || items.length === 0 || !items.every(isValidOrderItem)) {
       return NextResponse.json({ error: "Invalid items" }, { status: 400 });
@@ -84,8 +96,7 @@ export async function POST(req: Request) {
       status: "new",
       comment: form.comment || "",
       time_type: timeType || "",
-      schedule_date: scheduleDate || "",
-      schedule_time: scheduleTime || "",
+      schedule_time: selectedTime || "",
     });
 
     if (!savedOrder) throw new Error("Order could not be saved");
@@ -104,8 +115,7 @@ export async function POST(req: Request) {
         deliveryType,
         paymentMethod: "cash",
         timeType,
-        scheduleDate: scheduleDate || "",
-        scheduleTime: scheduleTime || "",
+        selectedTime: selectedTime || "",
         phone: form.phone,
       }),
       sendOrderTelegram({
@@ -114,8 +124,7 @@ export async function POST(req: Request) {
         paymentMethod: "cash",
         deliveryType,
         timeType,
-        scheduleDate,
-        scheduleTime,
+        selectedTime,
         items: items as OrderItem[],
         pricing,
         coupon: coupon?.code,
