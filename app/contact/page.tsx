@@ -52,23 +52,23 @@ export default function ContactPage() {
   toast.error("Fehler beim Senden ❌");
 
 }
-    } catch (error) {
+    } catch {
       setLoading(false);
       toast.error("Server Fehler");
     }
   };
 
   return (
-    <main className="bg-[#e9dfcf]">
+    <main className="cafe-contact bg-[#e9dfcf]">
 
       {/* HERO */}
-      <section className="relative h-[250px] md:h-[320px] flex items-center justify-center text-center overflow-hidden">
+      <section className="relative h-62.5 md:h-80 flex items-center justify-center text-center overflow-hidden">
 
         {/* PARALLAX */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div style={{ y }} className="w-full h-[120%]">
             <div
-              className="w-full h-full bg-cover bg-[center_top] md:bg-[center_80%]"
+              className="w-full h-full bg-cover bg-position-[center_top] md:bg-position-[center_80%]"
               style={{ backgroundImage: "url('/contact.jpg')" }}
             />
           </motion.div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
             </a>
 
             <p>
-              ⏰ Dienstag – Freitag: 09:00 – 18:00
+              ⏰ Dienstag – Freitag: 10:00 – 18:00
               <span className="block">Samstag – Sonntag: 10:00 – 18:00</span>
               <span className="block text-sm text-black/50">
                 Montag: geschlossen
@@ -146,22 +146,22 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
 
             <input
-              name="name"
+              name="name" aria-label="Dein Name"
               type="text"
               placeholder="Name"
               className="w-full border border-black/10 rounded-lg px-4 py-2 outline-none"
             />
 
             <input
-              name="email"
+              name="email" aria-label="Deine E-Mail-Adresse"
               type="email"
-              placeholder="Email"
+              placeholder="E-Mail"
               className="w-full border border-black/10 rounded-lg px-4 py-2 outline-none"
             />
 
             <textarea
   maxLength={2000}
-              name="message"
+              name="message" aria-label="Deine Nachricht"
               placeholder="Nachricht"
               rows={4}
               className="w-full border border-black/10 rounded-lg px-4 py-2 outline-none"

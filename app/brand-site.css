@@ -1,0 +1,226 @@
+/* Customer storefront extension of image 6. Admin has no cafe-site wrapper.
+   The approved homepage keeps its own layout; shared commerce surfaces inherit
+   the same palette on every route. */
+.cafe-site.brand-pages {
+  --brand-orange: var(--ref-orange);
+  --brand-orange-deep: #c64a00;
+  --cream: var(--ref-cream);
+  --cream-strong: #fff9e9;
+  --brown: var(--ref-brown);
+  --espresso: var(--ref-brown);
+  --espresso-soft: #713c21;
+  --line: #59230924;
+}
+.cafe-site.brand-pages { min-height: 100vh; }
+.brand-pages :is(main, .pop-legal) { background: var(--ref-orange); color: var(--ref-brown); }
+.brand-pages :is(h1,h2,h3) { color: var(--ref-brown); letter-spacing: -.025em; line-height: 1.15; }
+.brand-pages h1 { font-size: clamp(36px,5vw,64px); }
+.brand-pages .cafe-footer > div.relative > .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+/* Ensure old !important footer text colors cannot undermine contrast. */
+.cafe-site.reference-home .cafe-footer :is(h3,p,a,div) { color: #fff5de !important; }
+.cafe-site.reference-home .cafe-footer a[class*="rounded-full"] { color: var(--ref-brown) !important; }
+.brand-pages .cafe-header nav a > span { background: #c64a00; }
+
+/* Header: shared across all pages, with top alignment and menu category bar. */
+.cafe-site {
+  --eret-navigation-bg: #fff9e9;
+  --eret-navigation-border: rgba(89, 35, 9, 0.08);
+  --header-height: 78px;
+  --header-height-mobile: 70px;
+  --header-bar-offset: 10px;
+  --header-bar-radius: 32px;
+  --header-outer-bg: rgba(233, 223, 207, 0.96);
+  --header-inner-bg: rgba(255, 249, 242, 0.98);
+}
+
+.cafe-site .cafe-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-height);
+  z-index: 10000;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.cafe-site .cafe-header > div {
+  width: min(1360px, calc(100% - 24px));
+  height: 100%;
+  margin: 0 auto;
+  padding: 10px 18px 10px 22px;
+  background: var(--eret-navigation-bg);
+  border-radius: var(--header-bar-radius);
+  border: 1px solid var(--eret-navigation-border);
+  box-shadow: 0 10px 24px rgba(89, 35, 9, 0.08);
+  overflow: hidden;
+}
+
+.brand-pages .cafe-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: none;
+}
+
+.brand-pages .cafe-mobile-nav {
+  top: var(--header-height) !important;
+  background: var(--eret-navigation-bg);
+  border-top: 0;
+  border-bottom: 1px solid var(--eret-navigation-border);
+}
+
+.brand-pages .cafe-menu > div.sticky {
+  top: var(--header-height) !important;
+  z-index: 35;
+  background: var(--eret-navigation-bg);
+  border-top: 0;
+  border-bottom: 1px solid var(--eret-navigation-border);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 22px rgba(89, 35, 9, 0.06);
+}
+
+.brand-pages .cafe-menu > div.sticky > div {
+  background: var(--eret-navigation-bg);
+}
+
+.brand-pages .cafe-menu [id] {
+  scroll-margin-top: calc(var(--header-height) + 78px);
+}
+
+.brand-pages .cafe-menu > .cafe-menu-heading {
+  padding-top: calc(var(--header-height) + 32px);
+}
+
+/* Menu: orange canvas, cream category panels, real product imagery. */
+.brand-pages .cafe-menu > .cafe-menu-heading { background: none; border: 0; padding: 135px 24px 32px; }
+.brand-pages .cafe-menu-heading > .absolute,
+.brand-pages .cafe-menu > section:last-child > .absolute { display: none; }
+.brand-pages .cafe-menu-heading h1, .brand-pages .cafe-menu-heading h1 span { color: var(--ref-cream); }
+.brand-pages .cafe-menu-heading .cafe-eyebrow,
+.brand-pages .cafe-menu-intro { color: var(--ref-brown); }
+.brand-pages .cafe-menu > div.sticky { background: var(--ref-cream); border: 0; width: calc(100% - 80px); max-width: 1360px; margin-inline: auto; border-radius: 24px; box-shadow: 0 6px 18px #59230915; }
+.brand-pages .cafe-menu > div.sticky > div { max-width: none; padding: 12px; }
+.brand-pages .cafe-menu > div.sticky button { min-height: 44px; background: #fff9e9; color: var(--ref-brown); }
+.brand-pages .cafe-menu > div.sticky button[aria-pressed="true"] { background: var(--ref-brown); color: #fff9e9; box-shadow: none; }
+.brand-pages .cafe-menu > section:last-child { padding: 24px 40px 48px; }
+.brand-pages .cafe-menu > section:last-child > div.relative { max-width: 1360px; }
+.brand-pages .cafe-menu [id] { background: var(--ref-cream); border-radius: 28px; padding: 24px; scroll-margin-top: 190px; }
+.brand-pages .cafe-menu .grid { gap: 20px; }
+.brand-pages .cafe-product-card { display: flex; flex-direction: column; background: #fff9e9; box-shadow: 0 4px 12px #5923090c; border: 0; border-radius: 22px; }
+.brand-pages .cafe-product-card > img { height: 240px; }
+.brand-pages .cafe-product-card > div { background: #fff9e9; flex: 1; padding: 18px; }
+.brand-pages .cafe-product-card h3 { font-size: 20px; }
+.brand-pages .cafe-product-card p { color: #713c21; font-size: 14px; }
+.brand-pages .cafe-product-card .pop-product-price { background: #c64a00; color: #fff9e9; border: 0; font-size: 16px; padding: 5px 12px; }
+.brand-pages .cafe-product-card button { min-height: 44px; }
+.brand-pages .cafe-product-card button[class*="w-full"] { background: var(--ref-brown); color: #fff9e9; border-radius: 24px; box-shadow: none; }
+.brand-pages .cafe-product-card button[class*="bg-[#2c2c2c]"] { background: var(--ref-brown); color: #fff9e9; }
+.brand-pages.brand-qr .cafe-menu > div.sticky { top: 0; }
+.brand-pages.brand-qr .cafe-menu [id] { scroll-margin-top: 100px; }
+
+/* Story, contact and delivery retain their original photographs and copy. */
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) { padding: 112px 0 32px; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section { width: calc(100% - 80px); max-width: 1200px; margin: 24px auto 0; border-radius: 28px; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:first-child { margin-top: 0; height: 320px; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:first-child h1 { color: #fff9e9; margin-top: 0; padding: 24px; text-shadow: 0 2px 15px #0006; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:not(:first-child) { background: var(--ref-cream); padding: 32px; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:not(:first-child) > .absolute { display: none; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) :is(div[class*="bg-white"],div[class*="bg-white/80"]) { background: #fff9e9; box-shadow: none; border-radius: 22px; }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) h2 { font-size: clamp(26px,3vw,40px); }
+.brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) button { min-height: 48px; background: var(--ref-brown); color: #fff9e9; border-radius: 26px; }
+.brand-pages .pop-about .swiper { border-radius: 22px; }
+.brand-pages .pop-about .swiper-pagination-bullet-active { background: #c64a00; }
+.brand-pages .cafe-contact a { overflow-wrap: anywhere; }
+
+/* Calm checkout with distinct selected, disabled and error states. */
+.brand-pages .cafe-checkout { padding: 132px 24px 48px; }
+.brand-pages .cafe-checkout > div { max-width: 880px; }
+.brand-pages .cafe-checkout h1 { color: var(--ref-cream); }
+.brand-pages .pop-checkout-intro { text-align: center; margin-top: 16px; color: var(--ref-brown); }
+.brand-pages .cafe-checkout > div > div { background: var(--ref-cream); border-radius: 26px; box-shadow: 0 5px 16px #5923090d; padding: 26px; }
+.brand-pages .cafe-checkout h2 { font-size: 22px; }
+.brand-pages :is(.cafe-checkout,.cafe-contact) :is(input,select,textarea) { min-width: 0; max-width: 100%; min-height: 48px; border: 1px solid #b69971; border-radius: 14px; background: #fffbee; color: var(--ref-brown); padding: 12px 14px; font-size: 16px; }
+.brand-pages :is(.cafe-checkout,.cafe-contact) input::placeholder,
+.brand-pages :is(.cafe-checkout,.cafe-contact) textarea::placeholder { color: #79654d; opacity: 1; }
+.brand-pages .cafe-checkout button { min-height: 48px; font-weight: 700; }
+.brand-pages .cafe-checkout button[class*="bg-[#2c2c2c]"] { background: var(--ref-brown); color: #fff9e9; }
+.brand-pages .cafe-checkout button[class*="bg-gray-100"] { background: #f3e4c3; color: #67543e; border: 1px solid #cfb891; }
+.brand-pages .cafe-checkout > div > button { background: var(--ref-brown); color: #fff9e9; box-shadow: none; }
+.brand-pages .cafe-checkout button:disabled { opacity: .6; cursor: not-allowed; }
+.brand-pages .cafe-checkout [class*="text-red-"] { color: #ac2020; }
+.brand-pages .cafe-checkout [class*="text-green-"] { color: #306126; }
+.brand-pages .cafe-checkout [class*="text-gray-500"] { color: #71604a; }
+.brand-pages .cafe-checkout [class*="justify-between"] { gap: 16px; }
+
+/* Shared cart: no interaction or calculation changes. */
+.cafe-site.reference-home .cafe-cart-drawer { background: var(--ref-cream); color: var(--ref-brown); border: 1px solid #e9ce99; max-height: calc(100dvh - 112px); }
+.cafe-site.reference-home .cafe-cart-drawer > div:nth-child(2),
+.cafe-site.reference-home .cafe-cart-drawer > div:last-child { background: #ffedb9; }
+.cafe-site.reference-home .cafe-cart-drawer > div:nth-child(3) { min-height: 0; overscroll-behavior: contain; }
+.cafe-site.reference-home .cafe-cart-drawer button { min-height: 44px; min-width: 44px; }
+.cafe-site.reference-home .cafe-cart-drawer button[class*="w-full"] { background: var(--ref-brown); color: #fff9e9; border-radius: 26px; box-shadow: none; }
+.cafe-site.reference-home .cafe-cart-drawer button[class*="w-7"] { background: #fff9e9; border-color: #c8ab7b; }
+.cafe-site.reference-home .cafe-cart-drawer > div:last-child { padding-bottom: max(20px,env(safe-area-inset-bottom)); }
+.cafe-site.reference-home .pop-floating-cart { background: #c64a00; border-radius: 50%; }
+.brand-pages .pop-allergen-trigger { min-width: 44px; min-height: 44px; }
+.brand-pages div[class*="rounded-[30px]"][class*="max-w-md"] { background: var(--ref-cream); color: var(--ref-brown); max-height: 85dvh; overflow-y: auto; }
+
+/* Legal text is unchanged, presented on a quiet reading surface. */
+.brand-pages .pop-legal > .absolute { display: none; }
+.brand-pages .pop-legal > div.relative { max-width: 1000px; padding: 136px 32px 48px; }
+.brand-pages .pop-legal h1 { color: var(--ref-cream); margin-bottom: 28px; overflow-wrap: anywhere; }
+.brand-pages .pop-legal > div.relative > div { background: var(--ref-cream); border: 0; border-radius: 28px; padding: 36px; box-shadow: none; line-height: 1.75; overflow-wrap: anywhere; }
+.brand-pages .pop-legal a { color: #8c3500; text-underline-offset: 3px; }
+.brand-pages .pop-success { padding-top: 130px; }
+.brand-pages .pop-success > div { background: var(--ref-cream); border-radius: 28px; box-shadow: none; }
+.brand-pages .pop-success button { background: var(--ref-brown); color: #fff9e9; min-height: 48px; }
+@media (min-width:768px) and (max-width:1100px) {
+ .brand-pages .cafe-menu .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .brand-pages .cafe-menu > div.sticky { width: calc(100% - 40px); }
+ .brand-pages .cafe-menu > section:last-child { padding-inline: 20px; }
+ .brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section { width: calc(100% - 40px); }
+}
+@media (max-width:767px) {
+ .cafe-site {
+   --header-height: 70px;
+   --header-height-mobile: 70px;
+ }
+ .brand-pages .cafe-menu > .cafe-menu-heading { padding: 108px 20px 24px; }
+ .brand-pages .cafe-menu > div.sticky { top: 82px; width: calc(100% - 28px); border-radius: 20px; }
+ .brand-pages .cafe-menu > section:last-child { padding: 16px 14px 32px; }
+ .brand-pages .cafe-menu [id] { padding: 16px; border-radius: 22px; scroll-margin-top: 170px; }
+ .brand-pages .cafe-menu .grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+ .brand-pages .cafe-product-card > img { height: 220px; }
+ .brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) { padding-top: 90px; }
+ .brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section { width: calc(100% - 28px); margin-top: 16px; border-radius: 22px; }
+ .brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:first-child { height: 250px; }
+ .brand-pages :is(.pop-about,.cafe-contact,.cafe-delivery) > section:not(:first-child) { padding: 24px 18px; }
+ .brand-pages .cafe-checkout { padding: 108px 14px 32px; }
+ .brand-pages .cafe-checkout > div > div { padding: 20px 16px; border-radius: 22px; }
+ .brand-pages .cafe-checkout input.flex-1 { width: 100%; }
+ .brand-pages .cafe-checkout h2 { font-size: 20px; }
+ .brand-pages .pop-legal > div.relative { padding: 108px 14px 32px; }
+ .brand-pages .pop-legal > div.relative > div { padding: 24px 20px; border-radius: 22px; }
+ .brand-pages .cafe-footer > div.relative > .grid { grid-template-columns: 1fr; gap: 24px; }
+ .cafe-site.reference-home .cafe-cart-drawer { max-height: calc(100dvh - 90px); }
+}
+
+/* Launch audit: visible service state and consistent confirmation actions. */
+.brand-pages .brand-service-notice { width: calc(100% - 80px); max-width: 1200px; margin: 24px auto 0; padding: 24px 32px; border-radius: 24px; background: var(--ref-brown); color: var(--ref-cream); }
+.brand-pages .brand-service-notice strong { display: block; font-size: 22px; margin-bottom: 8px; }
+.brand-pages .pop-button { background: var(--ref-brown); color: #fff9e9; box-shadow: none; }
+@media (max-width:767px) { .brand-pages .brand-service-notice { width: calc(100% - 28px); padding: 22px 18px; } }
+
+/* Color-only contrast correction; geometry and interaction remain unchanged. */
+.cafe-site.reference-home .pop-floating-cart {
+  background: var(--eret-navigation-bg, #fff9e9);
+  color: var(--ref-brown);
+  border: 1px solid #59230933;
+  box-shadow: 0 8px 22px #59230933;
+}
+.cafe-site.reference-home .pop-floating-cart > svg { color: inherit; }
+.cafe-site.reference-home .pop-floating-cart > span {
+  background: var(--ref-brown);
+  color: var(--eret-navigation-bg, #fff9e9);
+}

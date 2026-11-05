@@ -1,6 +1,6 @@
 export const CAFE_TIME_ZONE = "Europe/Berlin";
 export const CLOSED_CAFE_NOTICE =
-  "Das Café ist derzeit geschlossen. Bestellungen sind nur während unserer Öffnungszeiten möglich.";
+  "Online-Bestellungen sind derzeit nicht möglich. Wir nehmen Bestellungen während unserer Öffnungszeiten bis 17:30 Uhr an.";
 export const NO_TODAY_SLOTS_NOTICE =
   "Für heute können leider keine weiteren Bestellungen angenommen werden.";
 
@@ -38,7 +38,7 @@ export function getOpeningHoursForDate(date: string) {
   if (weekday === 1) return null;
 
   return {
-    opensAt: weekday >= 2 && weekday <= 5 ? "09:00" : "10:00",
+    opensAt: "10:00",
     closesAt: "18:00",
   };
 }
@@ -64,7 +64,8 @@ export function getOrderingAvailability(now = new Date()) {
   const berlinDateTime = getBerlinDateTime(now);
 
   return {
-    isAvailable: isTimeWithinOpeningHours(berlinDateTime),
+    isAvailable: isTimeWithinOpeningHours(berlinDateTime) &&
+      berlinDateTime.hour * 60 + berlinDateTime.minute < 17 * 60 + 30,
     berlinDate: berlinDateTime.date,
     message: CLOSED_CAFE_NOTICE,
   };

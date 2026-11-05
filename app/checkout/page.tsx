@@ -20,40 +20,35 @@ export default function CheckoutPage() {
   const items = useCart((s) => s.items);
   const clearCart = useCart((s) => s.clearCart);
   const subtotal = items.reduce(
-
-  (sum, i) => sum + i.price * i.qty,
-
-  0
-
-);
-
+    (sum, i) => sum + i.price * i.qty,
+    0
+  );
 
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
 
-const [coupon, setCoupon] = useState<{
-  code: string;
-  type: "fixed" | "percent";
-  value: number;
-} | null>(null);
+  const [coupon, setCoupon] = useState<{
+    code: string;
+    type: "fixed" | "percent";
+    value: number;
+  } | null>(null);
 
-const [checkingCoupon, setCheckingCoupon] =
-  useState(false);
+  const [checkingCoupon, setCheckingCoupon] =
+    useState(false);
   const [payment, setPayment] = useState<"cash" | "card">("cash");
   const [deliveryType, setDeliveryType] =
-  useState<"delivery" | "pickup">("pickup");
+    useState<"delivery" | "pickup">("pickup");
 
-const [timeType, setTimeType] =
-  useState<"asap" | "today">("asap");
+  const [timeType, setTimeType] =
+    useState<"asap" | "today">("asap");
 
-const [selectedTime, setSelectedTime] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const todayTimeSlots = getAvailableTodayTimeSlots();
 
-const [deliveryFee, setDeliveryFee] =
-
-  useState(0);
+  const [deliveryFee, setDeliveryFee] =
+    useState(0);
 
   const { discount, total } = calculateOrderPricing({
     items,
@@ -61,31 +56,24 @@ const [deliveryFee, setDeliveryFee] =
     coupon,
   });
 
-const [deliveryAvailable, setDeliveryAvailable] =
+  const [deliveryAvailable, setDeliveryAvailable] =
+    useState(true);
 
-  useState(true);
+  const [deliveryDistance, setDeliveryDistance] =
+    useState("");
 
-const [deliveryDistance, setDeliveryDistance] =
+  const [checkingDelivery, setCheckingDelivery] =
+    useState(false);
 
-  useState("");
+  const form = useCheckout((s) => s.form);
 
-const [checkingDelivery, setCheckingDelivery] =
+  const setForm = useCheckout(
+    (s) => s.setForm
+  );
 
-  useState(false);
-
-const form = useCheckout((s) => s.form);
-
-const setForm = useCheckout(
-
-  (s) => s.setForm
-
-);
-
-const clearForm = useCheckout(
-
-  (s) => s.clearForm
-
-);
+  const clearForm = useCheckout(
+    (s) => s.clearForm
+  );
 
   useEffect(() => {
     const refreshOrderingAvailability = () => {
@@ -318,7 +306,6 @@ if (
   toast.error("Ungültige E-Mail");
 
   return;
-
 }
 
   if (timeType === "today") {
@@ -336,7 +323,7 @@ if (
   setLoading(true);
 
   const fullAddress =
-  `${form.street}, ${form.zip} ${form.city}, Germany`;
+  deliveryType === "delivery" ? `${form.street}, ${form.zip} ${form.city}, Germany` : "";
 
   try {
 
@@ -393,29 +380,18 @@ if (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-
-  items,
-
-  form: {
-
-    ...form,
-
-    address: fullAddress,
-
-  },
-
-  payment: "cash",
-
-  deliveryType,
-
-  deliveryFee,
-
-  timeType,
-  selectedTime,
-
-  coupon: coupon?.code ?? null,
-
-}),
+          items,
+          form: {
+            ...form,
+            address: fullAddress,
+          },
+          payment: "cash",
+          deliveryType,
+          deliveryFee,
+          timeType,
+          selectedTime,
+          coupon: coupon?.code ?? null,
+        }),
       });
 
       if (!res.ok) {
@@ -425,6 +401,8 @@ if (
         return;
       }
 
+      const confirmation = await res.json();
+      try { sessionStorage.setItem("eret-cash-confirmation", String(confirmation.orderNumber)); } catch { /* Storage may be disabled. */ }
       toast.success("Bestellung gesendet 🎉");
 
       clearCart();
@@ -448,7 +426,7 @@ if (
 };
 
   return (
-    <main className="bg-[#e9dfcf] pt-[90px] md:pt-[110px] min-h-screen px-6 md:px-20 py-12">
+    <main className="cafe-checkout bg-[#e9dfcf] min-h-screen px-6 md:px-20 py-12">
 
       <div className="max-w-3xl mx-auto space-y-10">
 
@@ -462,14 +440,17 @@ if (
         )}
 
         <h1 className="text-3xl md:text-5xl font-semibold text-center text-[#2c2c2c]">
-          Checkout
+          Deine Bestellung
         </h1>
+
+        <p className="pop-checkout-intro">Noch ein paar Details – dann kann dein Genussmoment kommen.</p>
 
         {/* FORM */}
         <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
+          <h2>Deine Kontaktdaten</h2>
 
           <input
-            placeholder="Name *"
+            placeholder="Name *" aria-label="Name *"
             className="w-full border px-4 py-2 rounded-lg"
             value={form.name}
             onChange={(e) =>
@@ -486,7 +467,7 @@ if (
 
 <input
 
-  placeholder="Telefon *"
+  placeholder="Telefon *" aria-label="Telefon *"
 
   className="w-full border px-4 py-2 rounded-lg"
 
@@ -512,7 +493,7 @@ if (
 
   type="email"
 
-  placeholder="E-Mail *"
+  placeholder="E-Mail *" aria-label="E-Mail *"
 
   className="w-full border px-4 py-2 rounded-lg"
 
@@ -539,7 +520,7 @@ if (
 
     {/* STREET */}
     <input
-      placeholder="Straße und Hausnummer *"
+      placeholder="Straße und Hausnummer *" aria-label="Straße und Hausnummer *"
       className="w-full border px-4 py-2 rounded-lg"
 
       value={form.street}
@@ -558,7 +539,7 @@ if (
     <div className="grid grid-cols-2 gap-3">
 
       <input
-        placeholder="PLZ *"
+        placeholder="PLZ *" aria-label="PLZ *"
         className="border px-4 py-2 rounded-lg"
 
         value={form.zip}
@@ -575,7 +556,7 @@ if (
 
       <input
 
-  placeholder="Ort *"
+  placeholder="Ort *" aria-label="Ort *"
 
   className="border px-4 py-2 rounded-lg"
 
@@ -634,7 +615,7 @@ if (
 
               {" "}
 
-              {deliveryFee.toFixed(2)} €
+              {deliveryFee.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
 
             </p>
 
@@ -661,7 +642,7 @@ if (
 )}
 
           <textarea
-            placeholder="Kommentar"
+            placeholder="Kommentar" aria-label="Kommentar"
             className="w-full border px-4 py-2 rounded-lg"
             value={form.comment}
             onChange={(e) => setForm({
@@ -682,19 +663,17 @@ if (
   <div className="flex gap-4 flex-wrap">
 
     <button
-  disabled
-  className="
-    px-4
-    py-2
-    rounded-full
-    bg-gray-100
-    text-gray-400
-    cursor-not-allowed
-    opacity-80
-  "
->
-  🚚 Lieferung ab September
-</button>
+      onClick={() => {
+        setDeliveryType("delivery");
+      }}
+      className={`px-4 py-2 rounded-full ${
+        deliveryType === "delivery"
+          ? "bg-[#2c2c2c] text-white"
+          : "bg-gray-100"
+      }`}
+    >
+      🚚 Lieferung
+    </button>
 
     <button
       onClick={() => {
@@ -730,10 +709,8 @@ setDeliveryAvailable(true);
     </div>
 
     <p className="text-sm text-[#5c4432]/70 leading-relaxed">
-  🚚 Unser Lieferservice startet im September.
-  <br />
-  Bis dahin bieten wir ausschließlich Abholung an.
-</p>
+      Lieferung ist in den gültigen Lieferzonen möglich. Bitte prüfe deine Adresse und den Mindestbestellwert für die automatische Berechnung der Lieferkosten.
+    </p>
 
 </div>
 
@@ -788,7 +765,7 @@ setDeliveryAvailable(true);
         id="today-time"
         value={selectedTime}
         onChange={(event) => setSelectedTime(event.target.value)}
-        className="w-full border border-black/15 rounded-2xl bg-white px-4 h-[56px] text-[#2c2c2c] outline-none"
+        className="w-full border border-black/15 rounded-2xl bg-white px-4 h-14 text-[#2c2c2c] outline-none"
       >
         <option value="">Uhrzeit wählen</option>
         {todayTimeSlots.map((time) => (
@@ -874,7 +851,7 @@ setDeliveryAvailable(true);
 
         <span>
 
-          {(item.price * item.qty).toFixed(2)} €
+          {(item.price * item.qty).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
 
         </span>
 
@@ -896,7 +873,7 @@ setDeliveryAvailable(true);
       onChange={(e) =>
         setCouponCode(e.target.value.toUpperCase())
       }
-      placeholder="z.B. 10ERET10"
+      placeholder="z.B. 10ERET10" aria-label="z.B. 10ERET10"
       className="flex-1 border rounded-lg px-4 py-2"
     />
 
@@ -915,26 +892,26 @@ setDeliveryAvailable(true);
 
   <div className="flex justify-between">
     <span>Zwischensumme</span>
-    <span>{subtotal.toFixed(2)} €</span>
+    <span>{subtotal.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
   </div>
 
   {discount > 0 && (
     <div className="flex justify-between text-green-700">
       <span>Rabatt</span>
-      <span>-{discount.toFixed(2)} €</span>
+      <span>-{discount.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
     </div>
   )}
 
   {deliveryType === "delivery" && (
     <div className="flex justify-between">
       <span>Lieferung</span>
-      <span>{deliveryFee.toFixed(2)} €</span>
+      <span>{deliveryFee.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
     </div>
   )}
 
   <div className="flex justify-between font-semibold text-lg border-t pt-2">
     <span>Gesamt</span>
-    <span>{total.toFixed(2)} €</span>
+    <span>{total.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
   </div>
 
   {deliveryType === "delivery" && (
@@ -963,7 +940,7 @@ setDeliveryAvailable(true);
 w-full
 py-3
 rounded-full
-bg-gradient-to-r
+bg-linear-to-r
 from-[#fff3a3]
 via-[#f4b740]
 to-[#cc5c06]

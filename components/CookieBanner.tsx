@@ -6,9 +6,14 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem("cookie-consent");
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const consent = window.localStorage.getItem("cookie-consent");
     if (!consent) {
-      setVisible(true);
+      const frame = window.requestAnimationFrame(() => setVisible(true));
+      return () => window.cancelAnimationFrame(frame);
     }
   }, []);
 
@@ -27,11 +32,11 @@ export default function CookieBanner() {
   return (
     <div className="
       fixed bottom-6 left-1/2 -translate-x-1/2
-      w-[90%] md:w-[500px]
+      w-[90%] md:w-125
       bg-white/90 backdrop-blur-md
       border border-[#e0d6c3]
       rounded-2xl shadow-xl
-      p-5 z-[10001]
+      p-5 z-10001
     ">
       <p className="text-sm text-[#2c2c2c] mb-4 leading-relaxed">
         Wir verwenden Cookies, um unsere Website zu verbessern und Ihnen die

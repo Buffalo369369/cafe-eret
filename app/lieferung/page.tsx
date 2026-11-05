@@ -8,7 +8,7 @@ export default function DeliveryPage() {
   const y = useTransform(scrollY, [0, 300], [0, -60]); // мягкий параллакс
 
   return (
-    <main className="bg-[#e9dfcf]">
+    <main className="cafe-delivery bg-[#e9dfcf]">
 
       {/* HERO */}
       <section className="
@@ -56,6 +56,11 @@ export default function DeliveryPage() {
 </motion.h1>
 
       </section>
+
+      <aside className="brand-service-notice" role="note">
+        <strong>Lieferung & Abholung</strong>
+        <p>Bitte prüfe deine Adresse in der Bestellung für die automatische Lieferkostenberechnung. Gültige Lieferzonen liegen bis 5 km vom Café entfernt.</p>
+      </aside>
 
       {/* DELIVERY */}
       <section className="px-6 md:px-20 pt-6 pb-12 md:pt-10 md:pb-16 max-w-5xl mx-auto text-center">
@@ -124,7 +129,7 @@ export default function DeliveryPage() {
           </h3>
 
           <p>
-            ⏰ Dienstag – Freitag: 09:00 – 18:00
+            ⏰ Dienstag – Freitag: 10:00 – 18:00
             <span className="block">Samstag – Sonntag: 10:00 – 18:00</span>
             <span className="block text-sm text-black/50">
               Montag: geschlossen

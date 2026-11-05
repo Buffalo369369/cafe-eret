@@ -1,7 +1,23 @@
 import { supabaseAdmin } from "./supabase-admin";
+import type { OrderItem } from "@/lib/order-pricing";
+
+type NewOrder = {
+  customer_name: string;
+  phone: string;
+  email: string;
+  address: string;
+  order_type: string;
+  payment_method: "cash" | "card";
+  items: OrderItem[];
+  total: number;
+  status: string;
+  comment: string;
+  time_type: string;
+  schedule_time: string;
+};
 
 export async function saveOrder(
-  order: any
+  order: NewOrder
 ) {
 
   console.log(

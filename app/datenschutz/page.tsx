@@ -1,6 +1,6 @@
 export default function DatenschutzPage() {
   return (
-    <div className="relative min-h-screen text-[#2c2c2c] overflow-hidden">
+    <div className="pop-legal relative min-h-screen text-[#2c2c2c] overflow-hidden">
 
       {/* BACKGROUND */}
       <div

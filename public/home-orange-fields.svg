@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 2200" preserveAspectRatio="none">
+  <!-- Static, non-repeating color fields; transparent areas retain the site's orange base. -->
+  <path fill="#e86b08" fill-opacity=".55" d="M0 0H790C860 130 1160 195 1110 365C1055 550 620 420 430 610C235 805 335 1010 0 1100Z"/>
+  <path fill="#ffad20" fill-opacity=".42" d="M1020 0H1440V1100C1235 1040 1055 960 1080 790C1110 585 1390 520 1280 325C1210 205 1040 155 1020 0Z"/>
+  <path fill="#ffad20" fill-opacity=".36" d="M0 1190C220 1040 435 1120 495 1300C575 1540 250 1680 420 1900C510 2020 720 2090 850 2200H0Z"/>
+  <path fill="#df6409" fill-opacity=".38" d="M1440 1310C1230 1190 900 1270 870 1480C835 1720 1210 1740 1160 1960C1135 2070 1010 2140 970 2200H1440Z"/>
+</svg>

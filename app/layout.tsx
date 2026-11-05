@@ -1,6 +1,8 @@
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import "./eret-pop.css";
+import "./reference-home.css";
+import "./brand-site.css";
+import "./customer-background.css";
 import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";

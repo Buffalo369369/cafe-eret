@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/store/cart";
@@ -9,24 +9,19 @@ import Logo from "@/components/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import FloatingCartButton from "@/components/FloatingCartButton";
 
+const subscribeToHydration = () => () => {};
+
 export default function Header() {
-  const [mounted, setMounted] = useState(false);
+  // Keep the persisted cart count out of the server-rendered header.
+  const mounted = useSyncExternalStore(subscribeToHydration, () => true, () => false);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const pathname = usePathname();
 
-  if (pathname === "/speisekarte") {
-  return null;
-}
-
   const count = useCart((s) =>
     s.items.reduce((sum, i) => sum + i.qty, 0)
   );
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
 
@@ -42,9 +37,11 @@ export default function Header() {
 
 }, [menuOpen, cartOpen]);
 
+  if (pathname === "/speisekarte") return null;
+
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-[10000] bg-[#e9dfcf]/90 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]">
+      <header className="cafe-header fixed top-0 left-0 w-full z-[10000] bg-[#e9dfcf]/90 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]">
 
         {/* CONTAINER */}
         <div className="max-w-[1200px] mx-auto w-full flex items-center justify-between px-4 md:px-8 py-3">
@@ -55,7 +52,7 @@ export default function Header() {
           </Link>
 
           {/* DESKTOP MENU */}
-          <nav className="hidden md:flex gap-8 text-base font-medium">
+          <nav className="cafe-desktop-nav hidden md:flex gap-8 text-base font-medium">
             {[
               { href: "/", label: "Startseite" },
               { href: "/menu", label: "Speisekarte" },
@@ -68,6 +65,7 @@ export default function Header() {
               return (
                 <Link
                   key={item.href}
+                  aria-current={isActive ? "page" : undefined}
                   href={item.href}
                   className={`relative group ${
                     isActive
@@ -109,8 +107,9 @@ export default function Header() {
                 setMenuOpen(false);
                 setCartOpen(true);
               }}
-              className="relative"
+              className="cafe-cart-trigger relative"
             >
+              <span className="pop-cart-label">Warenkorb</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6 text-black"
@@ -135,6 +134,8 @@ export default function Header() {
 
             {/* 🍔 BURGER */}
             <button
+  aria-expanded={menuOpen}
+  aria-controls="mobile-navigation"
   aria-label={
     menuOpen ? "Menü schließen" : "Menü öffnen"
   }
@@ -142,7 +143,7 @@ export default function Header() {
                 setCartOpen(false);
                 setMenuOpen((prev) => !prev);
               }}
-              className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative"
+              className="cafe-mobile-trigger md:hidden flex flex-col justify-center items-center w-8 h-8 relative"
             >
               <span
                 className={`absolute w-6 h-[2px] bg-black transition-all duration-300 ${
@@ -186,7 +187,8 @@ export default function Header() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed top-[75px] left-0 w-full bg-cover bg-center border-b border-[#d6c7b2] shadow-md z-[10000]"
+            id="mobile-navigation"
+            className="cafe-mobile-nav fixed left-0 w-full bg-cover bg-center border-b border-[#d6c7b2] shadow-md z-[10000]"
 style={{ backgroundImage: "url('/paper.jpg')" }}
           >
             <div className="px-6 py-10 flex flex-col items-center gap-8 text-lg font-medium">

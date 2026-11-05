@@ -1,0 +1,189 @@
+/* Image 6 implementation. All overrides are scoped to the homepage. */
+.cafe-site.reference-home { --ref-orange: #fa8309; --ref-cream: #fff3ce; --ref-brown: #592309; background: var(--ref-orange); color: var(--ref-brown); }
+.reference-home .ref-width { width: calc(100% - 80px); max-width: 1360px; margin-inline: auto; }
+.reference-home .ref-main { position: relative; padding-bottom: 20px; background: var(--ref-orange); overflow: clip; }
+.reference-home .ref-main :is(h1,h2,h3) { font-family: Arial, sans-serif; color: var(--ref-brown); font-weight: 800; letter-spacing: -.025em; text-transform: none; line-height: 1.12; }
+.reference-home .ref-main p { line-height: 1.4; }
+.reference-home .ref-panel { border-radius: 28px; background: var(--ref-cream); margin-top: 24px; box-shadow: 0 7px 17px #8a3b0810; }
+.reference-home .cafe-header {
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: var(--header-height) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.reference-home .cafe-header > div {
+  padding: 10px 24px 10px 42px !important;
+  height: 100%;
+  background: var(--eret-navigation-bg, #fff9e9) !important;
+  border: 1px solid rgba(89, 35, 9, 0.08) !important;
+  border-radius: 32px !important;
+  box-shadow: 0 5px 16px #9b470c10 !important;
+  overflow: hidden !important;
+}
+.reference_home .cafe-header > div > a > div { display: flex; align-items: center; gap: 12px; }
+.reference-home .cafe-header > div > a > div > div:first-child { font-size: 34px; font-weight: 800; letter-spacing: .2em; color: var(--ref-brown); }
+.reference-home .cafe-header > div > a > div > div:nth-child(2) { font-size: 27px; margin: 0; color: var(--ref-brown); }
+.reference-home .cafe-header > div > a > div > div:nth-child(3) { display: none; }
+.reference-home .cafe-header nav { gap: 25px; font-size: 14px; }
+.reference-home .cafe-header nav a { color: var(--ref-brown); }
+.reference-home .cafe-header nav a > span { background: #d75800; }
+.reference-home .cafe-cart-trigger { background: #c64a00 !important; color: #fff8e5 !important; border: none !important; border-radius: 26px !important; padding: 12px 20px !important; min-height: 46px; }
+.reference-home .cafe-cart-trigger svg { color: inherit; }
+.reference-home .cafe-mobile-nav { top: var(--header-height) !important; left: 0; width: 100%; border-radius: 0; background: var(--eret-navigation-bg, #fff9e9) !important; }
+.reference-home .ref-hero { min-height: 550px; padding: 130px 48px 38px; display: grid; grid-template-columns: 1.08fr 1fr; gap: 20px; align-items: center; position: relative; }
+.reference-home .ref-hero::before { content: ''; position: absolute; width: 1000px; height: 430px; left: -290px; top: 60px; background: #ed710b; border-radius: 42% 58% 64% 36%; transform: rotate(-14deg); pointer-events: none; }
+.reference-home .ref-hero-copy { position: relative; z-index: 1; }
+.reference-home .ref-hero h1 { color: #fff4d3; font-size: clamp(44px,4.7vw,69px); line-height: 1.07; margin: 0 0 18px; }
+.reference-home .ref-hero-copy > p { color: #fffbe9; font-size: 23px; max-width: 550px; margin-bottom: 28px; }
+.reference-home .ref-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.reference-home .ref-button { display: inline-flex; gap: 12px; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; border-radius: 28px; font-weight: 700; font-size: 17px; line-height: 1.2; transition: transform .18s, box-shadow .18s; }
+.reference-home .ref-button:hover { transform: translateY(-2px); box-shadow: 0 5px 12px #59230922; }
+.reference-home .ref-button-cream { background: var(--ref-cream); color: var(--ref-brown); }
+.reference-home .ref-button-outline { background: transparent; color: #fffbe9; border: 2px solid #fff3ce; }
+.reference_home .ref-button-brown { background: var(--ref-brown); color: #fff7df; }
+.reference-home .ref-hero-food { position: relative; height: 375px; min-width: 0; }
+.reference-home .ref-food { position: absolute; overflow: hidden; border-radius: 50%; box-shadow: 0 12px 20px #7a370c30; }
+.reference-home .ref-food img { object-fit: cover; }
+.reference-home .ref-coffee { width: 56%; height: 65%; top: 0; left: 15%; }
+.reference-home .ref-sweet { width: 51%; height: 56%; right: -6%; top: 29%; transform: rotate(6deg); }
+.reference-home .ref-croissant { width: 66%; height: 56%; bottom: 0; left: -5%; transform: rotate(-7deg); }
+.reference-home .ref-categories { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.reference-home .ref-category { position: relative; display: grid; grid-template-columns: 38% 62%; background: var(--ref-cream); border-radius: 28px; min-height: 237px; overflow: hidden; transition: transform .2s; }
+.reference-home .ref-category:hover { transform: translateY(-3px); }
+.reference-home .ref-category-photo { position: relative; height: 90%; align-self: end; margin-left: -18px; border-radius: 0 50% 50% 0; overflow: hidden; }
+.reference-home .ref-category-photo img { object-fit: cover; }
+.reference-home .ref-category-copy { padding: 20px 22px 38px 12px; }
+.reference-home .ref-category-copy > svg { color: #d6670a; margin-bottom: 10px; }
+.reference-home .ref-category h2 { font-size: 26px; margin-bottom: 10px; }
+.reference_home .ref-category p { font-size: 16px; }
+.reference-home .ref-category-arrow { position: absolute; right: 18px; bottom: 14px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: #ffdfa2; }
+.reference-home .ref-bestsellers { padding: 22px; }
+.reference-home .ref-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 12px 20px; }
+.reference-home .ref-section-heading h2 { font-size: 40px; }
+.reference-home .ref-section-heading > a { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; }
+.reference-home .ref-product-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
+.reference-home .ref-product { min-width: 0; display: flex; flex-direction: column; border-radius: 18px; background: #fff5d9; box-shadow: 0 4px 8px #7a370c08; overflow: hidden; }
+.reference-home .ref-product-media { position: relative; height: 185px; border-radius: 17px; overflow: hidden; }
+.reference-home .ref-product-media img { object-fit: cover; }
+.reference-home .ref-product-info { padding: 10px 14px 13px; display: flex; flex-direction: column; flex: 1; }
+.reference-home .ref-product-topline { display: contents; }
+.reference-home .ref-product-name { display: flex; align-items: center; gap: 4px; min-height: 38px; }
+.reference-home .ref-product h3 { font-size: 20px; flex: 1; }
+.reference-home .ref-product-name .pop-allergen-trigger { min-width: 32px; width: 32px; height: 44px; min-height: 44px; }
+.reference-home .ref-product-info > p { font-size: 14px; margin: 4px 0 10px; min-height: 40px; flex: 1; }
+.reference-home .ref-product-price { order: 2; align-self: flex-start; background: #c94f00; color: #fff9e8; border-radius: 20px; padding: 3px 15px; font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+.reference-home .ref-product-button, .reference-home .ref-qty-row { order: 3; margin-top: auto; }
+.reference-home .ref-product-button { background: transparent; color: var(--ref-brown); border: 1px solid #d8b47b; border-radius: 20px; min-height: 44px; font-weight: 700; font-size: 13px; }
+.reference-home .ref-product-button:hover { background: #ffe5a6; }
+.reference-home .ref-qty-row { display: flex; justify-content: space-between; align-items: center; height: 44px; }
+.reference-home .ref-qty-row button { height: 44px; width: 44px; border: 1px solid #d8b47b; border-radius: 50%; }
+.reference-home .ref-lunch { display: grid; grid-template-columns: 1.5fr .9fr auto; gap: 22px; align-items: center; padding: 22px 32px; min-height: 208px; overflow: hidden; }
+.reference-home .ref-kicker { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.reference-home .ref-kicker svg { color: #ce5d09; }
+.reference-home .ref-lunch h2 { font-size: 36px; margin-bottom: 8px; }
+.reference-home .ref-lunch-copy > p:last-child { font-size: 16px; }
+.reference-home .ref-lunch-image { position: relative; height: 195px; border-radius: 50%; overflow: hidden; }
+.reference-home .ref-lunch-image img { object-fit: cover; }
+.reference-home .ref-about { display: grid; grid-template-columns: 44% 1fr; gap: 36px; padding: 12px; align-items: center; }
+.reference-home .ref-about-image { height: 235px; position: relative; border-radius: 24px; overflow: hidden; }
+.reference-home .ref-about-image img { object-fit: cover; object-position: center 60%; }
+.reference-home .ref-about-copy { padding: 5px 12px 5px 0; }
+.reference-home .ref-about h2 { font-size: 40px; margin-bottom: 10px; }
+.reference-home .ref-about-copy > p { font-size: 17px; max-width: 650px; }
+.reference-home .ref-about-highlights { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin-top: 16px; }
+.reference-home .ref-about-highlights > * { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: #fff6d9; border-radius: 18px; min-height: 75px; text-align: center; font-size: 13px; font-weight: 700; }
+.reference-home .ref-about-highlights svg { color: #c65c0e; width: 27px; height: 27px; }
+.cafe-site.reference-home .cafe-footer { background: #b74306 !important; color: #fff5de !important; border: 0 !important; }
+.reference-home .cafe-footer > div.absolute { display: none !important; }
+.reference-home .cafe-footer > div.relative { width: calc(100% - 80px); max-width: 1360px; padding: 22px 8px 16px; }
+.reference-home .cafe-footer > div.relative > .grid { grid-template-columns: .65fr 1.3fr 1.5fr 1fr; gap: 25px; }
+.reference-home .ref-footer-brand { font-size: 32px; font-weight: 700; letter-spacing: .17em; line-height: 1.2; border-right: 1px solid #fff3ce55; }
+.reference-home .ref-footer-brand span { display: block; letter-spacing: 0; font-size: 20px; font-weight: 400; margin-top: 5px; }
+.cafe-site.reference-home .cafe-footer :is(p,a,h3,div)[class*="text-"], .cafe-site.reference-home .cafe-footer :is(p,a,h3) { color: #fff5de; }
+.reference-home .cafe-footer h3 { font-size: 14px; margin-bottom: 6px; text-transform: none; letter-spacing: 0; }
+.reference-home .cafe-footer p, .reference-home .cafe-footer a[class*="text-sm"] { font-size: 13px; }
+.reference-home .cafe-footer > div.relative > div[class*="h-[1px]"] { display: none; }
+.reference-home .cafe-footer > div.relative > div:last-child { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 12px; border-top: 1px solid #fff3ce30; }
+.reference-home .cafe-footer a[class*="rounded-full"] { background: #fff3ce !important; color: #71300d !important; border: 0; }
+@media (min-width:768px) and (max-width:1100px) {
+ .reference-home .ref-width { width: calc(100% - 40px); }
+ .reference-home .cafe-header { width: calc(100% - 40px) !important; }
+ .reference-home .ref-hero { padding-inline: 22px; min-height: 475px; }
+ .reference-home .ref-hero-copy > p { font-size: 18px; }
+ .reference-home .ref-hero-food { height: 310px; }
+ .reference-home .ref-button { font-size: 14px; padding-inline: 18px; }
+ .reference-home .ref-category { grid-template-columns: 32% 68%; min-height: 230px; }
+ .reference-home .ref-category-copy { padding: 16px 12px 35px 8px; }
+ .reference-home .ref-category h2 { font-size: 21px; }
+ .reference-home .ref-category p { font-size: 14px; }
+ .reference-home .ref-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .reference-home .ref-lunch { grid-template-columns: 1.2fr .8fr; }
+ .reference-home .ref-lunch > .ref-button { grid-column: 1 / -1; justify-self: end; }
+ .reference-home .ref-about { gap: 20px; }
+ .reference-home .ref-about h2 { font-size: 31px; }
+ .reference-home .ref-about-copy > p { font-size: 15px; }
+ .reference-home .cafe-footer > div.relative { width: calc(100% - 40px); }
+}
+@media (max-width:767px) {
+ .reference-home .ref-width { width: calc(100% - 28px); }
+ .reference-home .cafe-header { top: 10px !important; width: calc(100% - 24px) !important; height: 64px !important; border-radius: 25px !important; }
+ .reference-home .cafe-header > div { padding-inline: 16px !important; }
+ .reference-home .cafe-header > div > a > div { gap: 5px; }
+ .reference-home .cafe-header > div > a > div > div:first-child { font-size: 24px; letter-spacing: .14em; }
+ .reference-home .cafe-header > div > a > div > div:nth-child(2) { font-size: 18px; }
+ .reference-home .cafe-cart-trigger { padding: 10px 12px !important; min-height: 44px; }
+ .reference-home .cafe-mobile-nav { top: 82px !important; max-height: calc(100dvh - 96px); }
+ .reference-home .ref-hero { grid-template-columns: 1fr; padding: 105px 12px 22px; gap: 16px; min-height: 0; }
+ .reference-home .ref-hero h1 { font-size: clamp(35px,9.4vw,52px); }
+ .reference-home .ref-hero-copy > p { font-size: 17px; margin-bottom: 20px; }
+ .reference-home .ref-actions { gap: 10px; }
+ .reference-home .ref-button { font-size: 14px; min-height: 46px; padding: 12px 19px; }
+ .reference-home .ref-hero-food { height: 265px; max-width: 420px; width: 100%; margin-inline: auto; }
+ .reference-home .ref-sweet { right: -1%; }
+ .reference-home .ref-croissant { left: 0; }
+ .reference-home .ref-categories { grid-template-columns: 1fr; gap: 13px; }
+ .reference-home .ref-category { min-height: 162px; grid-template-columns: 36% 64%; border-radius: 22px; }
+ .reference-home .ref-category-copy { padding: 14px 18px 30px 10px; }
+ .reference-home .ref-category-copy > svg { width: 25px; height: 25px; margin-bottom: 6px; }
+ .reference-home .ref-category h2 { font-size: 22px; margin-bottom: 6px; }
+ .reference-home .ref-category p { font-size: 14px; }
+ .reference-home .ref-panel { border-radius: 22px; margin-top: 16px; }
+ .reference-home .ref-bestsellers { padding: 16px 12px; }
+ .reference-home .ref-section-heading { display: block; padding: 0 4px 14px; }
+ .reference-home .ref-section-heading h2 { font-size: 29px; margin-bottom: 7px; }
+ .reference-home .ref-section-heading > a { font-size: 12px; min-height: 36px; }
+ .reference-home .ref-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+ .reference-home .ref-product-media { height: 130px; }
+ .reference-home .ref-product-info { padding: 8px; }
+ .reference-home .ref-product h3 { font-size: 15px; overflow-wrap: anywhere; }
+ .reference-home .ref-product-name { align-items: start; gap: 0; }
+ .reference-home .ref-product-name .pop-allergen-trigger { min-width: 24px; width: 24px; }
+ .reference-home .ref-product-info > p { font-size: 12px; min-height: 68px; }
+ .reference-home .ref-product-price { font-size: 16px; padding: 4px 12px; }
+ .reference-home .ref-product-button { font-size: 11px; }
+ .reference-home .ref-lunch { grid-template-columns: 1fr 1fr; padding: 20px; gap: 12px; }
+ .reference-home .ref-lunch-copy { grid-column: 1 / -1; }
+ .reference-home .ref-kicker { font-size: 15px; }
+ .reference-home .ref-lunch h2 { font-size: 29px; }
+ .reference-home .ref-lunch-copy > p:last-child { font-size: 14px; }
+ .reference-home .ref-lunch-image { height: 135px; }
+ .reference-home .ref-lunch > .ref-button { padding-inline: 12px; font-size: 13px; }
+ .reference-home .ref-about { grid-template-columns: 1fr; gap: 16px; padding: 10px; }
+ .reference-home .ref-about-image { height: 195px; border-radius: 18px; }
+ .reference-home .ref-about-copy { padding: 0 8px 8px; }
+ .reference-home .ref-about h2 { font-size: 29px; }
+ .reference-home .ref-about-copy > p { font-size: 14px; }
+ .reference-home .ref-about-highlights { gap: 6px; }
+ .reference-home .ref-about-highlights > * { font-size: 11px; padding: 5px; }
+ .reference-home .cafe-footer > div.relative { width: calc(100% - 32px); padding-inline: 0; }
+ .reference-home .cafe-footer > div.relative > .grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+ .reference-home .ref-footer-brand { border: 0; }
+ .reference-home .cafe-footer > div.relative > div:last-child { flex-direction: column; gap: 8px; align-items: center; }
+}

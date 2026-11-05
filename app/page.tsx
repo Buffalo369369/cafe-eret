@@ -1,22 +1,15 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-
+import { Coffee, Croissant, Soup, ArrowRight, Users, Heart, Utensils } from "lucide-react";
 import Link from "next/link";
-
 import Image from "next/image";
-
 import { useCart } from "@/store/cart";
-
 import toast from "react-hot-toast";
-
 import { menuData } from "@/store/menu";
-
-import { FaInstagram } from "react-icons/fa";
-
 import AllergenInfo from "@/components/AllergenInfo";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const button = e.currentTarget;
   const cart = document.getElementById("cart-icon");
 
@@ -24,7 +17,6 @@ function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
 
   const rect = button.getBoundingClientRect();
   const cartRect = cart.getBoundingClientRect();
-
   const clone = button.cloneNode(true) as HTMLElement;
 
   clone.style.position = "fixed";
@@ -47,382 +39,113 @@ function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
   setTimeout(() => clone.remove(), 700);
 }
 
-const menu = [
+const displayPrice = (price: number) =>
+  price.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
-  menuData[0].items[3], // 2-е блюдо
-
-  menuData[2].items[0], // из другой категории
-
-  menuData[5].items[1],
-
+const featureCategories = [
+  { title: "Frühstück & Brunch", description: "Herzhafte und süße Favoriten für einen guten Start in den Tag.", image: menuData[0].items[0].image, href: `/menu#${encodeURIComponent(menuData[0].title)}`, icon: Croissant },
+  { title: "Für die Mittagspause", description: "Bunte Bowls und frische Zutaten – auch vegetarisch.", image: menuData[1].items[0].image, href: `/menu#${encodeURIComponent(menuData[1].title)}`, icon: Soup },
+  { title: "Kaffee & Süßes", description: "Aromatischer Kaffee, gefüllte Croissants und süße Lieblingsstücke.", image: menuData[2].items[0].image, href: `/menu#${encodeURIComponent(menuData[2].title)}`, icon: Coffee },
 ];
 
+const bestSellers = [menuData[2].items[1], menuData[0].items[3], menuData[6].items[7], menuData[1].items[0]];
+
 export default function Home() {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 1000], [0, -250]);
   const addItem = useCart((s) => s.addItem);
   const increase = useCart((s) => s.increaseQty);
-const decrease = useCart((s) => s.decreaseQty);
-const items = useCart((s) => s.items);
+  const decrease = useCart((s) => s.decreaseQty);
+  const items = useCart((s) => s.items);
 
   return (
-    <main>
-
-      {/* HERO */}
-      <section
-        className="
-          relative
-          min-h-[420px] md:min-h-[80vh]
-          flex items-start md:items-center
-          pt-28 md:pt-0
-          px-6 md:px-20
-        "
-      >
-        {/* BG */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-
-  style={{ y, willChange: "transform" }}
-
-  className="w-full h-[120%]"
-
->
-            <div
-              className="
-                w-full h-full bg-cover
-
-                bg-[url('/hero-mobile.jpg')]
-                bg-[center_20%]
-
-                md:bg-[url('/hero-desktop.jpg')]
-                md:bg-[center_80%]
-              "
-            />
-          </motion.div>
-        </div>
-
-        {/* OVERLAY */}
-        <div className="absolute inset-0 bg-black/55 pointer-events-none" />
-
-        {/* CONTENT */}
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto">
-
-          <div className="max-w-[520px] text-white flex flex-col gap-4">
-
-            {/* TITLE */}
-            <motion.h1
-              initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1 }}
-              className="
-                text-[28px]
-                sm:text-[34px]
-                md:text-6xl
-                font-semibold
-                leading-tight
-              "
-            >
-              Lieferung <br /> in Mülheim
-              <span className="block text-sm md:text-2xl font-light text-white/80 mt-2">
-                Frühstück & Brunch
-              </span>
-            </motion.h1>
-
-            {/* LINE */}
-            <div className="w-40 h-[2px] bg-gradient-to-r from-transparent via-[#fce590] to-transparent" />
-
-            {/* BUTTONS */}
-            <div className="flex gap-3 flex-wrap items-center">
-
-  {/* Jetzt bestellen */}
-  <Link href="/menu">
-    <button className="
-      w-full sm:w-auto
-      px-5 py-2.5
-      rounded-full
-      text-sm font-medium
-      bg-gradient-to-r from-[#fce590] via-[#f4b740] to-[#cc5c06]
-      text-[#2c2c2c]
-      whitespace-nowrap
-      hover:scale-[1.04]
-      transition
-    ">
-      Jetzt bestellen
-    </button>
-  </Link>
-
-  {/* Speisekarte */}
-  <Link href="/menu">
-    <button className="
-      w-full sm:w-auto
-      px-5 py-2.5
-      rounded-full
-      text-sm font-medium
-      bg-white/10
-      text-white
-      border border-white/20
-      backdrop-blur-sm
-      hover:bg-white/20
-      transition
-      whitespace-nowrap
-    ">
-      Speisekarte
-    </button>
-  </Link>
-
-  {/* Instagram */}
-  <a
-
-  href="https://instagram.com/cafe_eret"
-
-  target="_blank"
-
-  rel="noopener noreferrer"
-
-  aria-label="Instagram"
-    className="group"
-  >
-    <div className="
-      w-10 h-10
-      rounded-full
-      flex items-center justify-center
-      bg-white/10
-      border border-white/20
-      backdrop-blur-sm
-      hover:bg-gradient-to-tr hover:from-[#fce590] hover:via-[#f4b740] hover:to-[#cc5c06]
-      transition
-    ">
-      <FaInstagram size={16} />
-    </div>
-  </a>
-
-</div>
-
-            {/* CONTACT */}
-            <div className="text-sm text-white/80 flex flex-col gap-2 pt-2">
-              <div className="flex items-start gap-2">
-                <span>📍</span>
-                <span>
-                  Leineweberstr. 42-44, 45468 Mülheim an der Ruhr
-                </span>
-              </div>
-
-             <a
-
-  href="tel:+4917659342961"
-
-  aria-label="Telefon anrufen"
-  className="
-    flex items-center gap-2
-    text-white/90
-    transition-all duration-300
-
-    drop-shadow-[0_0_6px_rgba(252,229,144,0.5)]
-    md:drop-shadow-none
-
-    hover:text-[#fce590]
-    md:hover:drop-shadow-[0_0_6px_rgba(252,229,144,0.6)]
-
-    active:scale-[0.97]
-  "
->
-  <span>📞</span>
-  <span>017659342961</span>
-</a>
-            </div>
-
+    <main className="ref-main">
+      <section className="ref-hero ref-width" aria-labelledby="hero-heading">
+        <div className="ref-hero-copy">
+          <h1 id="hero-heading">Dein Lieblingscafé<br />in Mülheim</h1>
+          <p>Kaffee, Frühstück, knusprige Croissants und süße Lieblingsstücke – für deine kleine Auszeit im ERET Café.</p>
+          <div className="ref-actions">
+            <Link href="/menu" className="ref-button ref-button-cream"><Utensils size={21} />Speisekarte ansehen</Link>
+            <Link href="/menu" className="ref-button ref-button-outline">Jetzt online bestellen <ArrowRight size={20} /></Link>
           </div>
         </div>
-
-        {/* GRADIENT BOTTOM */}
-        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-2 bg-gradient-to-b from-transparent via-[#fce590]/20 to-[#e9dfcf]" />
+        <div className="ref-hero-food" aria-label="Kaffee, Croissant und Syrniki aus unserer Speisekarte">
+          <div className="ref-food ref-coffee"><Image src={menuData[6].items[7].image} alt={menuData[6].items[7].name} fill preload sizes="(max-width: 767px) 45vw, 28vw" /></div>
+          <div className="ref-food ref-sweet"><Image src={menuData[0].items[3].image} alt="Syrniki mit Sauerrahm und Konfitüre" fill sizes="(max-width: 767px) 42vw, 24vw" /></div>
+          <div className="ref-food ref-croissant"><Image src={menuData[2].items[1].image} alt={menuData[2].items[1].name} fill sizes="(max-width: 767px) 60vw, 30vw" /></div>
+        </div>
       </section>
 
-      {/* СПЕЦИАЛЬНОСТИ */}
-      <section
-        className="relative py-8 md:py-14 px-6 md:px-20 text-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/paper.jpg')" }}
-      >
-        <h2 className="text-2xl md:text-5xl font-semibold text-[#5c4432] leading-tight mb-6 md:mb-10">
-          Unsere <br className="md:hidden" /> Spezialitäten
-        </h2>
+      <section className="ref-categories ref-width" aria-label="Unsere Speisekarte entdecken">
+        {featureCategories.map(({ title, description, image, href, icon: Icon }) => (
+          <Link key={title} href={href} className="ref-category">
+            <div className="ref-category-photo"><Image src={image} alt="" fill sizes="(max-width: 767px) 35vw, 15vw" /></div>
+            <div className="ref-category-copy"><Icon aria-hidden="true" size={31} /><h2>{title}</h2><p>{description}</p><span className="ref-category-arrow" aria-hidden="true"><ArrowRight size={20} /></span></div>
+          </Link>
+        ))}
+      </section>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
-
-          {menu.map((item, index) => {
-  const current = items.find((x) => x.id === item.id);
-
-  return (
-    <motion.div
-
-  key={item.id}
-
-  initial="hidden"
-
-  whileInView="visible"
-
-  viewport={{ once: true, margin: "-50px" }}
-
-  transition={{ delay: index * 0.2 }}
-
-  variants={{
-
-    hidden: { opacity: 0, y: 40 },
-
-    visible: { opacity: 1, y: 0 },
-
-  }}
-
-  className="
-
-    bg-white/80
-
-    rounded-3xl
-
-    overflow-hidden
-
-    shadow-lg
-
-  "
-
->
-      <Image
-
-  src={item.image}
-
-  alt={`${item.name} – Frühstück im ERET Café Mülheim`}
-
-  width={600}
-
-  height={400}
-
-  loading="lazy"
-
-  className="h-48 w-full object-cover"
-
-/>
-
-      <div className="p-5 bg-white">
-        <div className="flex justify-between items-start gap-2">
-
-  <div className="flex items-center gap-2 flex-1">
-
-    <h3 className="font-semibold text-[#2c2c2c] text-sm md:text-base">
-      {item.name}
-    </h3>
-
-    <AllergenInfo
-
-  allergens={item.allergens}
-
-  additives={item.additives}
-
-/>
-
-  </div>
-
-  <span className="font-bold text-[#b88a5a] text-sm">
-    {item.price} €
-  </span>
-
-</div>
-
-
-
-        <div className="mt-4">
-
-          {!current ? (
-            <button
-              onClick={(e) => {
-                flyToCart(e);
-                addItem({
-                  id: item.id,
-                  name: item.name,
-                  price: item.price,
-                });
-                toast.success("Hinzugefügt 🛒");
-              }}
-              className="w-full py-2 rounded-full bg-[#2c2c2c] text-white text-sm"
-            >
-              In den Warenkorb
-            </button>
-          ) : (
-            <div className="flex items-center justify-between">
-
-              <button
-                onClick={() => decrease(item.id)}
-                className="w-8 h-8 rounded-full border"
+      <section className="ref-bestsellers ref-panel ref-width" aria-labelledby="bestsellers-heading">
+        <div className="ref-section-heading"><h2 id="bestsellers-heading">Unsere Bestseller</h2><Link href="/menu">Alle Highlights entdecken <ArrowRight size={20} /></Link></div>
+        <div className="ref-product-grid">
+          {bestSellers.map((item) => {
+            const current = items.find((x) => x.id === item.id);
+            return (
+              <article
+                key={item.id}
+                className="ref-product"
               >
-                −
-              </button>
+                <div className="ref-product-media">
+                  <Image src={item.image} alt={item.name} fill sizes="(max-width: 1100px) 45vw, 23vw" />
+                </div>
 
-              <span className="font-medium">
-                {current.qty}
-              </span>
+                <div className="ref-product-info">
+                  <div className="ref-product-topline">
+                    <div className="ref-product-name">
+                      <h3>{item.name}</h3>
+                      <AllergenInfo allergens={item.allergens} additives={item.additives} />
+                    </div>
+                    <span className="ref-product-price">{displayPrice(item.price)}</span>
+                  </div>
+                  <p>{item.desc || (item.id === menuData[6].items[7].id ? "Deine kleine Kaffeepause mit cremigem Milchschaum." : "")}</p>
 
-              <button
-                onClick={() => increase(item.id)}
-                className="w-8 h-8 rounded-full border"
-              >
-                +
-              </button>
-
-            </div>
-          )}
-
-        </div>
-      </div>
-    </motion.div>
-  );
-})}
-          </div>
-
-    
-         </section>
-
-         {/* ПЛАВНЫЙ ПЕРЕХОД */}
-<div className="relative z-10 w-full h-2 
-bg-gradient-to-b from-[#e9dfcf] via-[#fce590]/20 to-transparent" />
-
-
-
-      {/* ДОСТАВКА */}
-      <section className="relative -mt-2 py-14 md:py-20 px-6 md:px-20 text-white overflow-hidden">
-
-        <motion.div style={{ y }} className="absolute inset-0 h-[200%]">
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: "url('/delivery2.jpg')" }}
-          />
-        </motion.div>
-
-        <div className="absolute inset-0 bg-black/60" />
-
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <div className="bg-black/40 backdrop-blur-md p-6 md:p-10 rounded-2xl max-w-xl">
-
-            <h2 className="text-2xl md:text-4xl font-semibold mb-4">
-              Lieferung in Mülheim
-            </h2>
-
-            <p className="mb-2">🚀 Schnelle Lieferung in ganz Mülheim</p>
-            <p>💸 Kostenlose Lieferung ab 40 €</p>
-
-          </div>
+                  {!current ? (
+                    <button
+                      onClick={(e) => {
+                        flyToCart(e);
+                        addItem({ id: item.id, name: item.name, price: item.price });
+                        toast.success("Hinzugefügt 🛒");
+                      }}
+                      className="ref-product-button"
+                    >
+                      In den Warenkorb
+                    </button>
+                  ) : (
+                    <div className="ref-qty-row">
+                      <button aria-label={`${item.name}: Menge verringern`} onClick={() => decrease(item.id)}>
+                        −
+                      </button>
+                      <span>{current.qty}</span>
+                      <button aria-label={`${item.name}: Menge erhöhen`} onClick={() => increase(item.id)}>
+                        +
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
-      <section className="px-6 md:px-20 py-8 max-w-2xl mx-auto text-center">
 
-  <h2 className="text-lg md:text-2xl font-medium text-[#2c2c2c] mb-2">
-    Frühstück & Brunch in Mülheim an der Ruhr
-  </h2>
+      <section className="ref-lunch ref-panel ref-width">
+        <div className="ref-lunch-copy"><p className="ref-kicker"><Soup size={25} />Für deine Mittagspause</p><h2>Leckere Bowls.<br />Frisch auf den Tisch.</h2><p>Entdecke unsere Bowls und Sandwiches aus der regulären Speisekarte.</p></div>
+        <div className="ref-lunch-image"><Image src={menuData[1].items[0].image} alt={menuData[1].items[0].name} fill sizes="(max-width: 767px) 55vw, 28vw" /></div>
+        <Link href={`/menu#${encodeURIComponent(menuData[1].title)}`} className="ref-button ref-button-brown">Bowls entdecken <ArrowRight size={22} /></Link>
+      </section>
 
-  <p className="text-sm text-[#5c4432]/70 leading-relaxed">
-    Frisches Frühstück, Croissants und Brunch in Mülheim.
-  </p>
-
-</section>
-
+      <section className="ref-about ref-panel ref-width">
+        <div className="ref-about-image"><Image src="/contact.jpg" alt="Gemütlicher Sitzplatz im ERET Café" fill sizes="(max-width: 767px) 100vw, 42vw" /></div>
+        <div className="ref-about-copy"><h2>Mehr als nur ein Café</h2><p>Ein Ort für gemeinsame Zeit – mit der Familie, mit Freunden oder einfach für dich. Komm vorbei und mach es dir bei uns gemütlich.</p><div className="ref-about-highlights"><span><Users />Familienzeit</span><span><Coffee />Freunde treffen</span><Link href="/about"><Heart />ERET kennenlernen</Link></div></div>
+      </section>
     </main>
   );
 }

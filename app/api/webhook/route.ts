@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const orderItems: OrderItem[] = lineItems.data.map((item) => ({
       name: item.description || "Artikel",
       qty: item.quantity || 1,
-      price: centsToEuros(Math.round((item.amount_total || 0) / (item.quantity || 1))),
+      price: centsToEuros(Math.round((item.amount_subtotal || 0) / (item.quantity || 1))),
     }));
 
     if (coupon) {

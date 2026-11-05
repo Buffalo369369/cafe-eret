@@ -13,20 +13,18 @@ export default function FloatingCartButton({
 
   const pathname = usePathname();
 
-if (pathname === "/speisekarte") {
-  return null;
-}
 const count = useCart((s) =>
     s.items.reduce((sum, i) => sum + i.qty, 0)
   );
 
-  if (count === 0) return null;
+  if (pathname === "/speisekarte" || count === 0) return null;
 
   return (
     <button
+      aria-label={`Warenkorb öffnen, ${count} Artikel`}
       onClick={onClick}
       className="
-        fixed bottom-5 right-5
+        pop-floating-cart fixed bottom-5 right-5
         z-[9999]
 
         w-14 h-14

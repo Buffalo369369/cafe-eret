@@ -1,8 +1,10 @@
+import { isAdminAuthorized } from "@/lib/admin-auth";
 import { NextResponse } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
-export async function GET() {
+export async function GET(req: Request) {
+  if (!isAdminAuthorized(req.headers.get("authorization"))) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
 

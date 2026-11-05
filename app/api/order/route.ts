@@ -4,7 +4,6 @@ import { sendOrderEmail } from "@/lib/sendOrderEmail";
 import {
   buildOrderItems,
   calculateOrderPricing,
-  isValidOrderItem,
   type OrderItem,
 } from "@/lib/order-pricing";
 import {
@@ -17,6 +16,13 @@ import {
   getOrderingAvailability,
   validateOrderTiming,
 } from "@/lib/ordering-availability";
+import {
+  OrderValidationError,
+  resolveOrderItems,
+  validateCustomer,
+  validateFulfilment,
+} from "@/lib/order-validation";
+import { resolveDeliveryQuoteFromAddress } from "@/lib/delivery-policy";
 
 export async function POST(req: Request) {
   const now = new Date();
@@ -30,11 +36,10 @@ export async function POST(req: Request) {
 
   try {
     const {
-      items,
-      form,
+      items: requestedItems,
+      form: requestedForm,
       payment,
       deliveryType,
-      deliveryFee: requestedDeliveryFee,
       timeType,
       selectedTime,
       scheduleDate: requestedDate,
@@ -54,21 +59,20 @@ export async function POST(req: Request) {
     if (timingError) {
       return NextResponse.json({ error: timingError }, { status: 400 });
     }
-    if (!Array.isArray(items) || items.length === 0 || !items.every(isValidOrderItem)) {
-      return NextResponse.json({ error: "Invalid items" }, { status: 400 });
-    }
-    if (
-      !form?.name ||
-      !form?.phone ||
-      !form?.email ||
-      (deliveryType === "delivery" && !form?.address)
-    ) {
-      return NextResponse.json({ error: "Missing form data" }, { status: 400 });
-    }
+    validateFulfilment(deliveryType);
+    const items = resolveOrderItems(requestedItems);
+    const form = validateCustomer(requestedForm);
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-    const deliveryFee = deliveryType === "delivery" ? Number(requestedDeliveryFee) : 0;
-    if (!Number.isFinite(deliveryFee) || deliveryFee < 0 || deliveryFee > 50) {
-      return NextResponse.json({ error: "Invalid delivery fee" }, { status: 400 });
+    let deliveryFee = 0;
+    if (deliveryType === "delivery") {
+      const rawAddress = typeof requestedForm?.address === "string" ? requestedForm.address.trim() : "";
+      if (!rawAddress) throw new OrderValidationError("Bitte Lieferadresse angeben.");
+      const quote = await resolveDeliveryQuoteFromAddress(rawAddress);
+      if (!quote.available) throw new OrderValidationError("Lieferung nicht verfügbar");
+      if (subtotal < 15) throw new OrderValidationError("Mindestbestellwert für Lieferung ist 15 €");
+      deliveryFee = quote.fee;
+      form.address = rawAddress;
     }
 
     const coupon = await getValidCoupon(couponCode);
@@ -131,9 +135,9 @@ export async function POST(req: Request) {
       }),
     ]);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, orderNumber: savedOrder.order_number });
   } catch (error) {
-    if (error instanceof CouponValidationError) {
+    if (error instanceof CouponValidationError || error instanceof OrderValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 

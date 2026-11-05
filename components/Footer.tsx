@@ -1,5 +1,7 @@
 "use client";
 
+import Logo from "@/components/Logo";
+
 import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,7 +14,7 @@ if (pathname === "/speisekarte") {
   return null;
 }
   return (
-    <footer className="relative text-[#2c2c2c] overflow-hidden">
+    <footer className="cafe-footer relative text-[#2c2c2c] overflow-hidden">
 
       {/* BG */}
       <div
@@ -24,10 +26,12 @@ if (pathname === "/speisekarte") {
       <div className="absolute inset-0 bg-gradient-to-b from-[#e9dfcf]/60 via-[#e9dfcf]/30 to-transparent" />
 
       {/* CONTENT */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-20 py-10 md:py-14">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-20 py-8 md:py-10">
 
         {/* GRID */}
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-3">
+
+          {pathname === "/" && <Link href="/" className="ref-footer-brand" aria-label="ERET Café Startseite"><Logo /></Link>}
 
           {/* KONTAKT */}
           <div>
@@ -55,7 +59,7 @@ if (pathname === "/speisekarte") {
             </h3>
 
             <p className="text-[#2c2c2c]/80 text-sm">
-              Dienstag – Freitag: 09:00 – 18:00
+              Dienstag – Freitag: 10:00 – 18:00
             </p>
             <p className="text-[#2c2c2c]/80 text-sm mt-1">
               Samstag – Sonntag: 10:00 – 18:00
@@ -74,7 +78,7 @@ if (pathname === "/speisekarte") {
             <div className="flex gap-3 mt-3">
 
               <a
-                href="https://wa.me/4917659342961"
+                aria-label="WhatsApp" href="https://wa.me/4917659342961"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full flex items-center justify-center 
@@ -84,7 +88,7 @@ if (pathname === "/speisekarte") {
               </a>
 
               <a
-                href="https://instagram.com/cafe_eret"
+                aria-label="Instagram" href="https://instagram.com/cafe_eret"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full flex items-center justify-center 
@@ -94,7 +98,7 @@ if (pathname === "/speisekarte") {
               </a>
 
               <a
-                href="https://www.facebook.com/share/18Syq8Jxcd/?mibextid=LQQJ4d"
+                aria-label="Facebook" href="https://www.facebook.com/share/18Syq8Jxcd/?mibextid=LQQJ4d"
                 target="_blank"
                 rel="noopener noreferrer" 
                 className="w-10 h-10 rounded-full flex items-center justify-center 

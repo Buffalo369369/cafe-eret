@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useCart } from "@/store/cart";
 import toast from "react-hot-toast";
@@ -8,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import AllergenInfo from "@/components/AllergenInfo";
 
 function flyToCart(e: React.MouseEvent<HTMLButtonElement>) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const button = e.currentTarget;
   const cart = document.getElementById("cart-icon");
 
@@ -57,7 +59,8 @@ export default function MenuPage({
 
   useEffect(() => {
   const handleScroll = () => {
-    const offset = 180; // высота header + панели категорий
+    const headerHeight = document.querySelector("header")?.clientHeight ?? 0;
+    const offset = headerHeight + 56;
 
     let current = menuData[0].title;
 
@@ -78,9 +81,7 @@ export default function MenuPage({
     setActive(current);
   };
 
-  window.addEventListener("scroll", handleScroll);
-
-  // сразу определить активную секцию
+  window.addEventListener("scroll", handleScroll, { passive: true });
   handleScroll();
 
   return () => {
@@ -111,11 +112,11 @@ const [selectedOptions, setSelectedOptions] = useState<
 >({});
 
   return (
-    <main>
+    <main className="cafe-menu">
 
       {/* HEADER */}
 {!qrMode && (
-  <section className="relative pt-[110px] pb-10 md:pt-[110px] md:pb-16 px-6 md:px-20 text-center overflow-hidden">
+  <section className="cafe-menu-heading relative pt-[110px] pb-10 md:pt-[110px] md:pb-16 px-6 md:px-20 text-center overflow-hidden">
 
     {/* PAPER BACKGROUND */}
     <div
@@ -133,19 +134,22 @@ const [selectedOptions, setSelectedOptions] = useState<
 
     {/* CONTENT */}
     <div className="relative z-10">
+      <p className="cafe-eyebrow">Die ERET Speisekarte</p>
       <h1 className="text-3xl md:text-6xl font-semibold text-[#2c2c2c]">
-        Speisekarte
+        DEIN HUNGER.
+        <br /><span>DEINE AUSWAHL.</span>
       </h1>
+      <p className="cafe-menu-intro">Von der ersten Tasse bis zum letzten Krümel. Finde deinen ERET-Liebling.</p>
     </div>
 
   </section>
-)}]
+)}
 
       {/* STICKY CATEGORY BAR */}
       <div
   className={`
     sticky
-    ${qrMode ? "top-0" : "top-[70px] md:top-[80px]"}
+    ${qrMode ? "top-0" : "top-[var(--header-height)] md:top-[var(--header-height)]"}
     z-30
     bg-[#e9dfcf]/95
     backdrop-blur-md
@@ -173,19 +177,15 @@ const [selectedOptions, setSelectedOptions] = useState<
         categoryRefs.current[section.title] = el;
         }}
         key={section.title}
+        aria-pressed={active === section.title}
         onClick={() => {
   setActive(section.title);
 
   const el = document.getElementById(section.title);
   if (!el) return;
 
-  const headerHeight =
-    document.querySelector("header")?.clientHeight || 0;
-
-  const y =
-  el.getBoundingClientRect().top +
-  window.scrollY -
-  (qrMode ? 10 : headerHeight + 80);
+  const headerHeight = document.querySelector("header")?.clientHeight ?? 0;
+  const y = el.getBoundingClientRect().top + window.scrollY - (qrMode ? 10 : headerHeight + 56);
 
   window.scrollTo({ top: y, behavior: "smooth" });
 }}
@@ -286,15 +286,17 @@ const totalPrice = item.price + extrasPrice;
   }}
   transition={{ duration: 0.4 }}
   className="
-    bg-white/80
+    cafe-product-card bg-white/80
     backdrop-blur-md
     rounded-3xl
     overflow-hidden
     shadow-lg
   "
 >
-                      <img
-  decoding="async"
+                      <Image
+  width={600}
+  height={400}
+  sizes="(max-width: 767px) 100vw, (max-width: 1100px) 50vw, 33vw"
   src={item.image}
   alt={`${item.name} – Frühstück im ERET Café Mülheim`}
   loading="lazy"
@@ -321,8 +323,8 @@ const totalPrice = item.price + extrasPrice;
 
   </div>
 
-  <span className="text-[#b88a5a] font-bold text-sm">
-    {totalPrice.toFixed(2)} €
+  <span className="pop-product-price text-[#b88a5a] font-bold text-sm">
+    {totalPrice.toLocaleString("de-DE", { style: "currency", currency: "EUR" })}
   </span>
 
 </div>
@@ -347,6 +349,7 @@ const totalPrice = item.price + extrasPrice;
         return (
           <button
             key={extra.id}
+            aria-pressed={checked}
             type="button"
             onClick={() =>
               setSelectedExtras((prev) => ({
@@ -407,6 +410,7 @@ const totalPrice = item.price + extrasPrice;
 
           <button
             key={option.id}
+            aria-pressed={selected}
             type="button"
 
             onClick={() =>
@@ -494,6 +498,7 @@ const totalPrice = item.price + extrasPrice;
     ) : (
       <div className="flex items-center justify-between">
         <button
+          aria-label={`${item.name}: Menge verringern`}
           onClick={() => decrease(cartId)}
           className="w-8 h-8 rounded-full border"
         >
@@ -505,6 +510,7 @@ const totalPrice = item.price + extrasPrice;
         </span>
 
         <button
+          aria-label={`${item.name}: Menge erhöhen`}
           onClick={() => increase(cartId)}
           className="w-8 h-8 rounded-full border"
         >

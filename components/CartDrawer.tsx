@@ -63,7 +63,7 @@ dragElastic={0.2}
               }
             }}
             className="
-              fixed
+              cafe-cart-drawer fixed
 
               bottom-0 left-0 right-0
               h-[75vh]
@@ -97,7 +97,7 @@ dragElastic={0.2}
               <h2 className="text-lg md:text-xl font-semibold">
                 Warenkorb 🛒
               </h2>
-              <button onClick={() => setOpen(false)}>✕</button>
+              <button aria-label="Warenkorb schließen" onClick={() => setOpen(false)}>✕</button>
             </div>
 
             {/* ITEMS */}
@@ -125,6 +125,7 @@ dragElastic={0.2}
 
                         <div className="flex items-center gap-2 mt-2">
                           <button
+                            aria-label={`${item.name}: Menge verringern`}
                             onClick={() => decrease(item.id)}
                             className="w-7 h-7 rounded-full border active:scale-90 transition"
                           >
@@ -136,6 +137,7 @@ dragElastic={0.2}
                           </span>
 
                           <button
+                            aria-label={`${item.name}: Menge erhöhen`}
                             onClick={() => increase(item.id)}
                             className="w-7 h-7 rounded-full border active:scale-90 transition"
                           >
@@ -147,7 +149,7 @@ dragElastic={0.2}
                       {/* RIGHT */}
                       <div className="text-right">
                         <p className="font-semibold text-sm md:text-base">
-                          {(item.price * item.qty).toFixed(2)} €
+                          {(item.price * item.qty).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
                         </p>
 
                         <button
@@ -167,7 +169,7 @@ dragElastic={0.2}
             <div className="p-5 border-t border-black/10 space-y-4 bg-white/50 backdrop-blur-sm">
               <div className="flex justify-between text-base md:text-lg font-semibold">
                 <span>Gesamt</span>
-                <span>{total.toFixed(2)} €</span>
+                <span>{total.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
               </div>
 
               <button

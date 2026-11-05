@@ -18,9 +18,10 @@ export default function AllergenInfo({
   return (
     <>
       <button
+        aria-label="Allergene und Zusatzstoffe anzeigen"
         onClick={() => setOpen(true)}
         className="
-          w-5 h-5
+          pop-allergen-trigger w-5 h-5
           rounded-full
           bg-[#d8c3a5]
           text-white
@@ -71,6 +72,7 @@ export default function AllergenInfo({
                 </div>
 
                 <button
+                  aria-label="Informationen schließen"
                   onClick={() => setOpen(false)}
                   className="
                     text-[#7b6a58]

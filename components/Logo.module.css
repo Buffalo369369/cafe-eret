@@ -1,0 +1,16 @@
+.logo {
+  display: block;
+  width: 120px;
+  height: auto;
+  flex-shrink: 0;
+  color: var(--ref-brown, #592309);
+  overflow: visible;
+}
+
+:global(.ref-footer-brand) .logo {
+  color: inherit;
+}
+
+@media (max-width: 767px) {
+  .logo { width: 80px; }
+}

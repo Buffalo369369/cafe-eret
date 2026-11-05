@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -26,7 +27,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="bg-[#e9dfcf] overflow-hidden">
+    <main className="pop-about bg-[#e9dfcf] overflow-hidden">
 
       {/* HERO */}
       <section className="relative h-[250px] md:h-[320px] flex items-center justify-center text-center overflow-hidden">
@@ -134,7 +135,10 @@ export default function AboutPage() {
 
               <div className="overflow-hidden rounded-3xl shadow-xl">
 
-                <img
+                <Image
+  width={800}
+  height={600}
+  sizes="(max-width: 767px) 100vw, 50vw"
 
   src={img}
 
