@@ -41,7 +41,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="cafe-header fixed top-0 left-0 w-full z-[10000] bg-[#e9dfcf]/90 backdrop-blur-md shadow-[0_6px_30px_rgba(120,90,60,0.15)] border-b border-[#d6c7b2]">
+      <header className="cafe-header fixed z-[10000]">
 
         {/* CONTAINER */}
         <div className="max-w-[1200px] mx-auto w-full flex items-center justify-between px-4 md:px-8 py-3">
@@ -188,8 +188,7 @@ export default function Header() {
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.25 }}
             id="mobile-navigation"
-            className="cafe-mobile-nav fixed left-0 w-full bg-cover bg-center border-b border-[#d6c7b2] shadow-md z-[10000]"
-style={{ backgroundImage: "url('/paper.jpg')" }}
+            className="cafe-mobile-nav fixed z-[10000]"
           >
             <div className="px-6 py-10 flex flex-col items-center gap-8 text-lg font-medium">
 
@@ -206,10 +205,11 @@ style={{ backgroundImage: "url('/paper.jpg')" }}
                   <Link
   key={item.href}
   href={item.href}
+  aria-current={isActive ? "page" : undefined}
   onClick={() => setMenuOpen(false)}
-  className={`relative transition ${
-    isActive
-      ? "text-[#cc5c06] font-semibold"
+                  className={`cafe-mobile-nav-link relative transition ${
+                    isActive
+      ? "cafe-mobile-nav-link-active text-[#cc5c06] font-semibold"
       : "text-[#2c2c2c]"
   }`}
 >
@@ -217,16 +217,8 @@ style={{ backgroundImage: "url('/paper.jpg')" }}
 
   {isActive && (
     <span
-      className="
-        absolute left-1/2 -bottom-2
-        w-10 h-[2px]
-        -translate-x-1/2
-
-        bg-gradient-to-r
-        from-[#fce590]
-        via-[#f4b740]
-        to-[#cc5c06]
-      "
+      className="cafe-mobile-nav-wave"
+      aria-hidden="true"
     />
   )}
 </Link>

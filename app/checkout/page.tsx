@@ -447,7 +447,7 @@ if (
 
         {/* FORM */}
         <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
-          <h2>Deine Kontaktdaten</h2>
+          <h2 className="checkout-section-heading">Deine Kontaktdaten</h2>
 
           <input
             placeholder="Name *" aria-label="Name *"
@@ -656,7 +656,7 @@ if (
 {/* DELIVERY TYPE */}
 <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
 
-  <h2 className="text-lg font-semibold">
+  <h2 className="checkout-section-heading text-lg font-semibold">
     Bestellungstyp
   </h2>
 
@@ -717,7 +717,7 @@ setDeliveryAvailable(true);
 {/* DELIVERY TIME */}
 <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
 
-  <h2 className="text-lg font-semibold">
+  <h2 className="checkout-section-heading text-lg font-semibold">
     Lieferzeit
   </h2>
 
@@ -782,7 +782,7 @@ setDeliveryAvailable(true);
         {/* PAYMENT */}
         <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
 
-          <h2 className="text-lg font-semibold">Zahlungsmethode</h2>
+          <h2 className="checkout-section-heading text-lg font-semibold">Zahlungsmethode</h2>
 
           <div className="flex gap-4">
 
