@@ -7,7 +7,6 @@ import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAdsTag from "@/components/GoogleAdsTag";
-import { Analytics } from "@vercel/analytics/react";
 import LayoutShell from "@/components/LayoutShell";
 
 const arimo = Arimo({
@@ -93,8 +92,6 @@ export default function RootLayout({
 />
         
       <CookieBanner />
-
-<Analytics />
 
 </body>
 </html>

@@ -158,13 +158,9 @@ Schaltfläche „Cookie-Einstellungen“ widerrufen oder ändern. Eine Ablehnung
 Bestellung, Bezahlung oder Lieferung.
 
 Vercel Web Analytics
-Zur statistischen Reichweitenmessung verwenden wir Vercel Web Analytics. Nach Angaben von Vercel
-werden dabei keine Drittanbieter-Cookies eingesetzt und nur aggregierte Nutzungsdaten verarbeitet.
-Hierzu können insbesondere aufgerufene Seiten, Referrer, Zeitpunkt, ungefähre Region sowie Browser-,
-Betriebssystem- und Gerätetyp gehören. Wir verwenden derzeit keine eigenen Vercel-Analytics-Ereignisse
-mit Kontaktdaten oder Bestellinhalten. Rechtsgrundlage ist unser berechtigtes Interesse an einer
-datensparsamen Reichweitenmessung gemäß Art. 6 Abs. 1 lit. f DSGVO. Weitere Informationen:
-https://vercel.com/docs/analytics/privacy-policy.
+Vercel Web Analytics ist auf dieser Website derzeit deaktiviert. Es findet daher keine clientseitige
+Reichweitenmessung mit Vercel Web Analytics statt. Vor einer möglichen künftigen Aktivierung werden
+die datenschutzrechtlichen Voraussetzungen und eine gegebenenfalls erforderliche Einwilligung geprüft.
 8. Ihre Rechte (Betroffenenrechte)
 Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf:
 • Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO).
