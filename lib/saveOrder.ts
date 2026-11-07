@@ -20,11 +20,6 @@ export async function saveOrder(
   order: NewOrder
 ) {
 
-  console.log(
-    "SAVING ORDER:",
-    order
-  );
-
   const { data, error } =
     await supabaseAdmin
       .from("orders")
@@ -32,23 +27,8 @@ export async function saveOrder(
       .select()
       .single();
 
-  console.log(
-    "SUPABASE DATA:",
-    data
-  );
-
-  console.log(
-    "SUPABASE ERROR:",
-    error
-  );
-
   if (error) {
-
-    console.error(
-      "SUPABASE ERROR:",
-      error
-    );
-
+    console.error("SUPABASE ORDER INSERT FAILED", { code: error.code });
   }
 
   return data;

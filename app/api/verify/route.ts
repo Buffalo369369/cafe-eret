@@ -27,9 +27,25 @@ export async function GET(req: Request) {
         session_id
       );
 
+    const paid = session.payment_status === "paid";
+    const totalCents = session.amount_total;
+    const currency = session.currency?.toUpperCase();
+
+    if (
+      !paid ||
+      !Number.isInteger(totalCents) ||
+      totalCents === null ||
+      totalCents < 0 ||
+      currency !== "EUR"
+    ) {
+      return NextResponse.json({ paid });
+    }
+
     return NextResponse.json({
-      paid:
-        session.payment_status === "paid",
+      paid: true,
+      transactionId: `stripe:${session.id}`,
+      totalCents,
+      currency,
     });
 
   } catch (err) {

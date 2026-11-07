@@ -130,13 +130,41 @@ einen Zeitraum von 10 Jahren aufzubewahren. In dieser Zeit wird die Verarbeitung
 eingeschränkt (sie werden nur für das Finanzamt vorgehalten).
 • Server-Log-Dateien: Diese werden aus Sicherheitsgründen (z. B. zur Aufklärung von Missbrauch oder 
 Betrug) für eine Dauer von maximal 30 Tagen gespeichert und anschließend gelöscht.
-7. Cookies und Web-Analyse
-Notwendige Cookies (TDDDG)
-Unsere Website verwendet technisch notwendige Cookies, um den Warenkorb und den Login-Status zu 
-verwalten. Diese erfordern keine aktive Einwilligung, da der Dienst sonst nicht funktionieren würde.
-Analyse-Tools (falls vorhanden)
-Falls Sie Google Analytics oder ähnliche Tools nutzen, erfolgt dies nur nach Ihrer aktiven Zustimmung 
-über den Cookie-Banner (Art. 6 Abs. 1 lit. a DSGVO).
+7. Cookies, Reichweitenmessung und Google Ads
+Notwendige Speicherungen (TDDDG)
+Unsere Website verwendet technisch notwendige Speicherungen, um insbesondere Warenkorb,
+Bestellablauf und Ihre Datenschutzauswahl zu verwalten. Diese Funktionen sind für den von Ihnen
+angeforderten Dienst erforderlich.
+
+Google Ads Conversion-Tracking
+Mit Ihrer ausdrücklichen Einwilligung verwenden wir Google Ads Conversion-Tracking, einen Dienst der
+Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Damit messen wir, ob nach dem
+Klick auf eine Anzeige eine Bestellung angenommen beziehungsweise eine Kartenzahlung bestätigt wurde.
+Als Bestelldaten werden dabei eine pseudonyme Transaktionskennung, der serverseitig bestätigte
+Gesamtwert der Bestellung und die Währung EUR übermittelt. Namen, E-Mail-Adressen, Telefonnummern,
+Lieferadressen und Bestellkommentare werden von uns nicht als Conversion-Daten an Google übermittelt.
+Google kann im Rahmen des technischen Abrufs außerdem insbesondere IP-Adresse, Browser- und
+Geräteinformationen, Werbe- beziehungsweise Klick-Kennungen sowie Seiteninformationen ohne sensible
+Abfrageparameter verarbeiten.
+
+Der Google-Tag wird erst geladen, nachdem Sie der Werbemessung ausdrücklich zugestimmt haben. Vor der
+Einwilligung sind ad_storage, analytics_storage, ad_user_data und ad_personalization auf „denied“ gesetzt.
+Die Rechtsgrundlage ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Eine
+mögliche Übermittlung in die USA erfolgt nach den von Google bereitgestellten Datenschutzgarantien.
+Weitere Informationen: https://policies.google.com/privacy.
+
+Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft über die dauerhaft erreichbare
+Schaltfläche „Cookie-Einstellungen“ widerrufen oder ändern. Eine Ablehnung hat keinen Einfluss auf
+Bestellung, Bezahlung oder Lieferung.
+
+Vercel Web Analytics
+Zur statistischen Reichweitenmessung verwenden wir Vercel Web Analytics. Nach Angaben von Vercel
+werden dabei keine Drittanbieter-Cookies eingesetzt und nur aggregierte Nutzungsdaten verarbeitet.
+Hierzu können insbesondere aufgerufene Seiten, Referrer, Zeitpunkt, ungefähre Region sowie Browser-,
+Betriebssystem- und Gerätetyp gehören. Wir verwenden derzeit keine eigenen Vercel-Analytics-Ereignisse
+mit Kontaktdaten oder Bestellinhalten. Rechtsgrundlage ist unser berechtigtes Interesse an einer
+datensparsamen Reichweitenmessung gemäß Art. 6 Abs. 1 lit. f DSGVO. Weitere Informationen:
+https://vercel.com/docs/analytics/privacy-policy.
 8. Ihre Rechte (Betroffenenrechte)
 Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf:
 • Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO).

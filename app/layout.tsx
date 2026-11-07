@@ -6,6 +6,7 @@ import "./customer-background.css";
 import { Arimo } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
+import GoogleAdsTag from "@/components/GoogleAdsTag";
 import { Analytics } from "@vercel/analytics/react";
 import LayoutShell from "@/components/LayoutShell";
 
@@ -71,6 +72,7 @@ export default function RootLayout({
   return (
     <html lang="de" data-scroll-behavior="smooth">
       <body className={arimo.className}>
+        <GoogleAdsTag />
         <LayoutShell>
 
   {children}

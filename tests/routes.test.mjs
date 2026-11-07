@@ -9,7 +9,7 @@ class FakeStripe {
  coupons={create:async p=>{coupons.push(p);return {id:'mock_coupon'};}};
  checkout={sessions:{
   create:async p=>{sessions.push(p); return {id:'cs_test_mock',url:'https://example.test/checkout'};},
-  retrieve:async()=>({id:'cs_test_mock',payment_status:paymentStatus,amount_total:1800,metadata}),
+  retrieve:async()=>({id:'cs_test_mock',payment_status:paymentStatus,amount_total:1800,currency:'eur',metadata}),
   listLineItems:async()=>({data:[{description:'Spiegeleier mit Gemüse',quantity:2,amount_subtotal:2000,amount_total:1800}]}),
  }};
  webhooks={constructEvent:(body,signature)=>{if(signature!=='valid') throw new Error('invalid signature'); return JSON.parse(body);}};
@@ -32,12 +32,14 @@ after(()=>mock.timers.reset());
 const cash=await import('../app/api/order/route.ts');
 const card=await import('../app/api/checkout/route.ts');
 const webhook=await import('../app/api/webhook/route.ts');
+const verify=await import('../app/api/verify/route.ts');
 const delivery=await import('../app/api/delivery/route.ts');
 const base={items:[{id:'fr-1',name:'Fake client title',price:10,qty:2}],form:{name:'Test',phone:'123',email:'test@example.test'},payment:'cash',deliveryType:'pickup',timeType:'asap',selectedTime:'',coupon:'TEST'};
 const request=(data)=>new Request('http://localhost/api/order',{method:'POST',body:JSON.stringify(data)});
 test('cash saves canonical items and coupon total, invokes mocked notifications',async()=>{
  const response=await cash.POST(request(base)); assert.equal(response.status,200);
- assert.equal((await response.json()).orderNumber,123);
+ const confirmation=await response.json();
+ assert.deepEqual(confirmation,{success:true,orderNumber:123,totalCents:1800,currency:'EUR'});
  assert.equal(saved.at(-1).total,18); assert.equal(saved.at(-1).items[0].name,'Spiegeleier mit Gemüse');
  assert.equal(emails.at(-1).discount,2); assert.equal(telegram.at(-1).pricing.total,18);
 });
@@ -52,7 +54,9 @@ test('both routes enforce delivery minimum and calculate the server fee',async()
  const deliveryBase={...base,form:{...base.form,address:'Teststraße 1, 45468 Mülheim'},deliveryType:'delivery',deliveryFee:0};
  for(const [distance,fee] of [[2,290],[4,390]]) {
   geocoderDistanceKm=distance;
-  assert.equal((await cash.POST(request(deliveryBase))).status,200);
+  const cashResponse=await cash.POST(request(deliveryBase));
+  assert.equal(cashResponse.status,200);
+  assert.equal((await cashResponse.json()).totalCents,1800+fee);
   assert.equal(saved.at(-1).items.find(item=>item.name==='🚚 Lieferung').price*100,fee);
   assert.equal((await card.POST(request(deliveryBase))).status,200);
   assert.equal(sessions.at(-1).line_items.find(item=>item.price_data.product_data.name==='🚚 Lieferung').price_data.unit_amount,fee);
@@ -114,6 +118,19 @@ test('paid webhook stores prediscount item values and one discount only',async()
  const order=saved.at(-1);assert.equal(order.total,18);
  assert.equal(order.items.reduce((sum,i)=>sum+i.price*i.qty,0),18);
  assert.equal(order.items[0].price,10);assert.equal(telegram.at(-1).items[0].price,10);
+});
+test('Stripe verification exposes conversion data only for an authoritative paid session',async()=>{
+ paymentStatus='unpaid';
+ let response=await verify.GET(new Request('http://localhost/api/verify?session_id=cs_test_mock'));
+ assert.deepEqual(await response.json(),{paid:false});
+ paymentStatus='paid';
+ response=await verify.GET(new Request('http://localhost/api/verify?session_id=cs_test_mock'));
+ assert.deepEqual(await response.json(),{
+  paid:true,
+  transactionId:'stripe:cs_test_mock',
+  totalCents:1800,
+  currency:'EUR',
+ });
 });
 test('delivery endpoint rejects without geocoder calls',async()=>{
  const response=await delivery.POST(new Request('http://localhost/api/delivery',{method:'POST',body:JSON.stringify({address:''})}));

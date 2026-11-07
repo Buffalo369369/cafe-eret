@@ -11,6 +11,7 @@ import {
   getOrderingAvailability,
   NO_TODAY_SLOTS_NOTICE,
 } from "@/lib/ordering-availability";
+import { CASH_CONFIRMATION_STORAGE_KEY } from "@/lib/google-ads";
 
 export default function CheckoutPage() {
   const [orderingAvailability, setOrderingAvailability] = useState(
@@ -402,7 +403,16 @@ if (
       }
 
       const confirmation = await res.json();
-      try { sessionStorage.setItem("eret-cash-confirmation", String(confirmation.orderNumber)); } catch { /* Storage may be disabled. */ }
+      try {
+        sessionStorage.setItem(
+          CASH_CONFIRMATION_STORAGE_KEY,
+          JSON.stringify({
+            transactionId: `cash:${confirmation.orderNumber}`,
+            value: confirmation.totalCents / 100,
+            currency: confirmation.currency,
+          })
+        );
+      } catch { /* Storage may be disabled. */ }
       toast.success("Bestellung gesendet 🎉");
 
       clearCart();

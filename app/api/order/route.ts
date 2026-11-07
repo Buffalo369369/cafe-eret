@@ -135,7 +135,12 @@ export async function POST(req: Request) {
       }),
     ]);
 
-    return NextResponse.json({ success: true, orderNumber: savedOrder.order_number });
+    return NextResponse.json({
+      success: true,
+      orderNumber: savedOrder.order_number,
+      totalCents: pricing.totalCents,
+      currency: "EUR",
+    });
   } catch (error) {
     if (error instanceof CouponValidationError || error instanceof OrderValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
