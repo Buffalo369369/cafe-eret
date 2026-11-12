@@ -10,7 +10,15 @@ import {
   CouponValidationError,
   getValidCoupon,
   incrementCouponUsage,
+  normalizeCouponCode,
 } from "@/lib/coupons";
+import {
+  ERET10_CODE,
+  ERET10_COUPON,
+  Eret10ValidationError,
+  acceptEret10CashOrder,
+  requireEret10RequestId,
+} from "@/lib/eret10";
 import { sendOrderTelegram } from "@/lib/sendOrderTelegram";
 import {
   getOrderingAvailability,
@@ -44,6 +52,7 @@ export async function POST(req: Request) {
       selectedTime,
       scheduleDate: requestedDate,
       coupon: couponCode,
+      promotionRequestId,
     } = await req.json();
 
     if (payment !== "cash") {
@@ -75,7 +84,8 @@ export async function POST(req: Request) {
       form.address = rawAddress;
     }
 
-    const coupon = await getValidCoupon(couponCode);
+    const isEret10 = normalizeCouponCode(couponCode) === ERET10_CODE;
+    const coupon = isEret10 ? ERET10_COUPON : await getValidCoupon(couponCode);
     const pricing = calculateOrderPricing({
       items: items as OrderItem[],
       deliveryFee,
@@ -88,24 +98,43 @@ export async function POST(req: Request) {
       discount: pricing.discount,
     });
 
-    const savedOrder = await saveOrder({
+    const orderPayload = {
       customer_name: form.name,
       phone: form.phone,
       email: form.email,
       address: form.address || "",
       order_type: deliveryType || "",
-      payment_method: "cash",
+      payment_method: "cash" as const,
       items: orderItems,
       total: pricing.total,
       status: "new",
       comment: form.comment || "",
       time_type: timeType || "",
       schedule_time: selectedTime || "",
-    });
+    };
+
+    const promotionResult = isEret10
+      ? await acceptEret10CashOrder({
+          email: form.email,
+          phone: form.phone,
+          requestId: requireEret10RequestId(promotionRequestId),
+          order: orderPayload,
+        })
+      : null;
+    const savedOrder = promotionResult?.order ?? await saveOrder(orderPayload);
 
     if (!savedOrder) throw new Error("Order could not be saved");
 
-    await incrementCouponUsage(coupon);
+    if (!isEret10) await incrementCouponUsage(coupon);
+
+    if (promotionResult && !promotionResult.created) {
+      return NextResponse.json({
+        success: true,
+        orderNumber: savedOrder.order_number,
+        totalCents: pricing.totalCents,
+        currency: "EUR",
+      });
+    }
 
     await Promise.allSettled([
       sendOrderEmail({
@@ -142,7 +171,11 @@ export async function POST(req: Request) {
       currency: "EUR",
     });
   } catch (error) {
-    if (error instanceof CouponValidationError || error instanceof OrderValidationError) {
+    if (
+      error instanceof CouponValidationError ||
+      error instanceof Eret10ValidationError ||
+      error instanceof OrderValidationError
+    ) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 

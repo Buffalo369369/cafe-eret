@@ -4,6 +4,12 @@ import { saveOrder } from "@/lib/saveOrder";
 import { sendOrderEmail } from "@/lib/sendOrderEmail";
 import { incrementCouponUsage } from "@/lib/coupons";
 import {
+  ERET10_CODE,
+  acceptEret10StripeOrder,
+  cancelEret10StripeReservation,
+  requireEret10RequestId,
+} from "@/lib/eret10";
+import {
   centsToEuros,
   type Coupon,
   type OrderItem,
@@ -25,6 +31,12 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Webhook error:", error);
     return NextResponse.json({ error: "Webhook error" }, { status: 400 });
+  }
+
+  if (event.type === "checkout.session.expired") {
+    const expiredSession = event.data.object as Stripe.Checkout.Session;
+    await cancelEret10StripeReservation(expiredSession.id);
+    return NextResponse.json({ received: true });
   }
 
   if (event.type !== "checkout.session.completed") {
@@ -56,23 +68,35 @@ export async function POST(req: Request) {
       orderItems.push({ name: `🎁 Gutschein: ${coupon.code}`, qty: 1, price: -pricing.discount });
     }
 
-    const savedOrder = await saveOrder({
+    const orderPayload = {
       customer_name: meta.name || "",
       phone: meta.phone || "",
       email: meta.email || "",
       address: meta.address || "",
       order_type: meta.deliveryType || "",
-      payment_method: "card",
+      payment_method: "card" as const,
       comment: meta.comment || "",
       time_type: meta.timeType || "",
       schedule_time: meta.selectedTime || "",
       items: orderItems,
       total: pricing.total,
       status: "new",
-    });
+    };
+    const isEret10 = coupon?.code === ERET10_CODE;
+    const promotionResult = isEret10
+      ? await acceptEret10StripeOrder({
+          reservationId: requireEret10RequestId(meta.promotionReservationId),
+          stripeSessionId: session.id,
+          order: orderPayload,
+        })
+      : null;
+    const savedOrder = promotionResult?.order ?? await saveOrder(orderPayload);
     if (!savedOrder) throw new Error("Order could not be saved");
 
-    await incrementCouponUsage(coupon);
+    if (!isEret10) await incrementCouponUsage(coupon);
+    if (promotionResult && !promotionResult.created) {
+      return NextResponse.json({ received: true });
+    }
 
     const visibleItems = orderItems.filter((item) => item.price >= 0);
     await Promise.allSettled([

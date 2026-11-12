@@ -206,6 +206,8 @@ async function applyCoupon() {
       },
       body: JSON.stringify({
         code: couponCode,
+        email: form.email,
+        phone: form.phone,
       }),
     });
 
@@ -352,6 +354,7 @@ if (
   selectedTime,
 
   coupon: coupon?.code ?? null,
+  promotionRequestId: coupon?.code === "ERET10" ? crypto.randomUUID() : null,
 })
       });
 
@@ -392,6 +395,7 @@ if (
           timeType,
           selectedTime,
           coupon: coupon?.code ?? null,
+          promotionRequestId: coupon?.code === "ERET10" ? crypto.randomUUID() : null,
         }),
       });
 
