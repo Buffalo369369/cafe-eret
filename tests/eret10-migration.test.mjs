@@ -40,3 +40,10 @@ test('ERET10 migration keeps attached Stripe reservations until an authoritative
  assert.match(sql,/id = p_reservation_id and stripe_session_id = p_stripe_session_id/);
  assert.doesNotMatch(sql,/id = p_reservation_id and status = 'reserved' and expires_at > now\(\)/);
 });
+
+test('ERET10 migration revokes promotion functions from browser roles',()=>{
+ assert.match(sql,/revoke all on function public\.eret10_check_eligibility\(text, text\) from public, anon, authenticated;/i);
+ assert.match(sql,/revoke all on function public\.accept_eret10_cash_order\(text, text, uuid, jsonb\) from public, anon, authenticated;/i);
+ assert.match(sql,/revoke all on function public\.accept_eret10_stripe_order\(uuid, text, jsonb\) from public, anon, authenticated;/i);
+ assert.match(sql,/revoke all on function public\.eret_insert_order\(jsonb\) from public, anon, authenticated;/i);
+});
