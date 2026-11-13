@@ -67,11 +67,21 @@ export default function Home() {
             <Link href="/menu" className="ref-button ref-button-outline">Jetzt online bestellen <ArrowRight size={20} /></Link>
           </div>
         </div>
-        <div className="ref-hero-food" aria-label="Kaffee, Croissant und Syrniki aus unserer Speisekarte">
-          <div className="ref-food ref-coffee"><Image src={menuData[6].items[7].image} alt={menuData[6].items[7].name} fill preload sizes="(max-width: 767px) 45vw, 28vw" /></div>
-          <div className="ref-food ref-sweet"><Image src={menuData[0].items[3].image} alt="Syrniki mit Sauerrahm und Konfitüre" fill sizes="(max-width: 767px) 42vw, 24vw" /></div>
-          <div className="ref-food ref-croissant"><Image src={menuData[2].items[1].image} alt={menuData[2].items[1].name} fill sizes="(max-width: 767px) 60vw, 30vw" /></div>
-        </div>
+        <Link
+          href="/menu"
+          className="ref-hero-poster"
+          aria-label="ERET10: 10 Prozent Rabatt auf die erste Online-Bestellung – zur Speisekarte"
+        >
+          <Image
+            src="/eret10-poster.png"
+            alt="ERET10 – 10 Prozent Rabatt auf deine erste Online-Bestellung"
+            width={1254}
+            height={1254}
+            preload
+            quality={85}
+            sizes="(max-width: 767px) calc(100vw - 52px), (max-width: 1100px) 44vw, 560px"
+          />
+        </Link>
       </section>
 
       <section className="ref-categories ref-width" aria-label="Unsere Speisekarte entdecken">
